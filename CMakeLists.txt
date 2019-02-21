@@ -36,8 +36,23 @@ INCLUDE_DIRECTORIES( "${CMAKE_SOURCE_DIR}" )
 
 set(
     LIBRARY_FILES
-    src/View.hpp
+
+    src/Alias.hpp
+    src/Data.hpp
+    src/Engine.hpp
+    src/Global.hpp
+    src/Helper.hpp
+    src/Include.hpp
+    src/Macros.hpp
     src/View.cpp
+    src/View.hpp
+
+    src/Commands/Command.hpp
+    src/Commands/Commands.hpp
+    src/Commands/Exec.hpp
+    src/Commands/Program.hpp
+    src/Commands/Taglist.hpp
+    src/Commands/Window.hpp
 )
 set (
     TEST_FILES
