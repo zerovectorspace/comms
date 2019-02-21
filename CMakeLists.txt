@@ -47,19 +47,19 @@ set(
     src/View.cpp
     src/View.hpp
 
-    src/Commands/Command.hpp
-    src/Commands/Commands.hpp
-    src/Commands/Exec.hpp
-    src/Commands/Program.hpp
-    src/Commands/Taglist.hpp
-    src/Commands/Window.hpp
+    src/comms/Command.hpp
+    src/comms/Commands.hpp
+    src/comms/Exec.hpp
+    src/comms/Program.hpp
+    src/comms/Taglist.hpp
+    src/comms/Window.hpp
 )
 set (
     TEST_FILES
 )
 set (
     MAIN_FILES
-    src/main.cpp
+    src/Main.cpp
 )
 
 # set( CATCH_INCLUDE_DIR /usr/include/catch )
