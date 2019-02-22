@@ -12,12 +12,13 @@
  *              View
  *              ^- Global
  *                 ^- Exec
- *                    ^- Taglist <- | Window
- *                                  | Program
- *                                    ^- Command
- *                                       ^- Commands
- *                                          ^- Engine
- *                                             ^- main
+ *                    ^- Taglist
+ *                       ^- | Window
+ *                          | Program
+ *                            ^- Command
+ *                               ^- Commands
+ *                                  ^- Engine
+ *                                     ^- main
  *
  *
  */
