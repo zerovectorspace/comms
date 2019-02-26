@@ -64,13 +64,13 @@ namespace Comms
         ch = View.get_char( ".cl" );
         ch = View.get_char( ".cl" );
         if ( ch == 'A' )
-          View.print( "main", "UP Pressed" );
+          View.print( "UP Pressed" );
         else if ( ch == 'B' )
-          View.print( "main", "DOWN Pressed" );
+          View.print( "DOWN Pressed" );
         else if ( ch == 'C' )
-          View.print( "main", "RIGHT Pressed" );
+          View.print( "RIGHT Pressed" );
         else if ( ch == 'D' )
-          View.print( "main", "LEFT Pressed" );
+          View.print( "LEFT Pressed" );
       }
 
       /* Echo on current win */

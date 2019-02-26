@@ -62,6 +62,8 @@ public:
 
     void print(const StdString& win, const char* buf);
 
+    void print(const char* buf);
+
     void fresh_flush(const StdString& win);
 
     void flush(const StdString& win);

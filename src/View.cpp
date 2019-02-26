@@ -79,6 +79,23 @@ void View::print(const StdString& win, const char* buf)
     wrefresh(w->window);
 }
 
+void View::print(const char* buf)
+{
+    auto w = window_map.at( current_win ).get();
+    appendln(current_win, buf);
+
+    wclear(w->window);
+
+    auto i = w->buffer.begin();
+    for ( ; i != w->buffer.end() ; i++ )
+    {
+      wprintw(w->window, i->data());
+      wprintw(w->window, "\n");
+    }
+
+    wrefresh(w->window);
+}
+
 void View::fresh_print(const StdString& win, const char* buf)
 {
     auto w = window_map.at(win).get();
