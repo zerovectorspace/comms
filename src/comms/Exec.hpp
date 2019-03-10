@@ -9,9 +9,13 @@ namespace Comms
    * Exec :: A factory class for Functors.
    *      :: Mimics composition of functions
    */
-  template <typename... Ts> struct Exec { Exec() {}
+  template <typename... Ts> struct Exec {
+
+    // Used to hold command in container
+    Exec() {}
+
     template <typename... Args>
-    Exec( Args... args )
+    Exec( Args&&... args )
     {
       (*this)( args... );
     }
@@ -19,13 +23,11 @@ namespace Comms
     template <typename... Args>
     auto operator () ( Args&&... args )
     {
-      std::cout << "Exec::operator()( Args )\n";
-      ( Ts{ args... } , ...);
+      ( Ts{ args... } , ... );
     }
 
     auto operator () ( Peer* p )
     {
-      std::cout << "Exec::operator()( Peer )\n";
       // Protect peer from modification in other threads
       ScopeLock lk{ p->mut };
 
@@ -35,22 +37,34 @@ namespace Comms
 
     auto operator () ()
     {
-      std::cout << "Exec::operator()()\n";
       ( Ts{} , ... );
     }
   };
 
   // Try_Exec :: wraps an anonymous lamba with try/catch blocks
-  template <typename F> struct Try_Exec { Try_Exec( F f ) {
-    try {
-      f();
-    } catch ( ... ) {
-      auto time_str = time_now();
-      time_str << "[Error] Not enough arguments";
+  struct Try_Exec {
+    template <typename F> 
+    Try_Exec( F f ) {
+      try {
+        f();
+      } catch ( ... ) {
+        auto time_str = time_now();
+        time_str << "[Try_Exec] [ERROR]";
 
-      View.print( "error", time_str.str().c_str() );
+        View.appendln( "error", time_str.str().c_str() );
+        View.refresh();
+      }
     }
-  }};
+  
+    template <typename F, typename G> 
+    Try_Exec( F f, G g ) {
+      try {
+        f();
+      } catch ( ... ) {
+        g();
+      }
+    }
+  };
 }
 
 #endif
