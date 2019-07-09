@@ -31,9 +31,6 @@ set( CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_RELEASE} -Os ${GCC_FLAGS}" )
 
 add_definitions( -DDEBUG_EXTRA )
 
-# Use include paths relative to ./{project_dir}
-INCLUDE_DIRECTORIES( "${CMAKE_SOURCE_DIR}" )
-
 set(
     LIBRARY_FILES
 
@@ -62,6 +59,13 @@ set (
     src/Main.cpp
 )
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/fct
+)
+
+add_subdirectory( ${CMAKE_SOURCE_DIR}/fct )
+
 # set( CATCH_INCLUDE_DIR /usr/include/catch )
 # add_library( Catch INTERFACE )
 # target_include_directories( Catch INTERFACE ${CATCH_INCLUDE_DIR} )
@@ -72,4 +76,7 @@ set_target_properties( Comms PROPERTIES LINKER_LANGUAGE CXX )
 set( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -lncurses" )
 
 add_executable( main ${MAIN_FILES} )
-target_link_libraries( main Comms )
+target_link_libraries(
+    main
+    Comms
+)

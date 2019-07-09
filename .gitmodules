@@ -1,0 +1,3 @@
+[submodule "fct"]
+	path = fct
+	url = vps:/home/git/fct
