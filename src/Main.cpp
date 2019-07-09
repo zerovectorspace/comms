@@ -39,5 +39,6 @@
 
 int main()
 {
-  Comms::init();
+  using namespace Comms;
+  Engine<Init>{};
 }

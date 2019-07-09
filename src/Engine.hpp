@@ -117,13 +117,7 @@ namespace Comms
       View.new_win( View.current_win, View.width(), View.height() - 1, 0, 0, true );
 
       Exec<Command<Init>,Engine<Main_Loop>>{}();
-    }
-  };
-
-  void init()
-  {
-    Engine<Init>{};
-  }
+  }};
 }
 
 #endif
