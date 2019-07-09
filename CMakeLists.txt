@@ -59,9 +59,18 @@ set (
     src/Main.cpp
 )
 
+set( OpenGL_GL_PREFERENCE GLVND )
+
+find_package(OpenGL REQUIRED)
+find_package(SDL2 REQUIRED)
+find_package(GLEW REQUIRED)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/fct
+    ${OPENGL_INCLUDE_DIR}
+    ${SDL2_INCLUDE_DIRS}
+    ${GLEW_INCLUDE_DIRS}
 )
 
 add_subdirectory( ${CMAKE_SOURCE_DIR}/fct )
@@ -79,4 +88,8 @@ add_executable( main ${MAIN_FILES} )
 target_link_libraries(
     main
     Comms
+    ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    SDL2
+    m
 )

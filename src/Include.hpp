@@ -17,6 +17,9 @@
 #include <ctime>
 #include <iomanip>
 
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
+
 #include "fct/fct.h"
 
 #endif
