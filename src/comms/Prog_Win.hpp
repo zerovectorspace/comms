@@ -56,9 +56,6 @@ namespace Comms
     glClear( GL_COLOR_BUFFER_BIT );
     SDL_GL_SwapWindow( _glob.win );
 
-    SDL_Delay( 1000 );
-
-    SDL_Quit();
   }};
 }
 

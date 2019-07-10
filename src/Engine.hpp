@@ -20,19 +20,37 @@ namespace Comms
          command = head( w );
   }};
 
-  // Main_Loop :: handles input using a command line
-  template <> struct Engine<Main_Loop> { Engine() {
-    bool is_running = true;
-
-    while ( is_running )
+  template <> struct Engine<Poll_Events> { Engine() {
+    SDL_Event ev;
+    while ( SDL_PollEvent( &ev ) )
     {
-
+      switch( ev.type )
+      {
+        case SDL_KEYDOWN:
+        {
+          _glob.is_running = false;
+        }
+      }
     }
   }};
 
-  // Engine ::init
+  // Main_Loop :: handles input using a command line
+  template <> struct Engine<Main_Loop> { Engine() {
+    while ( _glob.is_running )
+    {
+      Exec<Engine<Poll_Events>>{}();
+    }
+  }};
+
+  // Engine :: init
   template <> struct Engine<Init> { Engine() {
-    Exec<Prog_Win<Init>>{}();
+    Exec<
+      Prog_Win<Init>,
+      Command<Init>,
+      Engine<Main_Loop>
+    >{}();
+
+    SDL_Quit();
   }};
 }
 

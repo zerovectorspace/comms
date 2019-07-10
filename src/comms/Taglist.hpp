@@ -9,16 +9,17 @@
 
 namespace Comms
 {
-  class New{};
-  class Run{};
   class Commands{};
-  class Open{};
-  class List{};
   class Del{};
   class Get_PW{};
-  class Unlock_Key{};
   class Init{};
+  class List{};
   class Main_Loop{};
+  class New{};
+  class Open{};
   class Parse_Args{};
+  class Poll_Events{};
+  class Run{};
+  class Unlock_Key{};
 }
 #endif

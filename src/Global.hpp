@@ -27,6 +27,8 @@ namespace Comms
      */
     SDL_Window*   win = nullptr;
     SDL_Renderer* ren = nullptr;
+
+    bool is_running = true;
   };
 
   /***
