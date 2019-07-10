@@ -45,6 +45,7 @@ set(
     src/comms/Command.hpp
     src/comms/Commands.hpp
     src/comms/Exec.hpp
+    src/comms/Prog_Win.hpp
     src/comms/Program.hpp
     src/comms/Taglist.hpp
     src/comms/Window.hpp

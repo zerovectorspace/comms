@@ -8,16 +8,16 @@
  *  ^- Macros
  *     ^- Alias
  *        ^- Helper
- *           ^- Data
- *              ^- Global
- *                 ^- Exec
- *                    ^- Taglist
- *                       ^- | Window
- *                          | Program
- *                            ^- Command
- *                               ^- Commands
- *                                  ^- | Program_Window
- *                                     | Engine
+ *           ^- | Data
+ *                ^- Global
+ *                   ^- Exec
+ *                      ^- Taglist
+ *                         ^- | Prog_Win
+ *                            | Window
+ *                            | Program
+ *                              ^- Command
+ *                                 ^- Commands
+ *                                    ^- Engine
  *                                       ^- main
  *
  *
