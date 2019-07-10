@@ -10,7 +10,7 @@
 namespace Comms
 {
   template <typename... Ts> struct Engine { Engine() {
-    View.appendln( "error", "Engine::default" );
+
   }};
 
   // Parse_Args :: splits input into a command and args
@@ -24,99 +24,62 @@ namespace Comms
   template <> struct Engine<Main_Loop> { Engine() {
     bool is_running = true;
 
-    View.current_win = "main" ;
-    View.fresh_print( "main", "" );
-
     while ( is_running )
     {
-      View.fresh_print( ".cl", "> " );
 
-      unsigned char ch = View.get_char( ".cl" );
-
-      if ( ch == '\n' )
-      {
-        continue;
-      }
-
-      /* Exec command */
-      else if ( ch == ':' )
-      {
-        View.fresh_print( ".cl", "Command > " );
-
-        auto input = View.get_line( ".cl", false );
-
-        if (  input == "\0"_s
-           || input == "\n"_s
-           || input.empty() )
-          continue;
-
-        if ( input == "exit"_s  ) 
-          break;
-
-        LOG_START()
-        Exec<Engine<Parse_Args>,Command<Run>>{}( input, Vec<String>{} );
-        LOG_STOP()
-      }
-
-      /* Detect arrow keys */
-      else if ( ch == '\033' )
-      {
-        ch = View.get_char( ".cl" );
-        ch = View.get_char( ".cl" );
-        if ( ch == 'A' )
-          View.print( "UP Pressed" );
-        else if ( ch == 'B' )
-          View.print( "DOWN Pressed" );
-        else if ( ch == 'C' )
-          View.print( "RIGHT Pressed" );
-        else if ( ch == 'D' )
-          View.print( "LEFT Pressed" );
-      }
-
-      /* Echo on current win */
-      else
-      {
-        View.fresh_print( ".cl", "> " );
-        ungetch( ch );
-
-        auto input = View.get_line( ".cl", false );
-        input.push_back( '\0' );
-
-        if ( !  View.is_writable( View.current_win )
-             || input == "\0"_s 
-             || input == "\n"_s )
-          continue;
-
-        std::stringstream output;
-        output << "> ";
-        output << input.data();
-
-        /* Remove trailing '\0' */
-        input.pop_back();
-        View.print( View.current_win, output.str().data() );
-      }
     }
   }};
 
   static auto resize(int)
   {
-    View.get_win_dims();
-    View.refresh();
+
   }
 
   // Engine ::
   template <> struct Engine<Init> { Engine() {
-      signal(SIGWINCH, resize);
+    signal(SIGWINCH, resize);
 
-      View.init();
+    if ( SDL_Init( SDL_INIT_VIDEO ) != 0 )
+    {
+      fct::print( "ERROR: SDL_Init" );
+      return;
+    }
 
-      View.new_win( ".cl", View.width(), 1, 0, View.height() - 1, true );
-      View.new_win( "error", View.width(), View.height() - 1, 0, 0, false );
+    auto win = SDL_CreateWindow( "comms"
+                               , 0, 0
+                               , 640, 480
+                               , SDL_WINDOW_OPENGL
+                               | SDL_WINDOW_BORDERLESS
+                               | SDL_WINDOW_INPUT_GRABBED
+                               | SDL_WINDOW_RESIZABLE 
+                               | SDL_WINDOW_MAXIMIZED );
 
-      View.current_win = "main";
-      View.new_win( View.current_win, View.width(), View.height() - 1, 0, 0, true );
+    if ( ! win )
+    {
+      fct::print( "ERROR: SDL_CreateWindow" );
+      return;
+    }
 
-      Exec<Command<Init>,Engine<Main_Loop>>{}();
+    auto ren = SDL_CreateRenderer( win
+                                 , -1
+                                 , SDL_RENDERER_ACCELERATED
+                                 | SDL_RENDERER_PRESENTVSYNC );
+
+    if ( ! ren )
+    {
+      fct::print( "ERROR: SDL_CreateRenderer" );
+      SDL_DestroyWindow( win );
+      SDL_Quit();
+      return;
+    }
+
+    glClearColor( 0.05f, 0.05f, 0.05f, 1.0f );
+    glClear( GL_COLOR_BUFFER_BIT );
+    SDL_GL_SwapWindow( win );
+
+    SDL_Delay( 3000 );
+
+    SDL_Quit();
   }};
 }
 

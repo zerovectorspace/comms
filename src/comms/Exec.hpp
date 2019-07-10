@@ -50,9 +50,6 @@ namespace Comms
       } catch ( ... ) {
         auto time_str = time_now();
         time_str << "[Try_Exec] [ERROR]";
-
-        View.appendln( "error", time_str.str().c_str() );
-        View.refresh();
       }
     }
   

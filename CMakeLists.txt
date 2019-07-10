@@ -41,8 +41,6 @@ set(
     src/Helper.hpp
     src/Include.hpp
     src/Macros.hpp
-    src/View.cpp
-    src/View.hpp
 
     src/comms/Command.hpp
     src/comms/Commands.hpp
