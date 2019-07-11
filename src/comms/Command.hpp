@@ -1,9 +1,7 @@
 #ifndef COMMS_COMMAND_COMMAND_HEADER
 #define COMMS_COMMAND_COMMAND_HEADER
 
-#include "Prog_Win.hpp"
-#include "Window.hpp"
-#include "Program.hpp"
+#include "Commands.hpp"
 
 namespace Comms
 {

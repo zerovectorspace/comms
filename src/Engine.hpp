@@ -1,7 +1,7 @@
 #ifndef COMMS_ENGINE_HEADER
 #define COMMS_ENGINE_HEADER
 
-#include "comms/Commands.hpp"
+#include "comms/Command.hpp"
 
 /********************************************************************************
  *                                   Engine
