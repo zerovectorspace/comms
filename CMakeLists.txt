@@ -60,11 +60,11 @@ set (
 
 set( OpenGL_GL_PREFERENCE GLVND )
 
-find_package(OpenGL REQUIRED)
-find_package(SDL2 REQUIRED)
-find_package(GLEW REQUIRED)
+find_package( OpenGL REQUIRED )
+find_package( SDL2 REQUIRED )
+find_package( GLEW REQUIRED )
 
-find_package(Freetype REQUIRED)
+find_package( Freetype REQUIRED )
 
 include_directories(
     ${CMAKE_SOURCE_DIR}
@@ -92,8 +92,9 @@ add_executable( main ${MAIN_FILES} )
 target_link_libraries(
     main
     Comms
+    m
+    SDL2
     ${OPENGL_LIBRARIES}
     ${GLEW_LIBRARIES}
-    SDL2
-    m
+    ${FREETYPE_LIBRARIES}
 )
