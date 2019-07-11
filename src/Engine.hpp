@@ -46,6 +46,8 @@ namespace Comms
 
   // Engine :: init
   template <> struct Engine<Init> { Engine() {
+    Font<Init>{ "/usr/share/fonts/TTF/DejaVuSansMono.ttf" };
+
     Exec<
       Prog_Win<Init>,
       Command<Init>,

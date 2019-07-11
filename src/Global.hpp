@@ -29,6 +29,8 @@ namespace Comms
     SDL_Renderer* ren = nullptr;
 
     bool is_running = true;
+
+    FT_Library ft_lib{};
   };
 
   /***

@@ -14,6 +14,7 @@ namespace Comms
   class Get_PW{};
   class Init{};
   class List{};
+  class Load{};
   class Main_Loop{};
   class New{};
   class Open{};
