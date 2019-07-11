@@ -13,6 +13,7 @@ namespace Comms
   using ULong = unsigned long;
   using Int = int;
   using UInt = unsigned int;
+  using Long = long;
   using Double = double;
 
   using ScopeLock = std::unique_lock<std::mutex>;

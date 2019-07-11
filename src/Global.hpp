@@ -5,8 +5,9 @@
 
 namespace Comms
 {
-  using Command_Map = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
-  using Peer_Map    = std::unordered_map<Socket_Num, U_ptr<Peer>>;
+  using Command_Map      = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
+  using Peer_Map         = std::unordered_map<Socket_Num, U_ptr<Peer>>;
+  using Char_Texture_Map = std::unordered_map<GLchar, Character>;
 
   struct Global
   {
@@ -30,7 +31,13 @@ namespace Comms
 
     bool is_running = true;
 
+    /***
+     * FreeType Fonts
+     */
     FT_Library ft_lib{};
+    FT_Face ft_face{};
+
+    Char_Texture_Map chrs;
   };
 
   /***

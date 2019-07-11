@@ -41,6 +41,16 @@ namespace Comms
   {
     String pw{};
   };
+
+  /*
+   * Character :: Holds texture of character
+   */
+  struct Character {
+    GLuint     texture_id;
+    glm::ivec2 size;
+    glm::ivec2 bearing;
+    Long       adv;
+  };
 }
 
 #endif
