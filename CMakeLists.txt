@@ -64,12 +64,17 @@ find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 
+find_package(Freetype REQUIRED)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/fct
+
     ${OPENGL_INCLUDE_DIR}
     ${SDL2_INCLUDE_DIRS}
     ${GLEW_INCLUDE_DIRS}
+
+    ${FREETYPE_INCLUDE_DIRS}
 )
 
 add_subdirectory( ${CMAKE_SOURCE_DIR}/fct )

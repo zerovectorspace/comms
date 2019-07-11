@@ -20,6 +20,9 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include "fct/fct.h"
 
 #endif
