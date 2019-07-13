@@ -28,8 +28,6 @@ namespace Comms
   using StdString = std::string;
 
   using Socket_Num = int;
-
-  using Buffer = String;
 }
 
 #endif

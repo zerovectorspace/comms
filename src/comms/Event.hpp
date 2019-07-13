@@ -52,18 +52,7 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_BACKSPACE:
-        if ( _glob.buf->size() > 0 )
-          _glob.buf->pop_back();
-
-        _glob.redraw = true;
-
-        // Get cursor position
-        _glob.curs.pos.x = _glob.pad_x;
-        for ( auto const& c : *_glob.buf )
-        {
-          Character ch = _glob.chrs[ c ];
-          _glob.curs.pos.x += (ch.adv >> 6);
-        }
+        Buffer<Backspace>{};
 
         break;
       default:
@@ -74,11 +63,7 @@ namespace Comms
           ch = ' ';
         else if ( ch_name == StdString{ "Return" } )
         {
-          _glob.bufs.push_back( String{} );
-          _glob.buf = &_glob.bufs.back();
-
-          _glob.curs.pos.x = _glob.pad_x;
-          _glob.curs.pos.y = _glob.pad_y;
+          Buffer<New_Line>{};
 
           _glob.redraw = true;
 
@@ -86,6 +71,13 @@ namespace Comms
         }
         else
           ch = ch_name.at( 0 );
+
+        if ( (Int) _glob.curs.pos.x > _glob.win_w )
+        {
+          Buffer<New_Line>{};
+
+          _glob.redraw = true;
+        }
 
         auto mods = SDL_GetModState();
         if ( (mods & KMOD_LSHIFT) || (mods & KMOD_RSHIFT) )
@@ -148,7 +140,7 @@ namespace Comms
         else
           ch = (mods & KMOD_CAPS) ? ch : fct::toLower( ch );
 
-        _glob.buf->push_back( ch );
+        Buffer<Char>{ ch };
         Render<Char>{ ch, _glob.curs.pos };
 
         break;

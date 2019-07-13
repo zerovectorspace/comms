@@ -31,7 +31,7 @@ namespace Comms
     U_ptr<Connection> conn{};
 
     //Buffer for sending and recieving
-    Buffer buffer{ "EMPTY"_s };
+    String buffer{ "EMPTY"_s };
   };
 
   /*

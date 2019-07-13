@@ -10,6 +10,7 @@
 namespace Comms
 {
   class Background{};
+  class Backspace{};
   class Buffers{};
   class Commands{};
   class Dimensions{};
@@ -22,6 +23,7 @@ namespace Comms
   class Load{};
   class Main_Loop{};
   class New{};
+  class New_Line{};
   class Open{};
   class Parse_Args{};
   class Poll_Events{};
