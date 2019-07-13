@@ -9,14 +9,14 @@ namespace Comms
 
   }};
 
-  template <> struct Font<Load> { Font( Char const* file ) {
-    if ( FT_New_Face( _glob.ft_lib, file, 0, &_glob.ft_face ) )
+  template <> struct Font<Load> { Font() {
+    if ( FT_New_Face( _glob.ft_lib, _glob.ft_file, 0, &_glob.ft_face ) )
     {
       fct::print( "ERROR: FT_New_Face" );
       return;
     }
       
-    FT_Set_Pixel_Sizes( _glob.ft_face, 0, 48 );
+    FT_Set_Pixel_Sizes( _glob.ft_face, 0, _glob.font_size );
 
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ); // Disable byte-alignment restriction
       
@@ -61,19 +61,20 @@ namespace Comms
 
       _glob.chrs.insert( std::pair<GLchar, Character>( i, chr ) );
     }
+    glBindTexture( GL_TEXTURE_2D, 0 );
 
     FT_Done_Face( _glob.ft_face );
   }};
 
   // Font :: init
-  template <> struct Font<Init> { Font( Char const* file ) {
+  template <> struct Font<Init> { Font() {
     if ( FT_Init_FreeType( &_glob.ft_lib ) )
     {
       fct::print( "ERROR: FT_Init_FreeType" );
       return;
     }
 
-    Font<Load>{ file };
+    Font<Load>{};
   }};
 }
 

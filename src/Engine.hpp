@@ -9,6 +9,8 @@
 
 namespace Comms
 {
+  void RenderText( std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color );
+
   template <typename... Ts> struct Engine { Engine() {
 
   }};
@@ -23,38 +25,51 @@ namespace Comms
   // Event Polling :: handles input
   template <> struct Engine<Poll_Events> { Engine() {
     SDL_Event ev;
-    while ( _glob.is_running && SDL_WaitEvent( &ev ) )
+
+    while ( _glob.is_running && SDL_PollEvent( &ev ) )
     {
       switch( ev.type )
       {
         case SDL_QUIT:
-        {
           _glob.is_running = false;
+
           break;
-        }
+
+        case SDL_WINDOWEVENT:
+          Event<Win>{ ev };
+
+          break;
+
+        case SDL_KEYDOWN:
+          Event<Keydown>{ ev };
+
+          break;
       }
     }
   }};
 
   // Main Loop :: high level
   template <> struct Engine<Main_Loop> { Engine() {
+    Render<Background>{};
+
     while ( _glob.is_running )
     {
-      Exec<Engine<Poll_Events>>{}();
+      Exec<Engine<Poll_Events>,
+           Render<Buffers>,
+           Render<Swap>>{}();
     }
+
+    SDL_Quit();
   }};
 
   // Engine :: init
   template <> struct Engine<Init> { Engine() {
-    Font<Init>{ "/usr/share/fonts/TTF/DejaVuSansMono.ttf" };
-
     Exec<
       Prog_Win<Init>,
+      Font<Init>,
       Command<Init>,
       Engine<Main_Loop>
     >{}();
-
-    SDL_Quit();
   }};
 }
 

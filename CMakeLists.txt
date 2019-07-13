@@ -98,3 +98,9 @@ target_link_libraries(
     ${GLEW_LIBRARIES}
     ${FREETYPE_LIBRARIES}
 )
+
+add_custom_command(
+    TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E create_symlink
+    ${CMAKE_SOURCE_DIR}/glsl $<TARGET_FILE_DIR:main>/glsl)
+

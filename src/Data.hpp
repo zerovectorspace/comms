@@ -51,6 +51,13 @@ namespace Comms
     glm::ivec2 bearing;
     Long       adv;
   };
+
+  /*
+   * Cursor :: Position text is written
+   */
+  struct Cursor {
+    glm::uvec2 pos = { 5, 585 };
+  };
 }
 
 #endif
