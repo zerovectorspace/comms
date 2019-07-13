@@ -54,7 +54,7 @@ namespace Comms
     // Render quad
     glDrawArrays( GL_TRIANGLES, 0, 6 );
 
-    pos.x += 1 + (ch.adv >> 6);
+    pos.x += (ch.adv >> 6);
   }};
 
   template <> struct Render<Buffers> { Render() {
@@ -63,21 +63,23 @@ namespace Comms
 
     Render<Background>{};
 
-    // Set cursor back to the top
-    _glob.curs.pos = { _glob.padding, _glob.win_h - _glob.font_size + _glob.padding };
+    glm::uvec2 pos = { _glob.pad_x, _glob.pad_y };
 
-    for ( uint i = 0 ; i < _glob.bufs.size() ; i++ )
+    for ( Int i = _glob.bufs.size() - 1 ; i >= 0 ; i-- )
     {
       // Set cursor back to the left
-      _glob.curs.pos.x = _glob.padding;
+      pos.x = _glob.pad_x;
+
       for ( auto const& ch : _glob.bufs[ i ] )
       {
-        Render<Char>{ ch, _glob.curs.pos };
+        Render<Char>{ ch, pos };
       }
 
       // Go to next line
-      if ( i < _glob.bufs.size() - 1 )
-        _glob.curs.pos.y -= _glob.line_height;
+      pos.y += _glob.line_height;
+
+      if ( (Int) pos.y > _glob.win_h )
+        break;
     }
 
     _glob.redraw = false;

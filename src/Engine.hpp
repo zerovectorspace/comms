@@ -52,7 +52,7 @@ namespace Comms
   template <> struct Engine<Main_Loop> { Engine() {
     Render<Background>{};
 
-    _glob.curs.pos = { 5, _glob.win_h - 15 };
+    _glob.curs.pos = { _glob.pad_x, _glob.pad_y };
 
     while ( _glob.is_running )
     {

@@ -47,9 +47,10 @@ namespace Comms
     FT_Library ft_lib{};
     FT_Face ft_face{};
     StdString ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
-    UInt font_size = 60;
-    UInt padding = 5;
-    UInt line_height = font_size + padding;
+    UInt font_size = 72;
+    UInt pad_x = 5;
+    UInt pad_y = font_size / 4;
+    UInt line_height = font_size + pad_y;
     glm::vec3 font_color = { 0.921, 0.859, 0.698 };
 
     Char_Texture_Map chrs;

@@ -56,7 +56,14 @@ namespace Comms
           _glob.buf->pop_back();
 
         _glob.redraw = true;
-        _glob.curs.pos.y -= _glob.line_height;
+
+        // Get cursor position
+        _glob.curs.pos.x = _glob.pad_x;
+        for ( auto const& c : *_glob.buf )
+        {
+          Character ch = _glob.chrs[ c ];
+          _glob.curs.pos.x += (ch.adv >> 6);
+        }
 
         break;
       default:
@@ -69,8 +76,12 @@ namespace Comms
         {
           _glob.bufs.push_back( String{} );
           _glob.buf = &_glob.bufs.back();
-          _glob.curs.pos.x = _glob.padding;
-          _glob.curs.pos.y -= _glob.line_height;
+
+          _glob.curs.pos.x = _glob.pad_x;
+          _glob.curs.pos.y = _glob.pad_y;
+
+          _glob.redraw = true;
+
           break;
         }
         else
