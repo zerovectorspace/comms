@@ -33,7 +33,10 @@ namespace Comms
     GLuint gl_prog{};
     GLuint VAO{};
     GLuint VBO{};
-    glm::mat4 proj = glm::ortho(0.0f, static_cast<GLfloat>(win_w), 0.0f, static_cast<GLfloat>(win_h));
+    glm::mat4 proj = glm::ortho( 0.0f,
+                                 static_cast<GLfloat>(win_w),
+                                 0.0f,
+                                 static_cast<GLfloat>(win_h) );
 
     bool is_running = true;
     bool redraw = false;
@@ -43,8 +46,10 @@ namespace Comms
      */
     FT_Library ft_lib{};
     FT_Face ft_face{};
-    Char const* ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
-    UInt font_size = 14;
+    StdString ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
+    UInt font_size = 60;
+    UInt padding = 5;
+    UInt line_height = font_size + padding;
     glm::vec3 font_color = { 0.921, 0.859, 0.698 };
 
     Char_Texture_Map chrs;

@@ -40,8 +40,6 @@ namespace Comms
 
   template <> struct Prog_Win<Dimensions> { Prog_Win() {
     SDL_GetWindowSize( _glob.win, &_glob.win_w, &_glob.win_h );
-    fct::print( _glob.win_w, ' ' );
-    fct::print( _glob.win_h, ' ' );
   }};
 
   template <> struct Prog_Win<Viewport> { Prog_Win() {
@@ -126,7 +124,6 @@ namespace Comms
          Prog_Win<Viewport>,
          Prog_Win<Projection>,
          Prog_Win<Buffers>>{}();
-
   }};
 }
 

@@ -10,7 +10,7 @@ namespace Comms
   }};
 
   template <> struct Font<Load> { Font() {
-    if ( FT_New_Face( _glob.ft_lib, _glob.ft_file, 0, &_glob.ft_face ) )
+    if ( FT_New_Face( _glob.ft_lib, _glob.ft_file.c_str(), 0, &_glob.ft_face ) )
     {
       fct::print( "ERROR: FT_New_Face" );
       return;

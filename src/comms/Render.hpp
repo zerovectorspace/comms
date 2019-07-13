@@ -64,12 +64,12 @@ namespace Comms
     Render<Background>{};
 
     // Set cursor back to the top
-    _glob.curs.pos = { 5, _glob.win_h - 15 };
+    _glob.curs.pos = { _glob.padding, _glob.win_h - _glob.font_size + _glob.padding };
 
     for ( uint i = 0 ; i < _glob.bufs.size() ; i++ )
     {
       // Set cursor back to the left
-      _glob.curs.pos.x = 5;
+      _glob.curs.pos.x = _glob.padding;
       for ( auto const& ch : _glob.bufs[ i ] )
       {
         Render<Char>{ ch, _glob.curs.pos };
@@ -77,7 +77,7 @@ namespace Comms
 
       // Go to next line
       if ( i < _glob.bufs.size() - 1 )
-        _glob.curs.pos.y -= 15;
+        _glob.curs.pos.y -= _glob.line_height;
     }
 
     _glob.redraw = false;
