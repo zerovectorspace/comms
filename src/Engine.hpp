@@ -52,6 +52,8 @@ namespace Comms
   template <> struct Engine<Main_Loop> { Engine() {
     Render<Background>{};
 
+    _glob.curs.pos = { 5, _glob.win_h - 15 };
+
     while ( _glob.is_running )
     {
       Exec<Engine<Poll_Events>,

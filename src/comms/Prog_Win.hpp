@@ -38,6 +38,43 @@ namespace Comms
     glDeleteShader( f_shad );
   }};
 
+  template <> struct Prog_Win<Dimensions> { Prog_Win() {
+    SDL_GetWindowSize( _glob.win, &_glob.win_w, &_glob.win_h );
+    fct::print( _glob.win_w, ' ' );
+    fct::print( _glob.win_h, ' ' );
+  }};
+
+  template <> struct Prog_Win<Viewport> { Prog_Win() {
+    glViewport( 0, 0, _glob.win_w, _glob.win_h );
+  }};
+
+  template <> struct Prog_Win<Projection> { Prog_Win() {
+    glUseProgram( _glob.gl_prog );
+
+    glm::mat4 projection = glm::ortho( 0.f,
+                                       static_cast<GLfloat>( _glob.win_w ),
+                                       0.f,
+                                       static_cast<GLfloat>( _glob.win_h ) );
+
+    glUniformMatrix4fv( glGetUniformLocation( _glob.gl_prog, "projection" ),
+                        1,
+                        GL_FALSE,
+                        glm::value_ptr( projection ) );
+  }};
+
+  template <> struct Prog_Win<Buffers> { Prog_Win() {
+    // Configure VAO/VBO for texture quads
+    glGenVertexArrays( 1, &_glob.VAO );
+    glGenBuffers( 1, &_glob.VBO );
+
+    glBindVertexArray( _glob.VAO );
+      glBindBuffer( GL_ARRAY_BUFFER, _glob.VBO );
+      glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
+
+    glEnableVertexAttribArray( 0 );
+    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0 );
+  }};
+
   // Prog_Win ::
   template <> struct Prog_Win<Init> { Prog_Win() {
     signal( SIGWINCH, resize );
@@ -50,7 +87,7 @@ namespace Comms
 
     _glob.win = SDL_CreateWindow( "comms"
                                 , SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
-                                , 800, 600
+                                , _glob.win_w, _glob.win_h
                                 , SDL_WINDOW_OPENGL
                                 | SDL_WINDOW_SHOWN
                                 | SDL_WINDOW_BORDERLESS
@@ -83,24 +120,13 @@ namespace Comms
     // Set OpenGL options
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glViewport( 0, 0, 800, 600 );
 
-    Prog_Win<GLSL_Compile>{};
+    Exec<Prog_Win<GLSL_Compile>,
+         Prog_Win<Dimensions>,
+         Prog_Win<Viewport>,
+         Prog_Win<Projection>,
+         Prog_Win<Buffers>>{}();
 
-    glUseProgram( _glob.gl_prog );
-    glm::mat4 projection = glm::ortho( 0.f, 800.f, 0.f, 600.f );
-    glUniformMatrix4fv( glGetUniformLocation( _glob.gl_prog, "projection" ), 1, GL_FALSE, glm::value_ptr( projection ) );
-
-    // Configure VAO/VBO for texture quads
-    glGenVertexArrays( 1, &_glob.VAO );
-    glGenBuffers( 1, &_glob.VBO );
-
-    glBindVertexArray( _glob.VAO );
-      glBindBuffer( GL_ARRAY_BUFFER, _glob.VBO );
-      glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
-
-    glEnableVertexAttribArray( 0 );
-    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0 );
   }};
 }
 

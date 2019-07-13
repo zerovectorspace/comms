@@ -12,6 +12,7 @@ namespace Comms
   class Background{};
   class Buffers{};
   class Commands{};
+  class Dimensions{};
   class Del{};
   class Get_PW{};
   class GLSL_Compile{};
@@ -24,9 +25,11 @@ namespace Comms
   class Open{};
   class Parse_Args{};
   class Poll_Events{};
+  class Projection{};
   class Run{};
   class Swap{};
   class Unlock_Key{};
+  class Viewport{};
   class Win{};
 }
 #endif

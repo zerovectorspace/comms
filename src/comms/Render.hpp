@@ -64,7 +64,7 @@ namespace Comms
     Render<Background>{};
 
     // Set cursor back to the top
-    _glob.curs.pos = { 5, 585 };
+    _glob.curs.pos = { 5, _glob.win_h - 15 };
 
     for ( uint i = 0 ; i < _glob.bufs.size() ; i++ )
     {

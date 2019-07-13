@@ -26,12 +26,14 @@ namespace Comms
     /***
      * OpenGL
      */
+    GLint win_w = 800;
+    GLint win_h = 600;
     SDL_Window*   win = nullptr;
     SDL_Renderer* ren = nullptr;
     GLuint gl_prog{};
     GLuint VAO{};
     GLuint VBO{};
-    glm::mat4 proj = glm::ortho(0.0f, static_cast<GLfloat>(800), 0.0f, static_cast<GLfloat>(600));
+    glm::mat4 proj = glm::ortho(0.0f, static_cast<GLfloat>(win_w), 0.0f, static_cast<GLfloat>(win_h));
 
     bool is_running = true;
     bool redraw = false;
@@ -52,7 +54,6 @@ namespace Comms
      */
     Vec<String> bufs = { String{} };
     String* buf = &bufs.back();
-;
 
     /***
      * Cursor

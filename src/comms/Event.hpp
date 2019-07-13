@@ -2,6 +2,7 @@
 #define COMMS_EVENT_HEADER
 
 #include "Taglist.hpp"
+#include "Prog_Win.hpp"
 #include "Render.hpp"
 
 namespace Comms
@@ -17,6 +18,12 @@ namespace Comms
       case SDL_WINDOWEVENT_FOCUS_GAINED:
       case SDL_WINDOWEVENT_TAKE_FOCUS:
       case SDL_WINDOWEVENT_RESIZED:
+        Exec<Prog_Win<Dimensions>,
+             Prog_Win<Viewport>,
+             Prog_Win<Projection>>{}();
+        _glob.redraw = true;
+
+        break;
       case SDL_WINDOWEVENT_RESTORED:
         _glob.redraw = true;
 
