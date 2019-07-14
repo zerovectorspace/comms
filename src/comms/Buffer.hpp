@@ -9,6 +9,16 @@ namespace Comms
 
   }};
 
+  // Get current cursor position
+  template <> struct Buffer<Cursor,Pos> { Buffer() {
+    _glob.curs.pos.x = _glob.pad_x;
+    for ( auto const& c : *_glob.buf )
+    {
+      Character ch = _glob.chrs[ c ];
+      _glob.curs.pos.x += (ch.adv >> 6);
+    }
+  }};
+
   template <> struct Buffer<New_Line> { Buffer() {
     _glob.bufs.push_back( String{} );
     _glob.buf = &_glob.bufs.back();
@@ -27,13 +37,7 @@ namespace Comms
 
     _glob.buf->pop_back();
 
-    // Get cursor position
-    _glob.curs.pos.x = _glob.pad_x;
-    for ( auto const& c : *_glob.buf )
-    {
-      Character ch = _glob.chrs[ c ];
-      _glob.curs.pos.x += (ch.adv >> 6);
-    }
+    Buffer<Cursor,Pos>{};
 
     _glob.redraw = true;
   }};
@@ -45,12 +49,7 @@ namespace Comms
   template <> struct Buffer<String> { Buffer( String const& ch ) {
     _glob.buf->insert( _glob.buf->begin(), ch.begin(), ch.end() );
 
-    _glob.curs.pos.x = _glob.pad_x;
-    for ( auto const& c : *_glob.buf )
-    {
-      Character ch = _glob.chrs[ c ];
-      _glob.curs.pos.x += (ch.adv >> 6);
-    }
+    Buffer<Cursor,Pos>{};
   }};
 }
 

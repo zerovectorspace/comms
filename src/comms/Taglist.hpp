@@ -29,6 +29,7 @@ namespace Comms
   class Open{};
   class Parse_Args{};
   class Poll{};
+  class Pos{};
   class Projection{};
   class Run{};
   class Swap{};
