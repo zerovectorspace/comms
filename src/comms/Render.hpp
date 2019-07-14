@@ -57,7 +57,10 @@ namespace Comms
     pos.x += (ch.adv >> 6);
   }};
 
-  template <> struct Render<Buffers> { Render() {
+  template <> struct Render<Buffers,Dec> { Render() {
+  }};
+
+  template <> struct Render<Buffers,Asc> { Render() {
     if ( ! _glob.redraw )
       return;
 

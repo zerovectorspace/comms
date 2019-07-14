@@ -9,11 +9,13 @@
 
 namespace Comms
 {
+  class Asc{};
   class Background{};
   class Backspace{};
   class Buffers{};
   class Commands{};
   class Dimensions{};
+  class Dec{};
   class Del{};
   class Get_PW{};
   class GLSL_Compile{};
