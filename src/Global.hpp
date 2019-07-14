@@ -58,6 +58,11 @@ namespace Comms
     String* buf = &bufs.back();
 
     /***
+     * Command prompt
+     */
+    String cmd_prompt = "cmd > "_s;
+
+    /***
      * Input mode
      */
     MODE mode = MODE::Text_Input;

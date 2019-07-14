@@ -20,7 +20,7 @@ namespace Comms
   }};
 
   template <> struct Buffer<Backspace> { Buffer() {
-    UInt min_ch = (_glob.mode == MODE::Command) ? 2 : 0;
+    UInt min_ch = (_glob.mode == MODE::Command) ? _glob.cmd_prompt.size() : 0;
 
     if ( _glob.buf->size() == min_ch )
       return;
@@ -41,7 +41,17 @@ namespace Comms
   template <> struct Buffer<Char> { Buffer( Char ch ) {
     _glob.buf->push_back( ch );
   }};
-        
+
+  template <> struct Buffer<String> { Buffer( String const& ch ) {
+    _glob.buf->insert( _glob.buf->begin(), ch.begin(), ch.end() );
+
+    _glob.curs.pos.x = _glob.pad_x;
+    for ( auto const& c : *_glob.buf )
+    {
+      Character ch = _glob.chrs[ c ];
+      _glob.curs.pos.x += (ch.adv >> 6);
+    }
+  }};
 }
 
 #endif

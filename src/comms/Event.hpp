@@ -78,10 +78,7 @@ namespace Comms
           break;
 
         Buffer<Backspace>{};
-        Buffer<Char>{ '>' };
-        Render<Char>{ '>', _glob.curs.pos };
-        Buffer<Char>{ ' ' };
-        Render<Char>{ ' ', _glob.curs.pos };
+        Buffer<String>{ _glob.cmd_prompt };
 
         _glob.redraw = true;
         _glob.mode = MODE::Command;
