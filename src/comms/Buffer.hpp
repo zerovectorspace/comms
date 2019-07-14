@@ -20,8 +20,12 @@ namespace Comms
   }};
 
   template <> struct Buffer<Backspace> { Buffer() {
-    if ( _glob.buf->size() > 0 )
-      _glob.buf->pop_back();
+    UInt min_ch = (_glob.mode == MODE::Command) ? 2 : 0;
+
+    if ( _glob.buf->size() == min_ch )
+      return;
+
+    _glob.buf->pop_back();
 
     // Get cursor position
     _glob.curs.pos.x = _glob.pad_x;
