@@ -52,7 +52,7 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_RETURN:
-        if ( ! _glob.is_command )
+        if ( _glob.mode == MODE::Text_Input )
         {
           Buffer<New_Line>{};
           break;
@@ -62,8 +62,8 @@ namespace Comms
 
         _glob.buf->clear();
         _glob.redraw = true;
-        _glob.is_command = false;
         _glob.curs.pos.x = _glob.pad_x;
+        _glob.mode = MODE::Text_Input;
 
         break;
 
@@ -84,21 +84,16 @@ namespace Comms
         Render<Char>{ ' ', _glob.curs.pos };
 
         _glob.redraw = true;
-        _glob.is_text = false;
-        _glob.is_command = true;
+        _glob.mode = MODE::Command;
 
+        // Don't buffer/render the colon
+        SDL_FlushEvent( SDL_TEXTINPUT );
 
         break;
     }
   }};
 
   template <> struct Event<Text> { Event( SDL_Event const& ev ) {
-    if ( ! _glob.is_text )
-    {
-      _glob.is_text = true;
-      return;
-    }
-
     Char ch = fct::Str( ev.text.text )[0];
 
     Buffer<Char>{ ch };

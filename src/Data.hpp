@@ -58,6 +58,16 @@ namespace Comms
   struct Cursor {
     glm::uvec2 pos = { 5, 585 };
   };
+
+  /**
+   * Input Modes
+   */
+  enum class MODE 
+  {
+    Command,
+    KB_Shortcut,
+    Text_Input
+  };
 }
 
 #endif
