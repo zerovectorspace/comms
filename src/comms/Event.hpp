@@ -51,99 +51,67 @@ namespace Comms
       case SDLK_LGUI:
       case SDLK_RGUI:
         break;
+      case SDLK_RETURN:
+        Buffer<New_Line>{};
+
+        break;
+
       case SDLK_BACKSPACE:
         Buffer<Backspace>{};
 
         break;
-      default:
-        auto ch_name = StdString{ SDL_GetKeyName( ev.key.keysym.sym ) };
-        Char ch = '\0';
 
-        if ( ch_name == StdString{ "Space" } )
-          ch = ' ';
-        else if ( ch_name == StdString{ "Return" } )
-        {
-          Buffer<New_Line>{};
-
-          _glob.redraw = true;
-
-          break;
-        }
-        else
-          ch = ch_name.at( 0 );
-
-        if ( (Int) _glob.curs.pos.x > _glob.win_w )
-        {
-          Buffer<New_Line>{};
-
-          _glob.redraw = true;
-        }
-
-        auto mods = SDL_GetModState();
-        if ( (mods & KMOD_LSHIFT) || (mods & KMOD_RSHIFT) )
-        {
-          switch ( ev.key.keysym.sym )
-          {
-            case SDLK_0:
-              ch = ')';
-              break;
-            case SDLK_1:
-              ch = '!';
-              break;
-            case SDLK_2:
-              ch = '@';
-              break;
-            case SDLK_3:
-              ch = '#';
-              break;
-            case SDLK_4:
-              ch = '$';
-              break;
-            case SDLK_5:
-              ch = '%';
-              break;
-            case SDLK_6:
-              ch = '^';
-              break;
-            case SDLK_7:
-              ch = '&';
-              break;
-            case SDLK_8:
-              ch = '*';
-              break;
-            case SDLK_9:
-              ch = '(';
-              break;
-            case SDLK_EQUALS:
-              ch = '+';
-              break;
-            case SDLK_MINUS:
-              ch = '_';
-              break;
-            case SDLK_QUOTE:
-              ch = '"';
-              break;
-            case SDLK_PERIOD:
-              ch = '>';
-              break;
-            case SDLK_COMMA:
-              ch = '<';
-              break;
-            case SDLK_SEMICOLON:
-              ch = ':';
-              break;
-            case SDLK_SLASH:
-              ch = '?';
-              break;
-          }
-        }
-        else
-          ch = (mods & KMOD_CAPS) ? ch : fct::toLower( ch );
-
-        Buffer<Char>{ ch };
-        Render<Char>{ ch, _glob.curs.pos };
+      case SDLK_SEMICOLON:
+        // Colon is the first character on line
+        if ( (! _glob.buf->size()) && (SDL_GetModState() & KMOD_SHIFT) )
+          fct::print( "Command init" );
 
         break;
+    }
+  }};
+
+  template <> struct Event<Text> { Event( SDL_Event const& ev ) {
+      Char ch = StdString{ ev.text.text }[0];
+
+      if ( (Int) _glob.curs.pos.x > _glob.win_w )
+      {
+        Buffer<New_Line>{};
+
+        _glob.redraw = true;
+      }
+
+      Buffer<Char>{ ch };
+      Render<Char>{ ch, _glob.curs.pos };
+  }};
+
+  // Event Polling :: handles input
+  template <> struct Event<Poll> { Event() {
+    SDL_Event ev;
+
+    while ( _glob.is_running && SDL_PollEvent( &ev ) )
+    {
+      switch( ev.type )
+      {
+        case SDL_QUIT:
+          _glob.is_running = false;
+
+          break;
+
+        case SDL_WINDOWEVENT:
+          Event<Win>{ ev };
+
+          break;
+
+        case SDL_KEYDOWN:
+          Event<Keydown>{ ev };
+
+          break;
+
+        case SDL_TEXTINPUT:
+          Event<Text>{ ev };
+
+          break;
+      }
     }
   }};
 }

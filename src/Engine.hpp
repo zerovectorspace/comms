@@ -22,32 +22,6 @@ namespace Comms
          command = head( w );
   }};
 
-  // Event Polling :: handles input
-  template <> struct Engine<Poll_Events> { Engine() {
-    SDL_Event ev;
-
-    while ( _glob.is_running && SDL_PollEvent( &ev ) )
-    {
-      switch( ev.type )
-      {
-        case SDL_QUIT:
-          _glob.is_running = false;
-
-          break;
-
-        case SDL_WINDOWEVENT:
-          Event<Win>{ ev };
-
-          break;
-
-        case SDL_KEYDOWN:
-          Event<Keydown>{ ev };
-
-          break;
-      }
-    }
-  }};
-
   // Main Loop :: high level
   template <> struct Engine<Main_Loop> { Engine() {
     Render<Background>{};
@@ -56,7 +30,7 @@ namespace Comms
 
     while ( _glob.is_running )
     {
-      Exec<Engine<Poll_Events>,
+      Exec<Event<Poll>,
            Render<Buffers>,
            Render<Swap>>{}();
     }

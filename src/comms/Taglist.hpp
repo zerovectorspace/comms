@@ -26,10 +26,11 @@ namespace Comms
   class New_Line{};
   class Open{};
   class Parse_Args{};
-  class Poll_Events{};
+  class Poll{};
   class Projection{};
   class Run{};
   class Swap{};
+  class Text{};
   class Unlock_Key{};
   class Viewport{};
   class Win{};

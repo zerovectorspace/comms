@@ -23,8 +23,6 @@ namespace Comms
     if ( _glob.buf->size() > 0 )
       _glob.buf->pop_back();
 
-    _glob.redraw = true;
-
     // Get cursor position
     _glob.curs.pos.x = _glob.pad_x;
     for ( auto const& c : *_glob.buf )
@@ -32,6 +30,8 @@ namespace Comms
       Character ch = _glob.chrs[ c ];
       _glob.curs.pos.x += (ch.adv >> 6);
     }
+
+    _glob.redraw = true;
   }};
 
   template <> struct Buffer<Char> { Buffer( Char ch ) {
