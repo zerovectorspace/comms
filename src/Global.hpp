@@ -56,6 +56,8 @@ namespace Comms
      */
     Vec<String> bufs = { String{} };
     String* buf = &bufs.back();
+    bool is_text = true;
+    bool is_command = false;
 
     /***
      * Cursor

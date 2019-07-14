@@ -52,7 +52,18 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_RETURN:
-        Buffer<New_Line>{};
+        if ( ! _glob.is_command )
+        {
+          Buffer<New_Line>{};
+          break;
+        }
+
+        // Handle Command here
+
+        _glob.buf->clear();
+        _glob.redraw = true;
+        _glob.is_command = false;
+        _glob.curs.pos.x = _glob.pad_x;
 
         break;
 
@@ -62,26 +73,36 @@ namespace Comms
         break;
 
       case SDLK_SEMICOLON:
-        // Colon is the first character on line
-        if ( (! _glob.buf->size()) && (SDL_GetModState() & KMOD_SHIFT) )
-          fct::print( "Command init" );
+        // Colon is not the first character on line
+        if ( (_glob.buf->size()) || ! (SDL_GetModState() & KMOD_SHIFT) )
+          break;
+
+        Buffer<Backspace>{};
+        Buffer<Char>{ '>' };
+        Render<Char>{ '>', _glob.curs.pos };
+        Buffer<Char>{ ' ' };
+        Render<Char>{ ' ', _glob.curs.pos };
+
+        _glob.redraw = true;
+        _glob.is_text = false;
+        _glob.is_command = true;
+
 
         break;
     }
   }};
 
   template <> struct Event<Text> { Event( SDL_Event const& ev ) {
-      Char ch = StdString{ ev.text.text }[0];
+    if ( ! _glob.is_text )
+    {
+      _glob.is_text = true;
+      return;
+    }
 
-      if ( (Int) _glob.curs.pos.x > _glob.win_w )
-      {
-        Buffer<New_Line>{};
+    Char ch = fct::Str( ev.text.text )[0];
 
-        _glob.redraw = true;
-      }
-
-      Buffer<Char>{ ch };
-      Render<Char>{ ch, _glob.curs.pos };
+    Buffer<Char>{ ch };
+    Render<Char>{ ch, _glob.curs.pos };
   }};
 
   // Event Polling :: handles input
