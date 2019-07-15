@@ -1,7 +1,7 @@
 #ifndef COMMS_COMMAND_COMMAND_HEADER
 #define COMMS_COMMAND_COMMAND_HEADER
 
-#include "Commands.hpp"
+#include "src/components/Include.hpp"
 
 namespace Comms
 {
@@ -13,7 +13,6 @@ namespace Comms
   template <> struct Command<Init> { Command() {
 
   }};
-
 }
 
 #endif

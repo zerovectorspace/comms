@@ -1,7 +1,7 @@
 #ifndef COMMS_DATA_HEADER
 #define COMMS_DATA_HEADER
 
-#include "Helper.hpp"
+#include "src/Helper.hpp"
 
 /********************************************************************************
  *                                    Data

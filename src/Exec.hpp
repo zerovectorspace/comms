@@ -1,7 +1,7 @@
 #ifndef COMMS_COMMANDS_EXEC_HEADER
 #define COMMS_COMMANDS_EXEC_HEADER
 
-#include "../Global.hpp"
+#include "src/Global.hpp"
 
 namespace Comms
 {

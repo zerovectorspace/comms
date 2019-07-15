@@ -1,7 +1,7 @@
 #ifndef COMMS_HELPER_HEADER
 #define COMMS_HELPER_HEADER
 
-#include "Alias.hpp"
+#include "src/Alias.hpp"
 
 /********************************************************************************
  *                                   Helper

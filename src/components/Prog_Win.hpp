@@ -1,7 +1,7 @@
 #ifndef COMMS_PROGRAM_WINDOW_HEADER
 #define COMMS_PROGRAM_WINDOW_HEADER
 
-#include "Taglist.hpp"
+#include "src/Taglist.hpp"
 
 namespace Comms
 {

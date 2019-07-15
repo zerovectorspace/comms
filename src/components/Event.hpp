@@ -1,7 +1,7 @@
 #ifndef COMMS_EVENT_HEADER
 #define COMMS_EVENT_HEADER
 
-#include "Taglist.hpp"
+#include "src/Taglist.hpp"
 #include "Prog_Win.hpp"
 #include "Render.hpp"
 

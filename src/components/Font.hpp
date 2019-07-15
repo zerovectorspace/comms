@@ -1,7 +1,7 @@
 #ifndef COMMS_FONT_HEADER
 #define COMMS_FONT_HEADER
 
-#include "Taglist.hpp"
+#include "src/Taglist.hpp"
 
 namespace Comms
 {

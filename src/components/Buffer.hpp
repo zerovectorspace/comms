@@ -1,7 +1,7 @@
 #ifndef COMMS_BUFFER_HEADER
 #define COMMS_BUFFER_HEADER
 
-#include "Taglist.hpp"
+#include "src/Taglist.hpp"
 
 namespace Comms
 {

@@ -37,18 +37,24 @@ set(
     src/Alias.hpp
     src/Data.hpp
     src/Engine.hpp
+    src/Exec.hpp
     src/Global.hpp
     src/Helper.hpp
     src/Include.hpp
     src/Macros.hpp
+    src/Taglist.hpp
 
-    src/comms/Command.hpp
-    src/comms/Commands.hpp
-    src/comms/Exec.hpp
-    src/comms/Prog_Win.hpp
-    src/comms/Program.hpp
-    src/comms/Taglist.hpp
-    src/comms/Window.hpp
+    src/components/Buffer.hpp
+    src/components/Event.hpp
+    src/components/Font.hpp
+    src/components/Include.hpp
+    src/components/Prog_Win.hpp
+    src/components/Render.hpp
+
+    src/commands/Command.hpp
+    src/commands/Include.hpp
+    src/commands/Program.hpp
+    src/commands/Window.hpp
 )
 set (
     TEST_FILES

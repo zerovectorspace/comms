@@ -1,7 +1,7 @@
 #ifndef COMMS_GLOBAL_HEADER
 #define COMMS_GLOBAL_HEADER
 
-#include "Data.hpp"
+#include "src/Data.hpp"
 
 namespace Comms
 {
