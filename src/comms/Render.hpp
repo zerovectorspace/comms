@@ -42,13 +42,13 @@ namespace Comms
 
     // color -> gl( text_color )
     glUniform3f( glGetUniformLocation( _glob.gl_prog, "text_color" ), color.x, color.y, color.z );
-    glBindVertexArray( _glob.VAO );
+    glBindVertexArray( _glob.text_VAO );
 
     // Render glyph texture over quad
     glBindTexture( GL_TEXTURE_2D, ch.texture_id );
 
     // Update content of _glob.VBO memory
-    glBindBuffer( GL_ARRAY_BUFFER, _glob.VBO );
+    glBindBuffer( GL_ARRAY_BUFFER, _glob.text_VBO );
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof( vertices ), vertices );
 
     // Render quad

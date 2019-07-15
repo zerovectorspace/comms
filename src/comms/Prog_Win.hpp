@@ -62,11 +62,11 @@ namespace Comms
 
   template <> struct Prog_Win<Buffers> { Prog_Win() {
     // Configure VAO/VBO for texture quads
-    glGenVertexArrays( 1, &_glob.VAO );
-    glGenBuffers( 1, &_glob.VBO );
+    glGenVertexArrays( 1, &_glob.text_VAO );
+    glGenBuffers( 1, &_glob.text_VBO );
 
-    glBindVertexArray( _glob.VAO );
-      glBindBuffer( GL_ARRAY_BUFFER, _glob.VBO );
+    glBindVertexArray( _glob.text_VAO );
+      glBindBuffer( GL_ARRAY_BUFFER, _glob.text_VBO );
       glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
 
     glEnableVertexAttribArray( 0 );

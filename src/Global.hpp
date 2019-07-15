@@ -31,8 +31,8 @@ namespace Comms
     SDL_Window*   win = nullptr;
     SDL_Renderer* ren = nullptr;
     GLuint gl_prog{};
-    GLuint VAO{};
-    GLuint VBO{};
+    GLuint text_VAO{};
+    GLuint text_VBO{};
 
     bool is_running = true;
     bool redraw = false;
