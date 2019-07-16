@@ -14,7 +14,7 @@ namespace Comms
 
   }
 
-  template <> struct Prog_Win<GLSL_Compile> { Prog_Win() {
+  template <> struct Prog_Win<GLSL,Compile> { Prog_Win() {
     auto shad_str = fct::readFile( "glsl/text_vert.glsl" );
     auto shad_cstr = shad_str.c_str();
 
@@ -119,7 +119,7 @@ namespace Comms
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
-    Exec<Prog_Win<GLSL_Compile>,
+    Exec<Prog_Win<GLSL,Compile>,
          Prog_Win<Dimensions>,
          Prog_Win<Viewport>,
          Prog_Win<Projection>,

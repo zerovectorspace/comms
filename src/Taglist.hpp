@@ -18,7 +18,8 @@ namespace Comms
   class Dec{};
   class Del{};
   class Get_PW{};
-  class GLSL_Compile{};
+  class GLSL{};
+  class Compile{};
   class Init{};
   class Keydown{};
   class List{};
