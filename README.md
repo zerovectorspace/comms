@@ -25,6 +25,7 @@ $ make main
 
 [x] OpenGL text rendering
 [] Multi-window positioning
+[] Settings
 [] Sockets
 [] Protocol
 [] Encryption layer
