@@ -2,10 +2,10 @@
 
 src_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-build_dir="comms"
+build_dir="comms_build"
 
-cd ~
-mkdir $build_dir
+cd /tmp
+mkdir -p $build_dir
 cd $build_dir
 
 cmake $src_dir
