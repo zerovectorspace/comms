@@ -58,8 +58,11 @@ namespace Comms
           break;
         }
 
-        // Handle Command here
+        /*
+         * Process Command
+         */
 
+        // Clear line for text entry
         _glob.buf->clear();
         _glob.redraw = true;
         _glob.curs.pos.x = _glob.pad_x;
@@ -71,27 +74,27 @@ namespace Comms
         Buffer<Backspace>{};
 
         break;
-
-      case SDLK_SEMICOLON:
-        // Colon is not the first character on line
-        if ( (_glob.buf->size()) || ! (SDL_GetModState() & KMOD_SHIFT) )
-          break;
-
-        Buffer<Backspace>{};
-        Buffer<String>{ _glob.cmd_prompt };
-
-        _glob.redraw = true;
-        _glob.mode = MODE::Command;
-
-        // Don't buffer/render the colon
-        SDL_FlushEvent( SDL_TEXTINPUT );
-
-        break;
     }
   }};
 
   template <> struct Event<Text> { Event( SDL_Event const& ev ) {
     Char ch = fct::Str( ev.text.text )[0];
+
+    /*
+     * Handle Keyboard shortcuts
+     */
+    
+    // Start Command
+    if ( _glob.buf->empty() && ch == ':' )
+    {
+      Buffer<Backspace>{};
+      Buffer<String>{ _glob.cmd_prompt };
+
+      _glob.redraw = true;
+      _glob.mode = MODE::Command;
+
+      return;
+    }
 
     Buffer<Char>{ ch };
     Render<Char>{ ch, _glob.curs.pos };
