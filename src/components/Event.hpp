@@ -2,8 +2,8 @@
 #define COMMS_EVENT_HEADER
 
 #include "src/Taglist.hpp"
-#include "Prog_Win.hpp"
-#include "Render.hpp"
+#include "src/components/Prog_Win.hpp"
+#include "src/components/Render.hpp"
 
 namespace Comms
 {
