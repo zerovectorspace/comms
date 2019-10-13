@@ -30,9 +30,11 @@ namespace Comms
 
     while ( _glob.is_running )
     {
-      Exec<Event<Poll>,
-           Render<Buffers,Asc>,
-           Render<Swap>>{}();
+      Exec<
+        Event<Poll>,
+        Render<Buffers,Asc>,
+        Render<Swap>
+      >{}();
     }
 
     SDL_Quit();
