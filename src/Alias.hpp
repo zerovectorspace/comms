@@ -9,12 +9,13 @@
 
 namespace Comms
 {
-  using Char = char;
-  using ULong = unsigned long;
-  using Int = int;
-  using UInt = unsigned int;
-  using Long = long;
-  using Double = double;
+  using Char   = char;
+  using Int    = GLint;
+  using UInt   = GLuint;
+  using Long   = GLint64;
+  using ULong  = GLuint64;
+  using Float  = GLfloat;
+  using Double = GLdouble;
 
   using ScopeLock = std::unique_lock<std::mutex>;
 
