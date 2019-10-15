@@ -49,7 +49,7 @@ namespace Comms
   template <> struct Prog_Win<Projection> { Prog_Win() {
     glUseProgram( _glob.gl_prog );
 
-    glm::mat4 projection = glm::ortho( 0.f,
+    Mat4 projection = glm::ortho( 0.f,
                                        static_cast<GLfloat>( _glob.win_w ),
                                        0.f,
                                        static_cast<GLfloat>( _glob.win_h ) );

@@ -18,7 +18,7 @@ namespace Comms
     SDL_GL_SwapWindow( _glob.win );
   }};
 
-  template <> struct Render<Char> { Render( Char const c, glm::uvec2& pos, glm::vec3 const& color = _glob.font_color ) {
+  template <> struct Render<Char> { Render( Char const c, UVec2& pos, Vec3 const& color = _glob.font_color ) {
     Character ch = _glob.chrs[ c ];
 
     GLfloat xpos = pos.x + ch.bearing.x;
@@ -66,7 +66,7 @@ namespace Comms
 
     Render<Background>{};
 
-    glm::uvec2 pos = { _glob.pad_x, _glob.pad_y };
+    UVec2 pos = { _glob.pad_x, _glob.pad_y };
 
     for ( Int i = _glob.bufs.size() - 1 ; i >= 0 ; i-- )
     {

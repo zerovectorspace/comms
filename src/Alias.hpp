@@ -17,6 +17,12 @@ namespace Comms
   using Float  = GLfloat;
   using Double = GLdouble;
 
+  using UVec2  = glm::uvec2;
+  using IVec2  = glm::ivec2;
+  using Vec3   = glm::vec3;
+  using Vec4   = glm::vec4;
+  using Mat4   = glm::mat4;
+
   using ScopeLock = std::unique_lock<std::mutex>;
 
   template <typename T>

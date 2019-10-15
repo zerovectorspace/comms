@@ -47,7 +47,7 @@ namespace Comms
     UInt pad_x = 5;
     UInt pad_y = font_size / 4;
     UInt line_height = font_size + pad_y / 2;
-    glm::vec3 font_color = { 0.921, 0.859, 0.698 };
+    Vec3 font_color = { 0.921, 0.859, 0.698 };
 
     Char_Texture_Map chrs;
 

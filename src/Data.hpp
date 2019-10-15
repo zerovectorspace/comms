@@ -47,8 +47,8 @@ namespace Comms
    */
   struct Character {
     GLuint     texture_id;
-    glm::ivec2 size;
-    glm::ivec2 bearing;
+    IVec2 size;
+    IVec2 bearing;
     Long       adv;
   };
 
@@ -56,7 +56,7 @@ namespace Comms
    * Cursor :: Position text is written
    */
   struct Cursor {
-    glm::uvec2 pos = { 5, 585 };
+    UVec2 pos = { 5, 585 };
   };
 
   /**
@@ -76,8 +76,8 @@ namespace Comms
   {
     bool redraw = false;
 
-    glm::uvec2 pos = { 0, 0 };
-    glm::uvec2 dim = { 0, 0 };
+    UVec2 pos = { 0, 0 };
+    UVec2 dim = { 0, 0 };
 
     /***
      * Cursor
@@ -87,8 +87,8 @@ namespace Comms
     /***
      * Font
      */
-    glm::vec4 bg_color = { 0.157f, 0.157f, 0.157f, 1.0f };
-    glm::vec3 font_color = { 0.921, 0.859, 0.698 };
+    Vec4 bg_color = { 0.157f, 0.157f, 0.157f, 1.0f };
+    Vec3 font_color = { 0.921, 0.859, 0.698 };
     UInt font_size = 16;
     UInt pad_x = 5;
     UInt pad_y = font_size / 4;
