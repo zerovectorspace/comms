@@ -68,6 +68,43 @@ namespace Comms
     KB_Shortcut,
     Text_Input
   };
+
+  /*
+   * WPane :: Window pane 
+   */
+  struct WPane
+  {
+    bool redraw = false;
+
+    glm::uvec2 pos = { 0, 0 };
+    glm::uvec2 dim = { 0, 0 };
+
+    /***
+     * Cursor
+     */
+    Cursor curs{};
+
+    /***
+     * Font
+     */
+    glm::vec4 bg_color = { 0.157f, 0.157f, 0.157f, 1.0f };
+    glm::vec3 font_color = { 0.921, 0.859, 0.698 };
+    UInt font_size = 16;
+    UInt pad_x = 5;
+    UInt pad_y = font_size / 4;
+    UInt line_height = font_size + pad_y / 2;
+
+    /***
+     * Buffer :: Holds all text
+     */
+    Vec<String> bufs = { String{} };
+    String* buf = &bufs.back();
+
+    /***
+     * Input mode
+     */
+    MODE mode = MODE::Text_Input;
+  };
 }
 
 #endif

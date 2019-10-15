@@ -71,6 +71,11 @@ namespace Comms
      * Cursor
      */
     Cursor curs{};
+
+    /***
+     * WPanes :: Holds all window panes
+     */
+    Vec<WPane> panes{};
   };
 
   /***
