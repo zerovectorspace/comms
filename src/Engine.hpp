@@ -9,8 +9,6 @@
 
 namespace Comms
 {
-  void RenderText( std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color );
-
   template <typename... Ts> struct Engine { Engine() {
 
   }};
