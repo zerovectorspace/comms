@@ -21,14 +21,14 @@ namespace Comms
   template <> struct Render<Char> { Render( Char const c, UVec2& pos, Vec3 const& color = _glob.font_color ) {
     Character ch = _glob.chrs[ c ];
 
-    GLfloat xpos = pos.x + ch.bearing.x;
-    GLfloat ypos = pos.y - (ch.size.y - ch.bearing.y);
+    Float xpos = pos.x + ch.bearing.x;
+    Float ypos = pos.y - (ch.size.y - ch.bearing.y);
 
-    GLfloat w = ch.size.x;
-    GLfloat h = ch.size.y;
+    Float w = ch.size.x;
+    Float h = ch.size.y;
 
     // Draw square
-    GLfloat vertices[6][4] = {
+    Float vertices[6][4] = {
       { xpos,     ypos + h,   0.0, 0.0 },            
       { xpos,     ypos,       0.0, 1.0 },
       { xpos + w, ypos,       1.0, 1.0 },

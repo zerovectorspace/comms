@@ -26,13 +26,13 @@ namespace Comms
     /***
      * OpenGL
      */
-    GLint win_w = 800;
-    GLint win_h = 600;
+    Int win_w = 800;
+    Int win_h = 600;
     SDL_Window*   win = nullptr;
     SDL_Renderer* ren = nullptr;
-    GLuint gl_prog{};
-    GLuint text_VAO{};
-    GLuint text_VBO{};
+    UInt gl_prog{};
+    UInt text_VAO{};
+    UInt text_VBO{};
 
     bool is_running = true;
     bool redraw = false;

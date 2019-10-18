@@ -18,14 +18,14 @@ namespace Comms
     auto shad_str = fct::readFile( "glsl/text_vert.glsl" );
     auto shad_cstr = shad_str.c_str();
 
-    GLuint v_shad = glCreateShader( GL_VERTEX_SHADER );
+    UInt v_shad = glCreateShader( GL_VERTEX_SHADER );
     glShaderSource( v_shad, 1, &shad_cstr, NULL );
     glCompileShader( v_shad );
 
     shad_str = fct::readFile( "glsl/text_frag.glsl" );
     shad_cstr = shad_str.c_str();
 
-    GLuint f_shad = glCreateShader( GL_FRAGMENT_SHADER );
+    UInt f_shad = glCreateShader( GL_FRAGMENT_SHADER );
     glShaderSource( f_shad, 1, &shad_cstr, NULL );
     glCompileShader( f_shad );
 
@@ -50,9 +50,9 @@ namespace Comms
     glUseProgram( _glob.gl_prog );
 
     Mat4 projection = glm::ortho( 0.f,
-                                       static_cast<GLfloat>( _glob.win_w ),
-                                       0.f,
-                                       static_cast<GLfloat>( _glob.win_h ) );
+                                  static_cast<Float>( _glob.win_w ),
+                                  0.f,
+                                  static_cast<Float>( _glob.win_h ) );
 
     glUniformMatrix4fv( glGetUniformLocation( _glob.gl_prog, "projection" ),
                         1,
@@ -67,10 +67,10 @@ namespace Comms
 
     glBindVertexArray( _glob.text_VAO );
       glBindBuffer( GL_ARRAY_BUFFER, _glob.text_VBO );
-      glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
+      glBufferData( GL_ARRAY_BUFFER, sizeof(Float) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
 
     glEnableVertexAttribArray( 0 );
-    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0 );
+    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(Float), 0 );
   }};
 
   // Prog_Win ::

@@ -30,7 +30,7 @@ namespace Comms
       }
 
       // Generate texture
-      GLuint texture;
+      UInt texture;
       glGenTextures( 1, &texture );
       glBindTexture( GL_TEXTURE_2D, texture );
       glTexImage2D(
@@ -59,7 +59,7 @@ namespace Comms
         _glob.ft_face->glyph->advance.x
       };
 
-      _glob.chrs.insert( std::pair<GLchar, Character>( i, chr ) );
+      _glob.chrs.insert( std::pair<Char, Character>( i, chr ) );
     }
     glBindTexture( GL_TEXTURE_2D, 0 );
 

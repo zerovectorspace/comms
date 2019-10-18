@@ -46,7 +46,7 @@ namespace Comms
    * Character :: Holds texture of character
    */
   struct Character {
-    GLuint     texture_id;
+    UInt     texture_id;
     IVec2 size;
     IVec2 bearing;
     Long       adv;
