@@ -29,32 +29,32 @@ namespace Comms
     glShaderSource( f_shad, 1, &shad_cstr, NULL );
     glCompileShader( f_shad );
 
-    _glob.gl_prog = glCreateProgram();
-    glAttachShader( _glob.gl_prog, v_shad );
-    glAttachShader( _glob.gl_prog, f_shad );
-    glLinkProgram( _glob.gl_prog );
+    _g.gl_prog = glCreateProgram();
+    glAttachShader( _g.gl_prog, v_shad );
+    glAttachShader( _g.gl_prog, f_shad );
+    glLinkProgram( _g.gl_prog );
 
     glDeleteShader( v_shad );
     glDeleteShader( f_shad );
   }};
 
   template <> struct Prog_Win<Dimensions> { Prog_Win() {
-    SDL_GetWindowSize( _glob.win, &_glob.win_w, &_glob.win_h );
+    SDL_GetWindowSize( _g.win, &_g.win_w, &_g.win_h );
   }};
 
   template <> struct Prog_Win<Viewport> { Prog_Win() {
-    glViewport( 0, 0, _glob.win_w, _glob.win_h );
+    glViewport( 0, 0, _g.win_w, _g.win_h );
   }};
 
   template <> struct Prog_Win<Projection> { Prog_Win() {
-    glUseProgram( _glob.gl_prog );
+    glUseProgram( _g.gl_prog );
 
     Mat4 projection = glm::ortho( 0.f,
-                                  static_cast<Float>( _glob.win_w ),
+                                  static_cast<Float>( _g.win_w ),
                                   0.f,
-                                  static_cast<Float>( _glob.win_h ) );
+                                  static_cast<Float>( _g.win_h ) );
 
-    glUniformMatrix4fv( glGetUniformLocation( _glob.gl_prog, "projection" ),
+    glUniformMatrix4fv( glGetUniformLocation( _g.gl_prog, "projection" ),
                         1,
                         GL_FALSE,
                         glm::value_ptr( projection ) );
@@ -62,11 +62,11 @@ namespace Comms
 
   template <> struct Prog_Win<Buffers> { Prog_Win() {
     // Configure VAO/VBO for texture quads
-    glGenVertexArrays( 1, &_glob.text_VAO );
-    glGenBuffers( 1, &_glob.text_VBO );
+    glGenVertexArrays( 1, &_g.text_VAO );
+    glGenBuffers( 1, &_g.text_VBO );
 
-    glBindVertexArray( _glob.text_VAO );
-      glBindBuffer( GL_ARRAY_BUFFER, _glob.text_VBO );
+    glBindVertexArray( _g.text_VAO );
+      glBindBuffer( GL_ARRAY_BUFFER, _g.text_VBO );
       glBufferData( GL_ARRAY_BUFFER, sizeof(Float) * 6 * 4, NULL, GL_DYNAMIC_DRAW );
 
     glEnableVertexAttribArray( 0 );
@@ -83,9 +83,9 @@ namespace Comms
       return;
     }
 
-    _glob.win = SDL_CreateWindow( "comms"
+    _g.win = SDL_CreateWindow( "comms"
                                 , SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
-                                , _glob.win_w, _glob.win_h
+                                , _g.win_w, _g.win_h
                                 , SDL_WINDOW_OPENGL
                                 | SDL_WINDOW_SHOWN
                                 | SDL_WINDOW_BORDERLESS
@@ -93,21 +93,21 @@ namespace Comms
                                 | SDL_WINDOW_RESIZABLE 
                                 | SDL_WINDOW_MAXIMIZED );
 
-    if ( ! _glob.win )
+    if ( ! _g.win )
     {
       fct::print( "ERROR: SDL_CreateWindow" );
       return;
     }
 
-    _glob.ren = SDL_CreateRenderer( _glob.win
+    _g.ren = SDL_CreateRenderer( _g.win
                                   , -1
                                   , SDL_RENDERER_ACCELERATED
                                   | SDL_RENDERER_PRESENTVSYNC );
 
-    if ( ! _glob.ren )
+    if ( ! _g.ren )
     {
       fct::print( "ERROR: SDL_CreateRenderer" );
-      SDL_DestroyWindow( _glob.win );
+      SDL_DestroyWindow( _g.win );
       SDL_Quit();
       return;
     }

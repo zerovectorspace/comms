@@ -21,11 +21,11 @@ namespace Comms
         Exec<Prog_Win<Dimensions>,
              Prog_Win<Viewport>,
              Prog_Win<Projection>>{}();
-        _glob.redraw = true;
+        _g.redraw = true;
 
         break;
       case SDL_WINDOWEVENT_RESTORED:
-        _glob.redraw = true;
+        _g.redraw = true;
 
         break;
       case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -52,7 +52,7 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_RETURN:
-        if ( _glob.mode == MODE::Text_Input )
+        if ( _g.mode == MODE::Text_Input )
         {
           Buffer<New_Line>{};
           break;
@@ -63,10 +63,10 @@ namespace Comms
          */
 
         // Clear line for text entry
-        _glob.buf->clear();
-        _glob.redraw = true;
-        _glob.curs.pos.x = _glob.pad_x;
-        _glob.mode = MODE::Text_Input;
+        _g.buf->clear();
+        _g.redraw = true;
+        _g.curs.pos.x = _g.pad_x;
+        _g.mode = MODE::Text_Input;
 
         break;
 
@@ -85,31 +85,31 @@ namespace Comms
      */
     
     // Start Command
-    if ( _glob.buf->empty() && ch == ':' )
+    if ( _g.buf->empty() && ch == ':' )
     {
       Buffer<Backspace>{};
-      Buffer<String>{ _glob.cmd_prompt };
+      Buffer<String>{ _g.cmd_prompt };
 
-      _glob.redraw = true;
-      _glob.mode = MODE::Command;
+      _g.redraw = true;
+      _g.mode = MODE::Command;
 
       return;
     }
 
     Buffer<Char>{ ch };
-    Render<Char>{ ch, _glob.curs.pos };
+    Render<Char>{ ch, _g.curs.pos };
   }};
 
   // Event Polling :: handles input
   template <> struct Event<Poll> { Event() {
     SDL_Event ev;
 
-    while ( _glob.is_running && SDL_PollEvent( &ev ) )
+    while ( _g.is_running && SDL_PollEvent( &ev ) )
     {
       switch( ev.type )
       {
         case SDL_QUIT:
-          _glob.is_running = false;
+          _g.is_running = false;
 
           break;
 

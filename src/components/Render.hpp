@@ -15,11 +15,11 @@ namespace Comms
   }};
 
   template <> struct Render<Swap> { Render() {
-    SDL_GL_SwapWindow( _glob.win );
+    SDL_GL_SwapWindow( _g.win );
   }};
 
-  template <> struct Render<Char> { Render( Char const c, UVec2& pos, Vec3 const& color = _glob.font_color ) {
-    Character ch = _glob.chrs[ c ];
+  template <> struct Render<Char> { Render( Char const c, UVec2& pos, Vec3 const& color = _g.font_color ) {
+    Character ch = _g.chrs[ c ];
 
     Float xpos = pos.x + ch.bearing.x;
     Float ypos = pos.y - (ch.size.y - ch.bearing.y);
@@ -38,17 +38,17 @@ namespace Comms
       { xpos + w, ypos + h,   1.0, 0.0 }           
     };
 
-    glUseProgram( _glob.gl_prog );
+    glUseProgram( _g.gl_prog );
 
     // color -> gl( text_color )
-    glUniform3f( glGetUniformLocation( _glob.gl_prog, "text_color" ), color.x, color.y, color.z );
-    glBindVertexArray( _glob.text_VAO );
+    glUniform3f( glGetUniformLocation( _g.gl_prog, "text_color" ), color.x, color.y, color.z );
+    glBindVertexArray( _g.text_VAO );
 
     // Render glyph texture over quad
     glBindTexture( GL_TEXTURE_2D, ch.texture_id );
 
-    // Update content of _glob.VBO memory
-    glBindBuffer( GL_ARRAY_BUFFER, _glob.text_VBO );
+    // Update content of _g.VBO memory
+    glBindBuffer( GL_ARRAY_BUFFER, _g.text_VBO );
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof( vertices ), vertices );
 
     // Render quad
@@ -61,31 +61,31 @@ namespace Comms
   }};
 
   template <> struct Render<Buffers,Asc> { Render() {
-    if ( ! _glob.redraw )
+    if ( ! _g.redraw )
       return;
 
     Render<Background>{};
 
-    UVec2 pos = { _glob.pad_x, _glob.pad_y };
+    UVec2 pos = { _g.pad_x, _g.pad_y };
 
-    for ( Int i = _glob.bufs.size() - 1 ; i >= 0 ; i-- )
+    for ( Int i = _g.bufs.size() - 1 ; i >= 0 ; i-- )
     {
       // Set cursor back to the left
-      pos.x = _glob.pad_x;
+      pos.x = _g.pad_x;
 
-      for ( auto const& ch : _glob.bufs[ i ] )
+      for ( auto const& ch : _g.bufs[ i ] )
       {
         Render<Char>{ ch, pos };
       }
 
       // Go to next line
-      pos.y += _glob.line_height;
+      pos.y += _g.line_height;
 
-      if ( (Int) pos.y > _glob.win_h )
+      if ( (Int) pos.y > _g.win_h )
         break;
     }
 
-    _glob.redraw = false;
+    _g.redraw = false;
   }};
 }
 

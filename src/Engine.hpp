@@ -24,9 +24,9 @@ namespace Comms
   template <> struct Engine<Main_Loop> { Engine() {
     Render<Background>{};
 
-    _glob.curs.pos = { _glob.pad_x, _glob.pad_y };
+    _g.curs.pos = { _g.pad_x, _g.pad_y };
 
-    while ( _glob.is_running )
+    while ( _g.is_running )
     {
       Exec<
         Event<Poll>,

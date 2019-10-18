@@ -11,43 +11,43 @@ namespace Comms
 
   // Get current cursor position
   template <> struct Buffer<Cursor,Pos> { Buffer() {
-    _glob.curs.pos.x = _glob.pad_x;
-    for ( auto const& c : *_glob.buf )
+    _g.curs.pos.x = _g.pad_x;
+    for ( auto const& c : *_g.buf )
     {
-      Character ch = _glob.chrs[ c ];
-      _glob.curs.pos.x += (ch.adv >> 6);
+      Character ch = _g.chrs[ c ];
+      _g.curs.pos.x += (ch.adv >> 6);
     }
   }};
 
   template <> struct Buffer<New_Line> { Buffer() {
-    _glob.bufs.push_back( String{} );
-    _glob.buf = &_glob.bufs.back();
+    _g.bufs.push_back( String{} );
+    _g.buf = &_g.bufs.back();
 
-    _glob.curs.pos.x = _glob.pad_x;
-    _glob.curs.pos.y = _glob.pad_y;
+    _g.curs.pos.x = _g.pad_x;
+    _g.curs.pos.y = _g.pad_y;
 
-    _glob.redraw = true;
+    _g.redraw = true;
   }};
 
   template <> struct Buffer<Backspace> { Buffer() {
-    UInt min_ch = (_glob.mode == MODE::Command) ? _glob.cmd_prompt.size() : 0;
+    UInt min_ch = (_g.mode == MODE::Command) ? _g.cmd_prompt.size() : 0;
 
-    if ( _glob.buf->size() == min_ch )
+    if ( _g.buf->size() == min_ch )
       return;
 
-    _glob.buf->pop_back();
+    _g.buf->pop_back();
 
     Buffer<Cursor,Pos>{};
 
-    _glob.redraw = true;
+    _g.redraw = true;
   }};
 
   template <> struct Buffer<Char> { Buffer( Char ch ) {
-    _glob.buf->push_back( ch );
+    _g.buf->push_back( ch );
   }};
 
   template <> struct Buffer<String> { Buffer( String const& ch ) {
-    _glob.buf->insert( _glob.buf->begin(), ch.begin(), ch.end() );
+    _g.buf->insert( _g.buf->begin(), ch.begin(), ch.end() );
 
     Buffer<Cursor,Pos>{};
   }};

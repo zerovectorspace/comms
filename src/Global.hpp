@@ -81,7 +81,7 @@ namespace Comms
   /***
    * Global data object
    */
-  Global _glob{};
+  Global _g{};
 }
 
 #endif
