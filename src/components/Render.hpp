@@ -9,9 +9,14 @@ namespace Comms
 
   }};
 
-  template <> struct Render<Background> { Render() {
+  template <> struct Render<Win,Background> { Render() {
+    glEnable( GL_SCISSOR_TEST );
+    glScissor( 0, 0, _g.win_w, _g.win_h );
+
     glClearColor( 0.157f, 0.157f, 0.157f, 1.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    glDisable( GL_SCISSOR_TEST );
   }};
 
   template <> struct Render<Swap> { Render() {
@@ -64,7 +69,7 @@ namespace Comms
     if ( ! _g.vwin->redraw )
       return;
 
-    Render<Background>{};
+    Render<Win,Background>{};
 
     UVec2 pos = { _g.pad_x, _g.pad_y };
 
