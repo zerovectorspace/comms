@@ -51,6 +51,7 @@ set(
     src/components/Pane.hpp
     src/components/Prog_Win.hpp
     src/components/Render.hpp
+    src/components/VWin.hpp
 
     src/commands/Command.hpp
     src/commands/Include.hpp

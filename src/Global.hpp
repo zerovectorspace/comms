@@ -73,9 +73,10 @@ namespace Comms
     Cursor curs{};
 
     /***
-     * WPanes :: Holds all window panes
+     * VWins :: Holds all VWindows
      */
-    Vec<WPane> panes{};
+    Vec<VWindow> vwins{};
+    VWindow* vwin = nullptr;
   };
 
   /***

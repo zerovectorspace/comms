@@ -6,5 +6,6 @@
 #include "src/components/Font.hpp"
 #include "src/components/Prog_Win.hpp"
 #include "src/components/Render.hpp"
+#include "src/components/VWin.hpp"
 
 #endif

@@ -70,29 +70,20 @@ namespace Comms
   };
 
   /*
-   * WPane :: Window pane 
+   * VWindow :: Virtual Window
+   * 
+   * Covers the entire window, holds Panes
    */
-  struct WPane
+  struct VWindow
   {
     bool redraw = false;
 
-    UVec2 pos = { 0, 0 };
-    UVec2 dim = { 0, 0 };
-
     /***
      * Cursor
+     *
+     * Cursor will be in the pane in the future
      */
     Cursor curs{};
-
-    /***
-     * Font
-     */
-    Vec4 bg_color = { 0.157f, 0.157f, 0.157f, 1.0f };
-    Vec3 font_color = { 0.921, 0.859, 0.698 };
-    UInt font_size = 16;
-    UInt pad_x = 5;
-    UInt pad_y = font_size / 4;
-    UInt line_height = font_size + pad_y / 2;
 
     /***
      * Buffer :: Holds all text

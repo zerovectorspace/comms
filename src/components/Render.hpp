@@ -61,19 +61,19 @@ namespace Comms
   }};
 
   template <> struct Render<Buffers,Asc> { Render() {
-    if ( ! _g.redraw )
+    if ( ! _g.vwin->redraw )
       return;
 
     Render<Background>{};
 
     UVec2 pos = { _g.pad_x, _g.pad_y };
 
-    for ( Int i = _g.bufs.size() - 1 ; i >= 0 ; i-- )
+    for ( Int i = _g.vwin->bufs.size() - 1 ; i >= 0 ; i-- )
     {
       // Set cursor back to the left
       pos.x = _g.pad_x;
 
-      for ( auto const& ch : _g.bufs[ i ] )
+      for ( auto const& ch : _g.vwin->bufs[ i ] )
       {
         Render<Char>{ ch, pos };
       }
@@ -85,7 +85,7 @@ namespace Comms
         break;
     }
 
-    _g.redraw = false;
+    _g.vwin->redraw = false;
   }};
 }
 

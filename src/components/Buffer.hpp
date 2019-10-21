@@ -11,43 +11,43 @@ namespace Comms
 
   // Get current cursor position
   template <> struct Buffer<Cursor,Pos> { Buffer() {
-    _g.curs.pos.x = _g.pad_x;
-    for ( auto const& c : *_g.buf )
+    _g.vwin->curs.pos.x = _g.pad_x;
+    for ( auto const& c : *_g.vwin->buf )
     {
       Character ch = _g.chrs[ c ];
-      _g.curs.pos.x += (ch.adv >> 6);
+      _g.vwin->curs.pos.x += (ch.adv >> 6);
     }
   }};
 
   template <> struct Buffer<New_Line> { Buffer() {
-    _g.bufs.push_back( String{} );
-    _g.buf = &_g.bufs.back();
+    _g.vwin->bufs.push_back( String{} );
+    _g.vwin->buf = &_g.vwin->bufs.back();
 
-    _g.curs.pos.x = _g.pad_x;
-    _g.curs.pos.y = _g.pad_y;
+    _g.vwin->curs.pos.x = _g.pad_x;
+    _g.vwin->curs.pos.y = _g.pad_y;
 
-    _g.redraw = true;
+    _g.vwin->redraw = true;
   }};
 
   template <> struct Buffer<Backspace> { Buffer() {
-    UInt min_ch = (_g.mode == MODE::Command) ? _g.cmd_prompt.size() : 0;
+    UInt min_ch = (_g.vwin->mode == MODE::Command) ? _g.cmd_prompt.size() : 0;
 
-    if ( _g.buf->size() == min_ch )
+    if ( _g.vwin->buf->size() == min_ch )
       return;
 
-    _g.buf->pop_back();
+    _g.vwin->buf->pop_back();
 
     Buffer<Cursor,Pos>{};
 
-    _g.redraw = true;
+    _g.vwin->redraw = true;
   }};
 
   template <> struct Buffer<Char> { Buffer( Char ch ) {
-    _g.buf->push_back( ch );
+    _g.vwin->buf->push_back( ch );
   }};
 
   template <> struct Buffer<String> { Buffer( String const& ch ) {
-    _g.buf->insert( _g.buf->begin(), ch.begin(), ch.end() );
+    _g.vwin->buf->insert( _g.vwin->buf->begin(), ch.begin(), ch.end() );
 
     Buffer<Cursor,Pos>{};
   }};

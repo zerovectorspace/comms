@@ -24,7 +24,7 @@ namespace Comms
   template <> struct Engine<Main_Loop> { Engine() {
     Render<Background>{};
 
-    _g.curs.pos = { _g.pad_x, _g.pad_y };
+    VWin<Init>{};
 
     while ( _g.is_running )
     {

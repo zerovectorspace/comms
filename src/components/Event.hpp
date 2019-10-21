@@ -21,11 +21,11 @@ namespace Comms
         Exec<Prog_Win<Dimensions>,
              Prog_Win<Viewport>,
              Prog_Win<Projection>>{}();
-        _g.redraw = true;
+        _g.vwin->redraw = true;
 
         break;
       case SDL_WINDOWEVENT_RESTORED:
-        _g.redraw = true;
+        _g.vwin->redraw = true;
 
         break;
       case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -52,7 +52,7 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_RETURN:
-        if ( _g.mode == MODE::Text_Input )
+        if ( _g.vwin->mode == MODE::Text_Input )
         {
           Buffer<New_Line>{};
           break;
@@ -63,10 +63,10 @@ namespace Comms
          */
 
         // Clear line for text entry
-        _g.buf->clear();
-        _g.redraw = true;
-        _g.curs.pos.x = _g.pad_x;
-        _g.mode = MODE::Text_Input;
+        _g.vwin->buf->clear();
+        _g.vwin->redraw = true;
+        _g.vwin->curs.pos.x = _g.pad_x;
+        _g.vwin->mode = MODE::Text_Input;
 
         break;
 
@@ -85,19 +85,19 @@ namespace Comms
      */
     
     // Start Command
-    if ( _g.buf->empty() && ch == ':' )
+    if ( _g.vwin->buf->empty() && ch == ':' )
     {
       Buffer<Backspace>{};
       Buffer<String>{ _g.cmd_prompt };
 
-      _g.redraw = true;
-      _g.mode = MODE::Command;
+      _g.vwin->redraw = true;
+      _g.vwin->mode = MODE::Command;
 
       return;
     }
 
     Buffer<Char>{ ch };
-    Render<Char>{ ch, _g.curs.pos };
+    Render<Char>{ ch, _g.vwin->curs.pos };
   }};
 
   // Event Polling :: handles input
