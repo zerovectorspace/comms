@@ -79,6 +79,6 @@ namespace Comms
 
     return time_str;
   }
-}
+} // namespace Comms
 
 #endif

@@ -47,6 +47,6 @@ namespace Comms
       Engine<Main_Loop>
     >{}();
   }};
-}
+} // namespace Comms
 
 #endif

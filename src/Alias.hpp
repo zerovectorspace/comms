@@ -35,6 +35,6 @@ namespace Comms
   using StdString = std::string;
 
   using Socket_Num = int;
-}
+} // namespace Comms
 
 #endif

@@ -83,6 +83,6 @@ namespace Comms
    * Global data object
    */
   Global _g{};
-}
+} // namespace Comms
 
 #endif

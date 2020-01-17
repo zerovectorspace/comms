@@ -8,6 +8,6 @@ namespace Comms
   template <typename... Ts> struct Window { Window() {
 
   }};
-}
+} // namespace Comms
 
 #endif

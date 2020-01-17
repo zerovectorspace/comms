@@ -96,6 +96,6 @@ namespace Comms
      */
     MODE mode = MODE::Text_Input;
   };
-}
+} // namespace Comms
 
 #endif

@@ -62,6 +62,6 @@ namespace Comms
       }
     }
   };
-}
+} // namespace Comms
 
 #endif

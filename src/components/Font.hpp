@@ -76,6 +76,6 @@ namespace Comms
 
     Font<Load>{};
   }};
-}
+} // namespace Comms
 
 #endif

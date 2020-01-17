@@ -15,6 +15,6 @@ namespace Comms
 
     _g.vwin->curs.pos = { _g.pad_x, _g.pad_y };
   }};
-}
+} // namespace Comms
 
 #endif

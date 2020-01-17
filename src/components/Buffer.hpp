@@ -51,6 +51,6 @@ namespace Comms
 
     Buffer<Cursor,Pos>{};
   }};
-}
+} // namespace Comms
 
 #endif

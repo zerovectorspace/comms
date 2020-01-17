@@ -38,5 +38,5 @@ namespace Comms
   class Unlock_Key{};
   class Viewport{};
   class Win{};
-}
+} // namespace Comms
 #endif

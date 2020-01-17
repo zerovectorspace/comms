@@ -13,6 +13,6 @@ namespace Comms
   template <> struct Command<Init> { Command() {
 
   }};
-}
+} // namespace Comms
 
 #endif

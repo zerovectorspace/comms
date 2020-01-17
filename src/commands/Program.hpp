@@ -14,6 +14,6 @@ namespace Comms
       "win <title>  Open window named <title>\n"
       "view <opts...> \n";
   }};
-}
+} // namespace Comms
 
 #endif

@@ -125,6 +125,6 @@ namespace Comms
          Prog_Win<Projection>,
          Prog_Win<Buffers>>{}();
   }};
-}
+} // namespace Comms
 
 #endif

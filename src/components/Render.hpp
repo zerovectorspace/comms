@@ -92,6 +92,6 @@ namespace Comms
 
     _g.vwin->redraw = false;
   }};
-}
+} // namespace Comms
 
 #endif

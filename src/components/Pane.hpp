@@ -8,6 +8,6 @@ namespace Comms
   template <typename... Ts> struct Pane { Pane() {
 
   }};
-}
+} // namespace Comms
 
 #endif
