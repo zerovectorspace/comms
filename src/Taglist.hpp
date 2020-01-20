@@ -13,6 +13,7 @@ namespace Comms
   class Background{};
   class Backspace{};
   class Buffers{};
+  class Clear{};
   class Commands{};
   class Dimensions{};
   class Dec{};

@@ -19,6 +19,13 @@ namespace Comms
     }
   }};
 
+  template <> struct Buffer<Clear> { Buffer() {
+    _g.vwin->buf->clear();
+    _g.vwin->redraw = true;
+    _g.vwin->curs.pos.x = _g.pad_x;
+    _g.vwin->mode = MODE::Text_Input;
+  }};
+
   template <> struct Buffer<New_Line> { Buffer() {
     _g.vwin->bufs.push_back( String{} );
     _g.vwin->buf = &_g.vwin->bufs.back();
