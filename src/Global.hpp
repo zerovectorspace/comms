@@ -5,10 +5,10 @@
 
 namespace Comms
 {
-  // using Command_Map      = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
-  using Command_Map      = std::unordered_map<StdString, void(*)(void)>;
+  using Command_Map      = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
   using Peer_Map         = std::unordered_map<Socket_Num, U_ptr<Peer>>;
   using Char_Texture_Map = std::unordered_map<Char, Character>;
+  using VWindow_Map      = std::unordered_map<StdString, VWindow>;
 
   struct Global
   {
@@ -76,7 +76,7 @@ namespace Comms
     /***
      * VWins :: Holds all VWindows
      */
-    Vec<VWindow> vwins{};
+    VWindow_Map vwins{};
     VWindow* vwin = nullptr;
   };
 

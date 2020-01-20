@@ -5,6 +5,8 @@
 
 namespace Comms
 {
+  #define Command_List [[maybe_unused]] std::vector<std::vector<char>>&&
+
   template <typename... Ts> struct Command { Command() {
 
   }};
@@ -26,12 +28,12 @@ namespace Comms
 
     if ( _g.lcl_comms.count( cmd ) )
     {
-      _g.lcl_comms.at( cmd )();
+      _g.lcl_comms.at( cmd )( std::move( fct::tail( cmds ) ) );
     }
     else
     {
       Buffer<Lines>{ fct::toStr( cmd.insert( 0, "\n*** Command not found: " ) ) };
-      _g.lcl_comms.at( "help" )();
+      _g.lcl_comms.at( "help" )( Vec<String>{} );
     }
 
     _g.vwin->mode = MODE::Text_Input;
@@ -39,9 +41,25 @@ namespace Comms
 
   // Command<Init> :: Define command maps
   template <> struct Command<Init> { Command() {
-    _g.lcl_comms.emplace( "help", [](){ Program<Commands>{}; } );
-    _g.lcl_comms.emplace( "quit", [](){ _g.is_running = false; } );
+    _g.lcl_comms.emplace( "help", []( Command_List cmds ){ Program<Commands>{}; } );
+
+    _g.lcl_comms.emplace( "win", []( Command_List cmds )
+    {
+      if ( cmds.empty() )
+        return;
+
+      auto vwin_name = fct::toStdStr( cmds.at( 0 ) );
+
+      VWin<New>{ vwin_name };
+    });
+
+    _g.lcl_comms.emplace( "quit", []( Command_List cmds ){ _g.is_running = false; } );
   }};
+
+  #ifdef Command_List
+    #undef Command_List
+  #endif
+
 } // namespace Comms
 
 #endif

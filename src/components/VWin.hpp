@@ -9,9 +9,23 @@ namespace Comms
 
   }};
 
+  template <> struct VWin<New> { VWin( StdString const& k ) {
+    if ( _g.vwins.count( k ) )
+    {
+      _g.vwin = &_g.vwins.at( k );
+      return;
+    }
+
+    auto [vwin, _] = _g.vwins.emplace( k, VWindow{} );
+    _g.vwin = &vwin->second;
+
+    _g.vwin->curs.pos = { _g.pad_x, _g.pad_y };
+    _g.vwin->redraw = true;
+  }};
+
   template <> struct VWin<Init> { VWin() {
-    _g.vwins.push_back( VWindow{} );
-    _g.vwin = &_g.vwins.back();
+    auto [vwin, _] = _g.vwins.emplace( "1", VWindow{} );
+    _g.vwin = &vwin->second;
 
     _g.vwin->curs.pos = { _g.pad_x, _g.pad_y };
   }};
