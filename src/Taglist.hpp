@@ -23,6 +23,7 @@ namespace Comms
   class Compile{};
   class Init{};
   class Keydown{};
+  class Lines{};
   class List{};
   class Load{};
   class Main_Loop{};
@@ -32,6 +33,7 @@ namespace Comms
   class Parse_Args{};
   class Poll{};
   class Pos{};
+  class Process{};
   class Projection{};
   class Run{};
   class Swap{};

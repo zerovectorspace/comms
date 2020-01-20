@@ -10,9 +10,14 @@ namespace Comms
   }};
 
   template <> struct Program<Commands> { Program() {
-    StdString cs = "help         View list of commands\n"
-      "win <title>  Open window named <title>\n"
-      "view <opts...> \n";
+    String cs = "--------------------------------------\n"
+                "help         View list of commands\n"
+                "win <title>  Open window named <title>\n"
+                "view <opts...> \n"
+                "quit         Quit the program\n"
+                "--------------------------------------\n\n"_s;
+
+    Buffer<Lines>{ cs };
   }};
 } // namespace Comms
 

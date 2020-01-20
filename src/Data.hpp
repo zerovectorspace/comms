@@ -64,7 +64,8 @@ namespace Comms
    */
   enum class MODE 
   {
-    Command,
+    Command_Input,
+    Command_Exec,
     KB_Shortcut,
     Text_Input
   };

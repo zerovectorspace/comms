@@ -37,7 +37,7 @@ namespace Comms
   }};
 
   template <> struct Buffer<Backspace> { Buffer() {
-    UInt min_ch = (_g.vwin->mode == MODE::Command) ? _g.cmd_prompt.size() : 0;
+    UInt min_ch = (_g.vwin->mode == MODE::Command_Input) ? _g.cmd_prompt.size() : 0;
 
     if ( _g.vwin->buf->size() == min_ch )
       return;

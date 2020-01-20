@@ -52,6 +52,7 @@ namespace Comms
       case SDLK_RGUI:
         break;
       case SDLK_RETURN:
+      {
         if ( _g.vwin->mode == MODE::Text_Input )
         {
           Buffer<New_Line>{};
@@ -61,14 +62,10 @@ namespace Comms
         /*
          * Process Command
          */
-
-        // Clear line for text entry
-        _g.vwin->buf->clear();
-        _g.vwin->redraw = true;
-        _g.vwin->curs.pos.x = _g.pad_x;
-        _g.vwin->mode = MODE::Text_Input;
+        _g.vwin->mode = MODE::Command_Exec;
 
         break;
+      }
 
       case SDLK_BACKSPACE:
         Buffer<Backspace>{};
@@ -91,7 +88,7 @@ namespace Comms
       Buffer<String>{ _g.cmd_prompt };
 
       _g.vwin->redraw = true;
-      _g.vwin->mode = MODE::Command;
+      _g.vwin->mode = MODE::Command_Input;
 
       return;
     }

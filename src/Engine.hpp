@@ -30,6 +30,7 @@ namespace Comms
     {
       Exec<
         Event<Poll>,
+        Command<Run>,
         Render<Buffers,Asc>,
         Render<Swap>
       >{}();
