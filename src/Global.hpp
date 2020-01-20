@@ -45,7 +45,7 @@ namespace Comms
     StdString ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
     UInt font_size = 16;
     UInt pad_x = 5;
-    UInt pad_y = font_size / 4;
+    UInt pad_y = font_size / 2;
     UInt line_height = font_size + pad_y / 2;
     Vec3 font_color = { 0.921, 0.859, 0.698 };
 
@@ -60,7 +60,7 @@ namespace Comms
     /***
      * Command prompt
      */
-    String cmd_prompt = "cmd > "_s;
+    String cmd_prompt = "cmd> "_s;
 
     /***
      * Input mode
