@@ -58,6 +58,17 @@ namespace Comms
 
     Buffer<Cursor,Pos>{};
   }};
+
+  template <> struct Buffer<Lines> { Buffer( String const& ch ) {
+    Vec<String> lines = fct::lines( ch );
+
+    for ( String l : lines )
+      _g.vwin->bufs.push_back( l );
+
+    _g.vwin->buf = &_g.vwin->bufs.back();
+
+    Buffer<Cursor,Pos>{};
+  }};
 } // namespace Comms
 
 #endif
