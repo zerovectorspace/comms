@@ -24,7 +24,8 @@ $ make main
 ## Features
 
 [x] OpenGL text rendering
-[] Multi-window positioning
+[x] Multiple Windows
+[] Split Windows
 [] Settings
 [] Sockets
 [] Protocol
