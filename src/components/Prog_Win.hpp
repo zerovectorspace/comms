@@ -73,6 +73,10 @@ namespace Comms
     glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(Float), 0 );
   }};
 
+  template <> struct Prog_Win<Kill> { Prog_Win() {
+    SDL_Quit();
+  }};
+
   // Prog_Win ::
   template <> struct Prog_Win<Init> { Prog_Win() {
     signal( SIGWINCH, resize );

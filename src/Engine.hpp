@@ -32,7 +32,7 @@ namespace Comms
       >{}();
     }
 
-    SDL_Quit();
+    Prog_Win<Kill>{};
   }};
 
   // Engine :: init
