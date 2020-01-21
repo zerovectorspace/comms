@@ -22,10 +22,6 @@ namespace Comms
 
   // Main Loop :: high level
   template <> struct Engine<Main_Loop> { Engine() {
-    Render<Background>{};
-
-    VWin<Init>{};
-
     while ( _g.is_running )
     {
       Exec<
@@ -45,6 +41,8 @@ namespace Comms
       Prog_Win<Init>,
       Font<Init>,
       Command<Init>,
+      VWin<Init>,
+      Render<Background>,
       Engine<Main_Loop>
     >{}();
   }};
