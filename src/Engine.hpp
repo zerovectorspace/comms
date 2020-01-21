@@ -31,8 +31,6 @@ namespace Comms
         Render<Swap>
       >{}();
     }
-
-    Prog_Win<Kill>{};
   }};
 
   // Engine :: init
@@ -43,7 +41,8 @@ namespace Comms
       Command<Init>,
       VWin<Init>,
       Render<Background>,
-      Engine<Main_Loop>
+      Engine<Main_Loop>,
+      Prog_Win<Kill>
     >{}();
   }};
 } // namespace Comms
