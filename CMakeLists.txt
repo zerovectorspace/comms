@@ -97,9 +97,9 @@ set_target_properties( Comms PROPERTIES LINKER_LANGUAGE CXX )
 
 set( CMAKE_EXE_LINKER_FLAGS  ${CMAKE_EXE_LINKER_FLAGS} )
 
-add_executable( main ${MAIN_FILES} )
+add_executable( comms ${MAIN_FILES} )
 target_link_libraries(
-    main
+    comms
     Comms
     m
     SDL2
@@ -109,7 +109,7 @@ target_link_libraries(
 )
 
 add_custom_command(
-    TARGET main POST_BUILD
+    TARGET comms POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink
-    ${CMAKE_SOURCE_DIR}/glsl $<TARGET_FILE_DIR:main>/glsl)
+    ${CMAKE_SOURCE_DIR}/glsl $<TARGET_FILE_DIR:comms>/glsl)
 
