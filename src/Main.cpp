@@ -17,6 +17,7 @@
  *                           | Font
  *                           | Prog_Win
  *                           | Render
+ *                           | Socket
  *                             ^- components/Include
  *                                ^- | Command
  *                                   | Program
