@@ -43,6 +43,15 @@
  *                                                   
  */
 
+auto help( char const* name )
+{
+  fct::print( "Usage:", ' ' );
+  fct::print( name, ' ' );
+  fct::print( "[OPTION...]\n\n"
+              "  -s Start the socket server\n"
+              "  -c Start the user client");
+}
+
 int main( int argc, char* argv[] )
 {
   using namespace Comms;
@@ -55,7 +64,8 @@ int main( int argc, char* argv[] )
   };
 
   auto cmds = Vec<Cmd>{
-    { "-s", true, [](){ fct::print("hello"); Engine<Server,Init>{}; } }
+    { "-s", true, [](){ Engine<Server,Init>{}; } },
+    { "-c", true, [](){ Engine<Init>{}; } }
   };
 
   for ( auto const& cmd : cmds )
@@ -72,6 +82,9 @@ int main( int argc, char* argv[] )
       }
     }
   }
+
+  /** No Engine was started */
+  help( ( argv[0] + 2 ) );
 
   end_exec: ; // end execution early
 }
