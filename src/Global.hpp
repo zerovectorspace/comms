@@ -25,6 +25,12 @@ namespace Comms
     Peer_Map peer_map{};
 
     /***
+     * Unix Socket Number
+     */
+    Int socket_unix = 0;
+    String socket_unix_filename = "comms.socket\0"_s;
+
+    /***
      * OpenGL
      */
     Int win_w = 800;
