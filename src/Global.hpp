@@ -25,9 +25,8 @@ namespace Comms
     Peer_Map peer_map{};
 
     /***
-     * Unix Socket Number
+     * Unix Socket
      */
-    Int socket_unix = 0;
     String socket_unix_filename = "comms.socket"_s;
 
     /***

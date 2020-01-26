@@ -36,6 +36,7 @@ namespace Comms
   // Engine :: init
   template <> struct Engine<Client,Init> { Engine() {
     Exec<
+      Socket<Connect,Unix>,
       Prog_Win<Init>,
       Font<Init>,
       Command<Init>,
@@ -56,7 +57,7 @@ namespace Comms
   template <> struct Engine<Server,Init> { Engine() {
     Exec<
       Socket<Listen,Unix>,
-      Engine<Server,Main_Loop>
+      Engine<Server,Loop>
     >{}();
   }};
 
