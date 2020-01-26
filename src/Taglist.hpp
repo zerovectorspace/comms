@@ -38,6 +38,7 @@ namespace Comms
   class Process{};
   class Projection{};
   class Run{};
+  class Server{};
   class Swap{};
   class Text{};
   class Unlock_Key{};

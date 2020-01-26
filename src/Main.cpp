@@ -43,8 +43,35 @@
  *                                                   
  */
 
-int main()
+int main( int argc, char* argv[] )
 {
   using namespace Comms;
-  Engine<Init>{};
+
+  struct Cmd
+  {
+    const char* flag;
+    bool kill = false;
+    void(*fn)(void);
+  };
+
+  auto cmds = Vec<Cmd>{
+    { "-s", true, [](){ fct::print("hello"); Engine<Server,Init>{}; } }
+  };
+
+  for ( auto const& cmd : cmds )
+  {
+    for ( int i = 0 ; i < argc ; i++ )
+    {
+      if (    strlen( argv[i] ) == strlen( cmd.flag )
+           && strncmp( argv[i], cmd.flag, strlen( cmd.flag ) ) == 0 )
+      {
+        (*cmd.fn)();
+
+        if ( cmd.kill )
+          goto end_exec;
+      }
+    }
+  }
+
+  end_exec: ; // end execution early
 }

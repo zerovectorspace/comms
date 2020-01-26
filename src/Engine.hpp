@@ -33,6 +33,10 @@ namespace Comms
     }
   }};
 
+  // Engine<Server,Init> :: Initialize the servers
+  template <> struct Engine<Server,Init> { Engine() {
+  }};
+
   // Engine :: init
   template <> struct Engine<Init> { Engine() {
     Exec<
