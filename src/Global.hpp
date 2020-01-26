@@ -6,7 +6,7 @@
 namespace Comms
 {
   using Command_Map      = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
-  using Peer_Map         = std::unordered_map<Socket_Num, U_ptr<Peer>>;
+  using Peer_Map         = std::unordered_map<Socket_Num, Peer>;
   using Char_Texture_Map = std::unordered_map<Char, Character>;
   using VWindow_Map      = std::unordered_map<StdString, VWindow>;
 

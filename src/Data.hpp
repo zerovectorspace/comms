@@ -25,10 +25,10 @@ namespace Comms
   struct Peer
   {
     // Used to protect mutable state
-    std::mutex mut{};
+    U_ptr<std::mutex> mut{};
 
     // Holds Connection Information for Peer
-    U_ptr<Connection> conn{};
+    Connection conn{};
 
     //Buffer for sending and recieving
     String buffer{ "EMPTY"_s };

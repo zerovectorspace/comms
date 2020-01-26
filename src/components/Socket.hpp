@@ -43,13 +43,23 @@ namespace Comms
       fct::print( fct::Str( std::strerror(error) ) );
     }
 
-    // Create Peer, add to Peer_Map
+    auto [pr, _] =
+      _g.peer_map.emplace( _g.socket_unix,
+           Peer{
+             nullptr,
+             Connection{
+               {},
+               pollfd{
+                 _g.socket_unix,
+                 POLLIN | POLLHUP | POLLERR,
+                 0 } },
+             {} } );
 
-    // struct pollfd poll_socket;
-    // poll_socket.fd = _g.socket_unix;
-    // poll_socket.events = POLLIN | POLLHUP | POLLERR;
-
-    // S->socket_vec.push_back(poll_socket);
+    /**
+     * Must set U_ptr after initialization
+     *   Mutex has deleted copy assignment
+     */
+    pr->second.mut.reset( new std::mutex() );
   }};
 
   template <> struct Socket<Connect,Unix> { Socket() {
