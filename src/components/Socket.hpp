@@ -31,8 +31,8 @@ namespace Comms
 
     try
     {
-      if ( unlink( _g.socket_unix_filename.data() ) == -1 )
-          throw errno;
+      unlink( _g.socket_unix_filename.data() );
+
       if ( bind( _g.socket_unix, (struct sockaddr*) &sock, sizeof( sock ) ) == -1 )
           throw errno;
       if ( listen( _g.socket_unix, 10 ) == -1 )
