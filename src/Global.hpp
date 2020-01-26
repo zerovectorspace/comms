@@ -28,7 +28,7 @@ namespace Comms
      * Unix Socket Number
      */
     Int socket_unix = 0;
-    String socket_unix_filename = "comms.socket\0"_s;
+    String socket_unix_filename = "comms.socket"_s;
 
     /***
      * OpenGL
