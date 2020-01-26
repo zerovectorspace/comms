@@ -14,8 +14,10 @@ namespace Comms
   class Backspace{};
   class Buffers{};
   class Clear{};
+  class Client{};
   class Commands{};
   class Compile{};
+  class Connect{};
   class Dec{};
   class Del{};
   class Dimensions{};
@@ -27,7 +29,9 @@ namespace Comms
   class Kill{};
   class Lines{};
   class List{};
+  class Listen{};
   class Load{};
+  class Loop{};
   class Main_Loop{};
   class New_Line{};
   class New{};
@@ -40,7 +44,10 @@ namespace Comms
   class Run{};
   class Server{};
   class Swap{};
+  class TCP{};
   class Text{};
+  class UDP{};
+  class Unix{};
   class Unlock_Key{};
   class Viewport{};
   class Win{};

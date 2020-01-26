@@ -65,7 +65,7 @@ int main( int argc, char* argv[] )
 
   auto cmds = Vec<Cmd>{
     { "-s", true, [](){ Engine<Server,Init>{}; } },
-    { "-c", true, [](){ Engine<Init>{}; } }
+    { "-c", true, [](){ Engine<Client,Init>{}; } }
   };
 
   for ( auto const& cmd : cmds )

@@ -21,7 +21,7 @@ namespace Comms
   }};
 
   // Main Loop :: high level
-  template <> struct Engine<Main_Loop> { Engine() {
+  template <> struct Engine<Client,Loop> { Engine() {
     while ( _g.is_running )
     {
       Exec<
@@ -33,22 +33,33 @@ namespace Comms
     }
   }};
 
-  // Engine<Server,Init> :: Initialize the servers
-  template <> struct Engine<Server,Init> { Engine() {
-  }};
-
   // Engine :: init
-  template <> struct Engine<Init> { Engine() {
+  template <> struct Engine<Client,Init> { Engine() {
     Exec<
       Prog_Win<Init>,
       Font<Init>,
       Command<Init>,
       VWin<Init>,
       Render<Background>,
-      Engine<Main_Loop>,
+      Engine<Client,Loop>,
       Prog_Win<Kill>
     >{}();
   }};
+
+  template <> struct Engine<Server,Loop> { Engine() {
+    while ( _g.is_running )
+    {
+    }
+  }};
+
+  // Engine<Server,Init> :: Initialize the servers
+  template <> struct Engine<Server,Init> { Engine() {
+    Exec<
+      Socket<Listen,Unix>,
+      Engine<Server,Main_Loop>
+    >{}();
+  }};
+
 } // namespace Comms
 
 #endif
