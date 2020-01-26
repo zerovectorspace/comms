@@ -1,21 +1,23 @@
 #ifndef COMMS_INCLUDE_HEADER
 #define COMMS_INCLUDE_HEADER
 
-#include <iostream>
-#include <memory>
-#include <thread>
-#include <mutex>
+#include <arpa/inet.h>
+#include <chrono>
 #include <cstring>
-#include <vector>
-#include <unordered_map>
-#include <poll.h>
-#include <chrono>
-#include <string>
-#include <sstream>
-#include <signal.h>
-#include <chrono>
 #include <ctime>
 #include <iomanip>
+#include <iostream>
+#include <memory>
+#include <mutex>
+#include <poll.h>
+#include <signal.h>
+#include <sstream>
+#include <string>
+#include <sys/un.h>
+#include <thread>
+#include <unistd.h>
+#include <unordered_map>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #define GLEW_STATIC
