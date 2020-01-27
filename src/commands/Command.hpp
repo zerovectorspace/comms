@@ -12,7 +12,7 @@ namespace Comms
   }};
 
   // Command<Run> :: Execute command in relevant Command_Map
-  template <> struct Command<Run> { Command() {
+  template <> struct Command<Client,Dispatch> { Command() {
     if ( _g.vwin->mode != MODE::Command_Exec )
       return;
 

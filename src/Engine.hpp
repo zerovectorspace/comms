@@ -33,7 +33,7 @@ namespace Comms
     {
       Exec<
         Event<Poll>,
-        Command<Run>,
+        Command<Client,Dispatch>,
         Render<Buffers,Asc>,
         Render<Swap>
       >{}();
@@ -58,6 +58,10 @@ namespace Comms
     while ( _g.is_running )
     {
       Socket<Poll,Dispatch>{};
+      // Protocol<Decode>{}; 
+      // Crypto<Decode>{};
+      // Command<Rcv,Dispatch>{};
+      // Command<Snd,Dispatch>{};
     }
   }};
 

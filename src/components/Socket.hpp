@@ -146,16 +146,6 @@ namespace Comms
     fct::print( new_socket );
   }};
 
-  template <> struct Socket<Poll> { Socket() {
-    int ret = poll( _g.socket_fds.data(), _g.socket_fds.size(), 500 );
-
-    if ( ret < 0 )
-    {
-      // _g.is_running = false;
-      return;
-    }
-  }};
-
   template <> struct Socket<Rcv,TCP> { Socket( Peer& p ) {
     Vec<Char> buffer;
     // Int total = 0;
@@ -200,6 +190,16 @@ namespace Comms
       // if (total > 16777216) break;
 
     } while ( (recv( socket, buffer.data(), BUFFER_SIZE, MSG_PEEK) > 0) && num_bytes > 0 );
+  }};
+
+  template <> struct Socket<Poll> { Socket() {
+    int ret = poll( _g.socket_fds.data(), _g.socket_fds.size(), 500 );
+
+    if ( ret < 0 )
+    {
+      // _g.is_running = false;
+      return;
+    }
   }};
 
   template <> struct Socket<Dispatch> { Socket( Peer& p ) {
