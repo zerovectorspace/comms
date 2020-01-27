@@ -95,7 +95,7 @@ add_subdirectory( ${CMAKE_SOURCE_DIR}/fct )
 add_library( Comms STATIC ${LIBRARY_FILES} )
 set_target_properties( Comms PROPERTIES LINKER_LANGUAGE CXX )
 
-set( CMAKE_EXE_LINKER_FLAGS  ${CMAKE_EXE_LINKER_FLAGS} )
+set( CMAKE_EXE_LINKER_FLAGS  ${CMAKE_EXE_LINKER_FLAGS} -lpthread )
 
 add_executable( comms ${MAIN_FILES} )
 target_link_libraries(
