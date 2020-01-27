@@ -19,6 +19,11 @@ namespace Comms
     struct pollfd* poll_socket = nullptr;
   };
 
+  enum class Buffer_Status
+  {
+    EMPTY, INPUT, OUTPUT
+  };
+
   /*
    * Peer :: Handle to Connection for comms
    */
@@ -29,6 +34,8 @@ namespace Comms
 
     // Holds Connection Information for Peer
     Connection conn{};
+
+    Buffer_Status buffer_stat = Buffer_Status::EMPTY;
 
     //Buffer for sending and recieving
     String buffer{ "EMPTY"_s };
