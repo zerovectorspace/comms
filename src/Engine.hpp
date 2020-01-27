@@ -13,13 +13,6 @@ namespace Comms
 
   }};
 
-  // Parse_Args :: splits input into a command and args
-  template <> struct Engine<Parse_Args> { Engine( String& command, Vec<String>& args ) {
-    auto w       = words( command );
-         args    = tail( w );
-         command = head( w );
-  }};
-
   // Main Loop :: high level
   template <> struct Engine<Client,Loop> { Engine() {
     std::thread{ [](){
