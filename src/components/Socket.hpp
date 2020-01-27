@@ -243,15 +243,6 @@ namespace Comms
     }
   }};
 
-  template <> struct Socket<Poll,Dispatch> { Socket() {
-    Socket<Poll>{};
-
-    for ( auto& [socket, peer] : _g.peer_map )
-    {
-      Socket<Dispatch>{ peer };
-    }
-  }};
-
 } // namespace Comms
 
 #endif

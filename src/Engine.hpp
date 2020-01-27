@@ -25,7 +25,14 @@ namespace Comms
     std::thread{ [](){
       while ( _g.is_running )
       {
-        Socket<Poll,Dispatch>{};
+        Socket<Poll>{};
+
+        for ( auto& [socket, peer] : _g.peer_map )
+        {
+          Exec<
+            Socket<Dispatch>
+          >{}( peer );
+        }
       }
     }}.detach();
 
@@ -57,11 +64,18 @@ namespace Comms
   template <> struct Engine<Server,Loop> { Engine() {
     while ( _g.is_running )
     {
-      Socket<Poll,Dispatch>{};
-      // Protocol<Decode>{}; 
-      // Crypto<Decode>{};
-      // Command<Rcv,Dispatch>{};
-      // Command<Snd,Dispatch>{};
+      Socket<Poll>{};
+
+      for ( auto& [socket, peer] : _g.peer_map )
+      {
+        Exec<
+          Socket<Dispatch>
+          // Protocol<Decode>
+          // Crypto<Decode>
+          // Command<Rcv,Dispatch>
+          // Command<Snd,Dispatch>
+        >{}( peer );
+      }
     }
   }};
 
