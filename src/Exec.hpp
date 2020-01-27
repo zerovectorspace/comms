@@ -26,13 +26,13 @@ namespace Comms
       ( Ts{ args... } , ... );
     }
 
-    auto operator () ( Peer* p )
+    auto operator () ( Peer& p )
     {
       // Protect peer from modification in other threads
-      ScopeLock lk{ *(p->mut) };
+      ScopeLock lk{ *(p.mut) };
 
       // Call each Functor in sequence
-      ( Ts{}( p ), ... );
+      ( Ts{ p }, ... );
     }
 
     auto operator () ()
