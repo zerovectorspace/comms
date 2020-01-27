@@ -22,6 +22,13 @@ namespace Comms
 
   // Main Loop :: high level
   template <> struct Engine<Client,Loop> { Engine() {
+    std::thread{ [](){
+      while ( _g.is_running )
+      {
+        Socket<Poll,Dispatch>{};
+      }
+    }}.detach();
+
     while ( _g.is_running )
     {
       Exec<
@@ -31,13 +38,6 @@ namespace Comms
         Render<Swap>
       >{}();
     }
-
-    std::thread{ [](){
-      while ( _g.is_running )
-      {
-        Socket<Poll,Dispatch>{};
-      }
-    }}.detach();
   }};
 
   // Engine :: init
