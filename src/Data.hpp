@@ -16,7 +16,7 @@ namespace Comms
   {
     /* ip:port */
     Vec<String> hostname{};
-    struct pollfd poll_socket;
+    struct pollfd* poll_socket = nullptr;
   };
 
   /*

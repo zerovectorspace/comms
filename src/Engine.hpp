@@ -31,6 +31,13 @@ namespace Comms
         Render<Swap>
       >{}();
     }
+
+    std::thread{ [](){
+      while ( _g.is_running )
+      {
+        Socket<Poll,Dispatch>{};
+      }
+    }}.detach();
   }};
 
   // Engine :: init
@@ -50,6 +57,7 @@ namespace Comms
   template <> struct Engine<Server,Loop> { Engine() {
     while ( _g.is_running )
     {
+      Socket<Poll,Dispatch>{};
     }
   }};
 

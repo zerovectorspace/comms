@@ -10,6 +10,7 @@
 namespace Comms
 {
   class Asc{};
+  class Accept{};
   class Background{};
   class Backspace{};
   class Buffers{};
@@ -21,6 +22,7 @@ namespace Comms
   class Dec{};
   class Del{};
   class Dimensions{};
+  class Dispatch{};
   class GLSL{};
   class GUI{};
   class Get_PW{};
