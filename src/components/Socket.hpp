@@ -73,8 +73,8 @@ namespace Comms
              _g.socket_unix_filename.data(),
              _g.socket_unix_filename.size() );
 
-    int new_socket;
-    if ((new_socket = socket(AF_UNIX, SOCK_STREAM, 0)) == -1)
+    int new_socket = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (new_socket == -1)
       return;
 
     try
@@ -106,8 +106,6 @@ namespace Comms
      *   Mutex has deleted copy assignment
      */
     pr->second.mut.reset( new std::mutex() );
-
-    // send( new_socket, "hello", 6, 0 );
   }};
 
   template <> struct Socket<Accept,Unix> { Socket() {
@@ -158,6 +156,52 @@ namespace Comms
     }
   }};
 
+  template <> struct Socket<Rcv,TCP> { Socket( Peer& p ) {
+    Vec<Char> buffer;
+    // Int total = 0;
+    Int num_bytes = 0;
+    auto socket = p.conn.poll_socket->fd;
+
+    fcntl( socket, F_SETFL, O_NONBLOCK );
+
+    auto BUFFER_SIZE = 4096;
+
+    buffer.resize( BUFFER_SIZE, '\0' );
+    p.buffer.clear();
+    do
+    {
+      if (buffer.front() != '\0')
+        buffer.resize( BUFFER_SIZE, '\0' );
+
+      num_bytes = (int) recv( socket, buffer.data(), BUFFER_SIZE, 0 );
+
+      p.buffer.reserve( p.buffer.size() + num_bytes + 2 );
+
+      /*
+       * Search to one before the end
+       * if not found, return end
+       * else return one after the
+       * first null term byte found
+       */
+      auto second_null_byte = std::find( buffer.begin(), buffer.end() - 1, '\0' ) + 1;
+
+      p.buffer.insert( p.buffer.end(), buffer.begin(), second_null_byte );
+
+      /*
+       * We need this in case we fill up the buffer
+       * If there is still data in the last position
+       * of buffer, then we still need a '\0' at the
+       * end
+       */
+      if ( second_null_byte == buffer.end() - 1 )
+          p.buffer.push_back( '\0' );
+
+      // total += num_bytes;
+      // if (total > 16777216) break;
+
+    } while ( (recv( socket, buffer.data(), BUFFER_SIZE, MSG_PEEK) > 0) && num_bytes > 0 );
+  }};
+
   template <> struct Socket<Dispatch> { Socket( Peer& p ) {
     auto& socket = *p.conn.poll_socket;
 
@@ -176,7 +220,7 @@ namespace Comms
       else
       {
         // Receive TCP packet
-        // fct::print( "Received TCP packet" );
+        Socket<Rcv,TCP>{ p };
       }
     }
 
@@ -207,7 +251,6 @@ namespace Comms
       Socket<Dispatch>{ peer };
     }
   }};
-
 
 } // namespace Comms
 

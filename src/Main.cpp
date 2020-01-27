@@ -19,9 +19,9 @@
  *                           | Render
  *                           | Socket
  *                             ^- components/Include
- *                                ^- | Command
- *                                   | Program
+ *                                ^- | Program
  *                                   | Window
+ *                                   | Command
  *                                     ^- commands/Include
  *                                        ^- Engine
  *                                           ^- main

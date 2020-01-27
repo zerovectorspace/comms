@@ -43,6 +43,7 @@ namespace Comms
   class Pos{};
   class Process{};
   class Projection{};
+  class Rcv{};
   class Run{};
   class Server{};
   class Swap{};
