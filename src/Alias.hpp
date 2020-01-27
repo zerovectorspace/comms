@@ -32,7 +32,7 @@ namespace Comms
   using U_ptr = std::unique_ptr<T>;
 
   using String = std::vector<Char>;
-  using StdString = std::string;
+  using StdStr = std::string;
 
   using Socket_Num = int;
 } // namespace Comms

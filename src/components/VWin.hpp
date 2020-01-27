@@ -9,7 +9,7 @@ namespace Comms
 
   }};
 
-  template <> struct VWin<New> { VWin( StdString const& k ) {
+  template <> struct VWin<New> { VWin( StdStr const& k ) {
     if ( _g.vwins.count( k ) )
     {
       _g.vwin = &_g.vwins.at( k );

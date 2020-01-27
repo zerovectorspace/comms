@@ -5,10 +5,10 @@
 
 namespace Comms
 {
-  using Command_Map      = std::unordered_map<StdString, void(*)( Vec<String>&& )>;
+  using Command_Map      = std::unordered_map<StdStr, void(*)( Vec<String>&& )>;
   using Peer_Map         = std::unordered_map<Socket_Num, Peer>;
   using Char_Texture_Map = std::unordered_map<Char, Character>;
-  using VWindow_Map      = std::unordered_map<StdString, VWindow>;
+  using VWindow_Map      = std::unordered_map<StdStr, VWindow>;
 
   struct Global
   {
@@ -51,7 +51,7 @@ namespace Comms
      */
     FT_Library ft_lib{};
     FT_Face ft_face{};
-    StdString ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
+    StdStr ft_file = "/usr/share/fonts/TTF/DejaVuSansMono.ttf";
     UInt font_size = 16;
     UInt pad_x = 5;
     UInt pad_y = font_size / 2;

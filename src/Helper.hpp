@@ -15,14 +15,14 @@ namespace Comms
     return String{ x, x + s };
   }
 
-  // toStdStr :: String -> StdString
-  auto toStdStr( String const& xs ) -> StdString
+  // toStdStr :: String -> StdStr
+  auto toStdStr( String const& xs ) -> StdStr
   {
-    return StdString{ begin( xs ), end( xs ) };
+    return StdStr{ begin( xs ), end( xs ) };
   }
 
-  // toStr :: StdString -> String
-  auto toStr( StdString const& x ) -> String
+  // toStr :: StdStr -> String
+  auto toStr( StdStr const& x ) -> String
   {
     return String{ begin( x ), end( x ) };
   }
