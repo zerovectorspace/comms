@@ -23,6 +23,7 @@ namespace Comms
   class Del{};
   class Dimensions{};
   class Dispatch{};
+  class Garbage{};
   class GLSL{};
   class GUI{};
   class Get_PW{};

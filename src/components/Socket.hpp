@@ -54,7 +54,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, &_g.socket_fds.back() },
+             Connection{ {}, false, &_g.socket_fds.back() },
              {} } );
 
     /**
@@ -98,7 +98,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, &_g.socket_fds.back() },
+             Connection{ {}, false, &_g.socket_fds.back() },
              {} } );
 
     /**
@@ -133,7 +133,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, &_g.socket_fds.back() },
+             Connection{ {}, false, &_g.socket_fds.back() },
              {} } );
 
     /**
@@ -220,6 +220,7 @@ namespace Comms
       else
       {
         // Receive TCP packet
+        fct::print( "Received TCP Packet" );
         Socket<Rcv,TCP>{ p };
       }
     }
@@ -233,7 +234,8 @@ namespace Comms
     if ( socket.revents & POLLHUP )
     {
       // Received a hang up
-      // fct::print( "Received POLLHUP" );
+      p.conn.is_garbage = true;
+      fct::print( "Received POLLHUP" );
     }
 
     if ( socket.revents & POLLERR )
@@ -241,6 +243,33 @@ namespace Comms
       // Received an error
       // fct::print( "Received POLLERR" );
     }
+  }};
+
+  template <> struct Socket<Garbage> { Socket() {
+    auto sockets = Vec<Socket_Num>{}; 
+
+    for ( auto const& pr : _g.peer_map )
+    {
+      auto& s = pr.first;
+      auto& p = pr.second;
+
+      if ( p.conn.is_garbage )
+      {
+        /*
+         * Keep track of garbage
+         *   to remove from Peer_Map
+         */
+        sockets.push_back( s );
+
+        // It's ok to remove the pollfd's
+        std::erase_if( _g.socket_fds,
+          [&s]( auto const& poll_socket ){
+            return poll_socket.fd == s; } );
+      }
+    }
+
+    for ( auto const& s : sockets )
+      _g.peer_map.erase( s );
   }};
 
 } // namespace Comms

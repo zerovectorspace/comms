@@ -16,6 +16,7 @@ namespace Comms
   {
     /* ip:port */
     Vec<String> hostname{};
+    Bool is_garbage = false;
     struct pollfd* poll_socket = nullptr;
   };
 
@@ -35,6 +36,7 @@ namespace Comms
     // Holds Connection Information for Peer
     Connection conn{};
 
+    // Buffer state for recv and send
     Buffer_Status buffer_stat = Buffer_Status::EMPTY;
 
     //Buffer for sending and recieving
