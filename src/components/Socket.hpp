@@ -47,14 +47,16 @@ namespace Comms
     fct::print( "Listening on local unix socket", ' ' );
     fct::print( new_socket );
 
-    _g.socket_fds.push_back( pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+    auto& fd = _g.socket_fds.emplace_back(
+                 pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
     _g.socket_unix = new_socket;
 
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &_g.socket_fds.back() },
+             Connection{ {}, false, &fd },
+             Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -84,21 +86,22 @@ namespace Comms
     }
     catch ( int error )
     {
-      fct::print( fct::Str( std::strerror(error) ) );
       return;
     }
 
     fct::print( "Connected to local unix socket", ' ' );
-    fct::print( _g.socket_unix_filename );
+    fct::print( new_socket );
 
-    _g.socket_fds.push_back( pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+    auto& fd = _g.socket_fds.emplace_back(
+                 pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
     _g.socket_unix = new_socket;
 
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &_g.socket_fds.back() },
+             Connection{ {}, false, &fd },
+             Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -124,16 +127,18 @@ namespace Comms
       return;
     }
 
-    fct::print( "Accepted to connection on ", ' ' );
-    fct::print( _g.socket_unix_filename );
+    fct::print( "Accepted new connection on ", ' ' );
+    fct::print( _g.socket_unix );
 
-    _g.socket_fds.push_back( pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+    auto& fd = _g.socket_fds.emplace_back(
+                 pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
 
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &_g.socket_fds.back() },
+             Connection{ {}, false, &fd },
+             Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -150,7 +155,7 @@ namespace Comms
     Vec<Char> buffer;
     // Int total = 0;
     Int num_bytes = 0;
-    auto socket = p.conn.poll_socket->fd;
+    auto socket = p.conn.poll_fd->fd;
 
     fcntl( socket, F_SETFL, O_NONBLOCK );
 
@@ -197,25 +202,25 @@ namespace Comms
 
     if ( ret < 0 )
     {
-      // _g.is_running = false;
+      _g.is_running = false;
       return;
     }
   }};
 
   template <> struct Socket<Dispatch> { Socket( Peer& p ) {
-    auto& socket = *p.conn.poll_socket;
+    auto socket = p.conn.poll_fd;
 
-    if ( socket.revents & POLLIN )
+    if ( socket->revents & POLLIN )
     {
-      if ( socket.fd == _g.socket_unix )
+      if ( socket->fd == _g.socket_unix )
       {
         // Accept local connection
         Socket<Accept,Unix>{};
       }
-      else if ( socket.fd == _g.socket_udp )
+      else if ( socket->fd == _g.socket_udp )
       {
         // Receive UDP packet
-        // fct::print( "Received UDP packet" );
+        fct::print( "Received UDP packet" );
       }
       else
       {
@@ -225,23 +230,33 @@ namespace Comms
       }
     }
 
-    if ( socket.revents & POLLOUT )
+    if ( socket->revents & POLLOUT )
     {
       // Nothing
-      // fct::print( "Received POLLOUT" );
+      fct::print( "Received POLLOUT" );
     }
 
-    if ( socket.revents & POLLHUP )
+    if ( socket->revents & POLLHUP )
     {
       // Received a hang up
       p.conn.is_garbage = true;
-      fct::print( "Received POLLHUP" );
+      fct::print( "Received POLLHUP on socket", ' ' );
+      fct::print( socket->fd );
     }
 
-    if ( socket.revents & POLLERR )
+    if ( socket->revents & POLLERR )
     {
       // Received an error
-      // fct::print( "Received POLLERR" );
+      fct::print( "Received POLLERR" );
+    }
+  }};
+
+  template <> struct Socket<Close> { Socket() {
+    for ( auto const& pr : _g.peer_map )
+    {
+      auto& socket = pr.first;
+      shutdown( socket, SHUT_RDWR );
+      close( socket );
     }
   }};
 
@@ -260,6 +275,11 @@ namespace Comms
          *   to remove from Peer_Map
          */
         sockets.push_back( s );
+        fct::print( "Removing socket", ' ' );
+        fct::print( s );
+
+        // Set clients unix socket to closed
+        _g.socket_unix = _g.socket_unix == s ? -1 : _g.socket_unix;
 
         // It's ok to remove the pollfd's
         std::erase_if( _g.socket_fds,
@@ -269,7 +289,19 @@ namespace Comms
     }
 
     for ( auto const& s : sockets )
+    {
+      shutdown( s, SHUT_RDWR );
+      close( s );
       _g.peer_map.erase( s );
+    }
+  }};
+
+  template <> struct Socket<Init> { Socket() {
+    /**
+     * If the vector resizes
+     *   all references are invalidated
+     */
+    _g.socket_fds.reserve( 1024 );
   }};
 
 } // namespace Comms

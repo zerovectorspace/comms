@@ -16,6 +16,7 @@ namespace Comms
   class Buffers{};
   class Clear{};
   class Client{};
+  class Close{};
   class Commands{};
   class Compile{};
   class Connect{};

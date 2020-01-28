@@ -17,6 +17,9 @@ namespace Comms
     std::thread{ [](){
       while ( _g.is_running )
       {
+        if ( _g.socket_unix == -1 )
+          Socket<Connect,Unix>{};
+
         Socket<Poll>{};
 
         for ( auto& [socket, peer] : _g.peer_map )
@@ -43,13 +46,14 @@ namespace Comms
 
   template <> struct Engine<Client,Init> { Engine() {
     Exec<
-      Socket<Connect,Unix>,
+      Socket<Init>,
       Prog_Win<Init>,
       Font<Init>,
       Command<Init>,
       VWin<Init>,
       Render<Background>,
       Engine<Client,Loop>,
+      Socket<Close>,
       Prog_Win<Kill>
     >{}();
   }};
@@ -76,8 +80,10 @@ namespace Comms
 
   template <> struct Engine<Server,Init> { Engine() {
     Exec<
+      Socket<Init>,
       Socket<Listen,Unix>,
-      Engine<Server,Loop>
+      Engine<Server,Loop>,
+      Socket<Close>
     >{}();
   }};
 

@@ -28,7 +28,7 @@ namespace Comms
      * Unix Socket
      */
     Vec<struct pollfd> socket_fds{};
-    Socket_Num socket_unix{};
+    Socket_Num socket_unix = -1;
     String socket_unix_filename = "comms.socket"_s;
     Socket_Num socket_udp{};
 
