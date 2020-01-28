@@ -98,7 +98,7 @@ namespace Comms
   }};
 
   // Event Polling :: handles input
-  template <> struct Event<Poll> { Event() {
+  template <> struct Event<Poll,Win> { Event() {
     SDL_Event ev;
 
     while ( _g.is_running && SDL_PollEvent( &ev ) )

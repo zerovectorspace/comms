@@ -13,7 +13,6 @@ namespace Comms
 
   }};
 
-  // Main Loop :: high level
   template <> struct Engine<Client,Loop> { Engine() {
     std::thread{ [](){
       while ( _g.is_running )
@@ -32,7 +31,7 @@ namespace Comms
     while ( _g.is_running )
     {
       Exec<
-        Event<Poll>,
+        Event<Poll,Win>,
         Command<Client,Dispatch>,
         Render<Buffers,Asc>,
         Render<Swap>
@@ -40,7 +39,6 @@ namespace Comms
     }
   }};
 
-  // Engine :: init
   template <> struct Engine<Client,Init> { Engine() {
     Exec<
       Socket<Connect,Unix>,
@@ -72,7 +70,6 @@ namespace Comms
     }
   }};
 
-  // Engine<Server,Init> :: Initialize the servers
   template <> struct Engine<Server,Init> { Engine() {
     Exec<
       Socket<Listen,Unix>,
