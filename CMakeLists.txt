@@ -20,7 +20,7 @@
 cmake_minimum_required( VERSION 3.10.3 )
 project( Comms )
 
-SET( CMAKE_CXX_STANDARD 17 )
+SET( CMAKE_CXX_STANDARD 20 )
 SET( CMAKE_CXX_STANDARD_REQUIRED ON )
 
 set( GCC_FLAGS "-fmax-errors=1 -Wall -Wextra -Werror" )
