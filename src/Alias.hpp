@@ -9,6 +9,7 @@
 
 namespace Comms
 {
+  using Bool   = bool;
   using Char   = char;
   using Int    = GLint;
   using UInt   = GLuint;
