@@ -4,7 +4,7 @@ An client to client end-to-end encrypted messaging application with text rendere
 
 ## Prerequisites
 
-- C++17 compliant compiler
+- C++20 compliant compiler
 - OpenGL libraries
 - GLEW
 - SDL2
@@ -18,7 +18,7 @@ $ cd ~
 $ git clone <repo>
 $ cd <repo>
 $ cmake .
-$ make main
+$ make comms
 ```
 
 ## Features
@@ -28,6 +28,8 @@ $ make main
 [] Split Windows
 [] Settings
 [] Sockets
+  - [x] Local Server/Client Unix Socket Communication
+  - [] Remote Server/Server UDP Communication
 [] Protocol
 [] Encryption layer
 [] STUN server
