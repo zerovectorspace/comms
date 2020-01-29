@@ -17,7 +17,7 @@ namespace Comms
     /* ip:port */
     Vec<String> hostname{};
     Bool is_garbage = false;
-    struct pollfd* poll_fd = nullptr;
+    struct pollfd poll_fd{};
   };
 
   enum class Buffer_Status
