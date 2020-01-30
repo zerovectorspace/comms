@@ -309,6 +309,7 @@ namespace Comms
   }};
 
   template <> struct Socket<Init> { Socket() {
+    _g.poll_fds.reserve( 1024 );
   }};
 
 } // namespace Comms
