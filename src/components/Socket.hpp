@@ -268,37 +268,43 @@ namespace Comms
 
   template <> struct Socket<Garbage> { Socket() {
     auto sockets = Vec<Socket_Num>{}; 
+    Bool ref_changed = false;
 
-    for ( auto const& pr : _g.peer_map )
+    for ( auto& [ s, p ] : _g.peer_map )
     {
-      auto& s = pr.first;
-      auto& p = pr.second;
+      if ( ! p.conn.is_garbage )
+        continue;
 
-      if ( p.conn.is_garbage )
-      {
-        /*
-         * Keep track of garbage
-         *   to remove from Peer_Map
-         */
-        sockets.push_back( s );
-        fct::print( "Removing socket", ' ' );
-        fct::print( s );
+      ref_changed = true;
 
-        std::erase_if( _g.poll_fds, [&p]( pollfd& p_fd ){
-          return p.conn.poll_fd->fd == p_fd.fd;
-        });
+      /*
+       * Keep track of garbage
+       *   to remove from Peer_Map
+       */
+      sockets.push_back( s );
+      fct::print( "Removing socket", ' ' );
+      fct::print( s );
 
-        // Set clients unix socket to closed
-        _g.socket_unix = _g.socket_unix == s ? -1 : _g.socket_unix;
-      }
+      std::erase_if( _g.poll_fds, [&p]( pollfd& p_fd ){
+        return p.conn.poll_fd->fd == p_fd.fd;
+      });
+
+      // Set clients unix socket to closed
+      _g.socket_unix = _g.socket_unix == s ? -1 : _g.socket_unix;
     }
 
+    /*
+     * Close sockets
+     */
     for ( auto const& s : sockets )
     {
       shutdown( s, SHUT_RDWR );
       close( s );
       _g.peer_map.erase( s );
     }
+
+    if ( ! ref_changed )
+      return;
 
     /*
      * Copy pollfds to Peer_Map due to
