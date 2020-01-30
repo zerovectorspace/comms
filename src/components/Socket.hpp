@@ -49,11 +49,14 @@ namespace Comms
 
     _g.socket_unix = new_socket;
 
+    auto& p_fd = _g.poll_fds.emplace_back(
+        pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } },
+             Connection{ {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 
@@ -92,11 +95,14 @@ namespace Comms
 
     _g.socket_unix = new_socket;
 
+    auto& p_fd = _g.poll_fds.emplace_back(
+        pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } },
+             Connection{ {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 
@@ -126,11 +132,14 @@ namespace Comms
     fct::print( "Accepted new connection on ", ' ' );
     fct::print( _g.socket_unix );
 
+    auto& p_fd = _g.poll_fds.emplace_back(
+        pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
+
     auto [pr, _] =
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } },
+             Connection{ {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 
@@ -148,7 +157,7 @@ namespace Comms
     Vec<Char> buffer;
     // Int total = 0;
     Int num_bytes = 0;
-    auto socket = p.conn.poll_fd.fd;
+    auto socket = p.conn.poll_fd->fd;
 
     fcntl( socket, F_SETFL, O_NONBLOCK );
 
@@ -191,26 +200,7 @@ namespace Comms
   }};
 
   template <> struct Socket<Poll> { Socket() {
-    /*
-     * poll( struct pollfd[], int, int ) is required
-     * Since std::vector invalidates references on manipulation
-     *   we can't hold pointers to pollfd in Peer::Connection
-     *
-     * For now to keep everything simple, just do a copy
-     */
-
-    /* copy pollfds from Peer_Map */
-      auto poll_fds = Vec<pollfd>{};
-      poll_fds.reserve( _g.peer_map.size() );
-
-      for ( auto& [_, p] : _g.peer_map )
-        poll_fds.push_back( p.conn.poll_fd );
-
-    int ret = poll( poll_fds.data(), poll_fds.size(), 500 );
-
-    /* copy pollfds to Peer_Map */
-      for ( auto& p_fd : poll_fds )
-        _g.peer_map.at( p_fd.fd ).conn.poll_fd = p_fd;
+    int ret = poll( _g.poll_fds.data(), _g.poll_fds.size(), 500 );
 
     if ( ret < 0 )
     {
@@ -220,7 +210,7 @@ namespace Comms
   }};
 
   template <> struct Socket<Dispatch> { Socket( Peer& p ) {
-    auto socket = p.conn.poll_fd;
+    auto& socket = *(p.conn.poll_fd);
 
     if ( socket.revents & POLLIN )
     {
@@ -294,6 +284,10 @@ namespace Comms
         fct::print( "Removing socket", ' ' );
         fct::print( s );
 
+        std::erase_if( _g.poll_fds, [&p]( pollfd& p_fd ){
+          return p.conn.poll_fd->fd == p_fd.fd;
+        });
+
         // Set clients unix socket to closed
         _g.socket_unix = _g.socket_unix == s ? -1 : _g.socket_unix;
       }
@@ -305,6 +299,13 @@ namespace Comms
       close( s );
       _g.peer_map.erase( s );
     }
+
+    /*
+     * Copy pollfds to Peer_Map due to
+     *   reference invalidation from mutation
+     */
+    for ( auto& p_fd : _g.poll_fds )
+      _g.peer_map.at( p_fd.fd ).conn.poll_fd = &p_fd;
   }};
 
   template <> struct Socket<Init> { Socket() {
