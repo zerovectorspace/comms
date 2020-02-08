@@ -49,6 +49,7 @@ set(
     src/components/Font.hpp
     src/components/Include.hpp
     src/components/Pane.hpp
+    src/components/Print.hpp
     src/components/Prog_Win.hpp
     src/components/Render.hpp
     src/components/Socket.hpp
