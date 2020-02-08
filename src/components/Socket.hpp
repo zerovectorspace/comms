@@ -129,9 +129,6 @@ namespace Comms
       return;
     }
 
-    fct::print( "Accepted new connection on ", ' ' );
-    fct::print( _g.socket_unix );
-
     auto& p_fd = _g.poll_fds.emplace_back(
         pollfd{ new_socket, POLLIN | POLLHUP | POLLERR, 0 } );
 
@@ -148,6 +145,9 @@ namespace Comms
      *   Mutex has deleted copy assignment
      */
     pr->second.mut.reset( new std::mutex() );
+
+    fct::print( "Accepted new connection on", ' ' );
+    fct::print( _g.socket_unix );
 
     fct::print( "New Local client", ' ');
     fct::print( new_socket );
