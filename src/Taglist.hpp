@@ -50,6 +50,7 @@ namespace Comms
   class Rcv{};
   class Run{};
   class Server{};
+  class Std{};
   class Swap{};
   class TCP{};
   class Text{};
