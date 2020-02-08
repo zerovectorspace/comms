@@ -25,6 +25,7 @@ namespace Comms
   class Dimensions{};
   class Dispatch{};
   class Garbage{};
+  class GL{};
   class GLSL{};
   class GUI{};
   class Get_PW{};
