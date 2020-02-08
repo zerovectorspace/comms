@@ -5,6 +5,19 @@
 
 namespace Comms
 {
+  struct Buffer_Lock
+  {
+    Buffer_Lock()
+    {
+      _g.vwin->mut->lock();
+    }
+
+    virtual ~Buffer_Lock()
+    {
+      _g.vwin->mut->unlock();
+    }
+  };
+
   template <typename... Ts> struct Buffer { Buffer() {
 
   }};
@@ -19,14 +32,14 @@ namespace Comms
     }
   }};
 
-  template <> struct Buffer<Clear> { Buffer() {
+  template <> struct Buffer<Clear> : Buffer_Lock { Buffer() {
     _g.vwin->buf->clear();
     _g.vwin->redraw = true;
     _g.vwin->curs.pos.x = _g.pad_x;
     _g.vwin->mode = MODE::Text_Input;
   }};
 
-  template <> struct Buffer<New_Line> { Buffer() {
+  template <> struct Buffer<New_Line> : Buffer_Lock { Buffer() {
     _g.vwin->bufs.push_back( String{} );
     _g.vwin->buf = &_g.vwin->bufs.back();
 
@@ -36,7 +49,7 @@ namespace Comms
     _g.vwin->redraw = true;
   }};
 
-  template <> struct Buffer<Backspace> { Buffer() {
+  template <> struct Buffer<Backspace> : Buffer_Lock { Buffer() {
     UInt min_ch = (_g.vwin->mode == MODE::Command_Input) ? _g.cmd_prompt.size() : 0;
 
     if ( _g.vwin->buf->size() == min_ch )
@@ -49,18 +62,18 @@ namespace Comms
     _g.vwin->redraw = true;
   }};
 
-  template <> struct Buffer<Char> { Buffer( Char ch ) {
+  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch ) {
     _g.vwin->buf->push_back( ch );
   }};
 
-  template <> struct Buffer<String> { Buffer( String const& ch ) {
-    _g.vwin->buf->insert( _g.vwin->buf->begin(), ch.begin(), ch.end() );
+  template <> struct Buffer<String> : Buffer_Lock { Buffer( String const& s ) {
+    _g.vwin->buf->insert( _g.vwin->buf->begin(), s.begin(), s.end() );
 
     Buffer<Cursor,Pos>{};
   }};
 
-  template <> struct Buffer<Lines> { Buffer( String const& ch ) {
-    Vec<String> lines = fct::lines( ch );
+  template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s ) {
+    Vec<String> lines = fct::lines( s );
 
     for ( String l : lines )
       _g.vwin->bufs.push_back( l );

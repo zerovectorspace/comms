@@ -18,6 +18,7 @@ namespace Comms
 
     auto [vwin, _] = _g.vwins.emplace( k, VWindow{} );
     _g.vwin = &vwin->second;
+    _g.vwin->mut = std::make_unique<std::mutex>();
 
     _g.vwin->curs.pos = { _g.pad_x, _g.pad_y };
     _g.vwin->redraw = true;
@@ -26,6 +27,7 @@ namespace Comms
   template <> struct VWin<Init> { VWin() {
     auto [vwin, _] = _g.vwins.emplace( "1", VWindow{} );
     _g.vwin = &vwin->second;
+    _g.vwin->mut = std::make_unique<std::mutex>();
 
     _g.vwin->curs.pos = { _g.pad_x, _g.pad_y };
   }};
