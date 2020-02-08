@@ -79,6 +79,16 @@ namespace Comms
     Text_Input
   };
 
+  /**
+   * Command Wrapper
+   */
+  struct Cmd
+  {
+    Bool async = false;
+    void(*f)( Vec<String>&& );
+  };
+
+
   /*
    * VWindow :: Virtual Window
    * 
