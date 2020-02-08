@@ -41,6 +41,7 @@ namespace Comms
   class New_Line{};
   class New{};
   class Open{};
+  class Out{};
   class Parse_Args{};
   class Poll{};
   class Pos{};
