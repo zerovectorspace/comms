@@ -15,7 +15,7 @@ namespace Comms
       Buffer<New_Line>{};
   }};
 
-  template <> struct Print<Std,Out> { Print( Peer& p ) {
+  template <> struct Print<Peer,Buffers> { Print( Peer& p ) {
     if ( p.buffer_stat == Buffer_Status::INPUT )
       fct::print( p.buffer );
   }};

@@ -66,12 +66,15 @@ namespace Comms
       for ( auto& [socket, peer] : _g.peer_map )
       {
         Exec<
-          Socket<Dispatch>
-          // Protocol<Decode>
+          Socket<Dispatch>,
+          Print<Peer,Buffers>
+         // Protocol<Decode>
           // Crypto<Decode>
           // Command<Rcv,Dispatch>
           // Command<Snd,Dispatch>
         >{}( peer );
+
+        peer.buffer_stat = Buffer_Status::EMPTY;
       }
 
       Socket<Garbage>{};

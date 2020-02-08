@@ -197,6 +197,8 @@ namespace Comms
       // if (total > 16777216) break;
 
     } while ( (recv( socket, buffer.data(), BUFFER_SIZE, MSG_PEEK) > 0) && num_bytes > 0 );
+
+    p.buffer_stat = Buffer_Status::INPUT;
   }};
 
   template <> struct Socket<Poll> { Socket() {
