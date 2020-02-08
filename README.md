@@ -1,6 +1,6 @@
 # comms
 
-An client to client end-to-end encrypted messaging application with text rendered in OpenGL. Currently in development.
+A client to client end-to-end encrypted messaging application with and included OpenGL based GUI. Currently in development.
 
 ## Prerequisites
 
@@ -19,6 +19,15 @@ $ git clone <repo>
 $ cd <repo>
 $ cmake .
 $ make comms
+```
+
+## Running
+
+`comms` is built with a server/client architecture to facilitate future GUI alternatives. `comms` comes with a GUI client built using OpenGL. OpenGL was chosen to allow images, video, and sound in the future.
+
+``` bash
+$ ./comms -s # Start up the local Server
+$ ./comms -c # Start up the local GUI Client *OpenGL Required
 ```
 
 ## Features
