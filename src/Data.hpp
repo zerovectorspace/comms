@@ -105,6 +105,11 @@ namespace Comms
      */
     Cursor curs{};
 
+    /*
+     * Buffer mutex
+     */
+    U_ptr<std::mutex> mut = nullptr;
+
     /***
      * Buffer :: Holds all text
      */
