@@ -16,6 +16,7 @@
  *                           | Event
  *                           | Font
  *                           | Prog_Win
+ *                           | Print
  *                           | Render
  *                           | Socket
  *                             ^- components/Include
