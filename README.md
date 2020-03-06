@@ -32,14 +32,14 @@ $ ./comms -c # Start up the local GUI Client *OpenGL Required
 
 ## Features
 
-[x] OpenGL text rendering
-[x] Multiple Windows
-[] Split Windows
-[] Settings
-[] Sockets
+- [x] OpenGL text rendering
+- [x] Multiple Windows
+- [ ] Split Windows
+- [ ] Settings
+- [ ] Sockets
   - [x] Local Server/Client Unix Socket Communication
-  - [] Remote Server/Server UDP Communication
-[] Protocol
-[] Encryption layer
-[] STUN server
-[] UDP hole punching
+  - [ ] Remote Server/Server UDP Communication
+- [ ] Protocol
+- [ ] Encryption layer
+- [ ] STUN server
+- [ ] UDP hole punching
