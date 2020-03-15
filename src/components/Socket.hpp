@@ -41,6 +41,7 @@ namespace Comms
     }
     catch ( int error )
     {
+      fct::print( "[ERROR] Socket<Listen,Unix> ", ' ' );
       fct::print( fct::Str( std::strerror(error) ) );
     }
 
@@ -87,6 +88,7 @@ namespace Comms
     }
     catch ( int error )
     {
+      fct::print( "[ERROR] Socket<Connect,Unix> ", ' ' );
       return;
     }
 
@@ -125,6 +127,7 @@ namespace Comms
     }
     catch (int error)
     {
+      fct::print( "[ERROR] Socket<Accept,Unix> ", ' ' );
       fct::print( fct::Str( std::strerror(error) ) );
       return;
     }
