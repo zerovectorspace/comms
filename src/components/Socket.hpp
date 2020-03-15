@@ -84,14 +84,23 @@ namespace Comms
       exit(1);
     }
 
+    static uint connection_tries = 0;
     try
     {
+      if ( connection_tries > 0 ) { sleep_for(5000); }
+
       if ( connect( new_socket, (struct sockaddr*) &remote, sizeof(remote) ) == -1 )
+      {
         throw errno;
+      }
+
+      connection_tries = 0;
     }
     catch ( int error )
     {
       fct::print( "[ERROR] Socket<Connect,Unix> " );
+      connection_tries += 1;
+
       return;
     }
 

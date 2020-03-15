@@ -17,8 +17,7 @@ namespace Comms
     std::thread{ [](){
       while ( _g.is_running )
       {
-        if ( _g.socket_unix == -1 )
-          Socket<Connect,Unix>{};
+        if ( _g.socket_unix == -1 ) { Socket<Connect,Unix>{}; }
 
         Socket<Poll>{};
 
