@@ -1,6 +1,6 @@
 # comms
 
-A client to client end-to-end encrypted messaging application with and included OpenGL based GUI. Currently in development.
+A client to client end-to-end encrypted messaging application with an included OpenGL based GUI. Currently in development.
 
 ## Prerequisites
 
@@ -9,9 +9,9 @@ A client to client end-to-end encrypted messaging application with and included 
 - GLEW
 - SDL2
 - CMake
+- flatbuffers
 
 ## Building
-
 
 ``` bash
 $ cd ~
@@ -39,7 +39,7 @@ $ ./comms -c # Start up the local GUI Client *OpenGL Required
 - [ ] Sockets
   - [x] Local Server/Client Unix Socket Communication
   - [ ] Remote Server/Server UDP Communication
-- [ ] Protocol
+- [x] Protocol (Initial implementation)
 - [ ] Encryption layer
 - [ ] STUN server
 - [ ] UDP hole punching
