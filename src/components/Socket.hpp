@@ -57,7 +57,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &p_fd },
+             Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 
@@ -116,7 +116,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &p_fd },
+             Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 
@@ -151,7 +151,7 @@ namespace Comms
       _g.peer_map.emplace( new_socket,
            Peer{
              nullptr,
-             Connection{ {}, false, &p_fd },
+             Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
              Buffer_Status::EMPTY,
              {} } );
 

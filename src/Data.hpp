@@ -14,6 +14,12 @@ namespace Comms
    */
   struct Connection
   {
+    enum class Type
+    {
+      LOCAL, REMOTE
+    };
+
+    Type type = Type::REMOTE;
     /* ip:port */
     Vec<String> hostname{};
     Bool is_garbage = false;
