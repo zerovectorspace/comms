@@ -21,6 +21,7 @@ namespace Comms
   class Compile{};
   class Connect{};
   class Dec{};
+  class Decode{};
   class Del{};
   class Dimensions{};
   class Dispatch{};
@@ -38,6 +39,7 @@ namespace Comms
   class Load{};
   class Loop{};
   class Main_Loop{};
+  class Metadata{};
   class New_Line{};
   class New{};
   class Open{};
@@ -50,6 +52,7 @@ namespace Comms
   class Rcv{};
   class Run{};
   class Server{};
+  class Snd{};
   class Std{};
   class Swap{};
   class TCP{};

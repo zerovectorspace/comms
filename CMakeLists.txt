@@ -59,6 +59,14 @@ set(
     src/commands/Include.hpp
     src/commands/Program.hpp
     src/commands/Window.hpp
+
+    src/protocol/Include.hpp
+    src/protocol/Proto_Route.hpp
+    src/protocol/Protocol.hpp
+    src/protocol/res/Error_Res.hpp
+    src/protocol/res/Primes_Res.hpp
+    src/protocol/req/Primes_Req.hpp
+    src/protocol/req/Shutdown_Req.hpp
 )
 set (
     TEST_FILES
@@ -113,4 +121,9 @@ add_custom_command(
     TARGET comms POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E create_symlink
     ${CMAKE_SOURCE_DIR}/glsl $<TARGET_FILE_DIR:comms>/glsl)
+
+add_custom_command(
+    TARGET Comms PRE_BUILD
+    COMMAND flatc --cpp -o fbs/gen fbs/message.fbs
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/src/protocol )
 

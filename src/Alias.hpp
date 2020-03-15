@@ -36,6 +36,11 @@ namespace Comms
   using StdStr = std::string;
 
   using Socket_Num = int;
+
+  using FB = flatbuffers::FlatBufferBuilder;
+  template <typename T>
+  using FO = flatbuffers::Offset<T>;
+
 } // namespace Comms
 
 #endif

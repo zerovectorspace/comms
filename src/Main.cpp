@@ -12,20 +12,23 @@
  *                ^- Global
  *                   ^- Exec
  *                      ^- Taglist
- *                       ^-  | Buffer
- *                           | Event
- *                           | Font
- *                           | Prog_Win
- *                           | Print
- *                           | Render
- *                           | Socket
- *                             ^- components/Include
- *                                ^- | Program
- *                                   | Window
- *                                   | Command
- *                                     ^- commands/Include
- *                                        ^- Engine
- *                                           ^- main
+ *                         ^-  | Buffer
+ *                             | Event
+ *                             | Font
+ *                             | Prog_Win
+ *                             | Print
+ *                             | Render
+ *                             | Socket
+ *                               ^- components/Include
+ *                                  ^- | Primes Res/Req
+ *                                     | Protocol
+ *                                       ^- protocol/Include
+ *                                          ^- | Program
+ *                                             | Window
+ *                                             | Command
+ *                                               ^- commands/Include
+ *                                                  ^- Engine
+ *                                                     ^- main
  *
  *
  */
@@ -39,7 +42,7 @@ auto help( char const* name )
               "  -c Start the user client");
 }
 
-int main( int argc, char* argv[] )
+void handle_args( int argc, char* argv[] )
 {
   using namespace Comms;
 
@@ -75,3 +78,9 @@ int main( int argc, char* argv[] )
 
   end_exec: ; // end execution early
 }
+
+int main( int argc, char* argv[] )
+{
+  handle_args( argc, argv );
+}
+

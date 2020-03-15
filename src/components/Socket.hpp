@@ -79,7 +79,10 @@ namespace Comms
 
     int new_socket = socket(AF_UNIX, SOCK_STREAM, 0);
     if (new_socket == -1)
-      return;
+    {
+      fct::print( "[ERROR] Socket<Connect,Unix> Can't create socket" );
+      exit(1);
+    }
 
     try
     {
@@ -88,7 +91,7 @@ namespace Comms
     }
     catch ( int error )
     {
-      fct::print( "[ERROR] Socket<Connect,Unix> ", ' ' );
+      fct::print( "[ERROR] Socket<Connect,Unix> " );
       return;
     }
 
@@ -156,6 +159,24 @@ namespace Comms
     fct::print( new_socket );
   }};
 
+  template <> struct Socket<Snd,Unix> { Socket( void* b, UInt s ) {
+    fct::print( "Socket<Snd,Unix>: ", ' ' );
+    fct::print( _g.socket_unix );
+    send( _g.socket_unix, b, s, 0 );
+  }};
+
+  template <> struct Socket<Snd,TCP> {
+    Socket( Socket_Num n, void* b, UInt s ) {
+      send( n, b, s, 0 );
+    }
+
+    Socket( Peer& p ) {
+      if ( p.buffer_stat != Buffer_Status::OUTPUT ) { return; }
+
+      send( p.conn.poll_fd->fd, p.buffer.data(), p.buffer.size(), 0 );
+    }
+  };
+
   template <> struct Socket<Rcv,TCP> { Socket( Peer& p ) {
     Vec<Char> buffer;
     // Int total = 0;
@@ -175,7 +196,7 @@ namespace Comms
 
       num_bytes = (int) recv( socket, buffer.data(), BUFFER_SIZE, 0 );
 
-      p.buffer.reserve( p.buffer.size() + num_bytes + 2 );
+      p.buffer.reserve( p.buffer.size() );
 
       /*
        * Search to one before the end
@@ -183,9 +204,9 @@ namespace Comms
        * else return one after the
        * first null term byte found
        */
-      auto second_null_byte = std::find( buffer.begin(), buffer.end() - 1, '\0' ) + 1;
+      // auto second_null_byte = std::find( buffer.begin(), buffer.end() - 1, '\0' );
 
-      p.buffer.insert( p.buffer.end(), buffer.begin(), second_null_byte );
+      p.buffer.insert( p.buffer.end(), buffer.begin(), buffer.begin() + num_bytes );
 
       /*
        * We need this in case we fill up the buffer
@@ -193,11 +214,8 @@ namespace Comms
        * of buffer, then we still need a '\0' at the
        * end
        */
-      if ( second_null_byte == buffer.end() - 1 )
-          p.buffer.push_back( '\0' );
-
-      // total += num_bytes;
-      // if (total > 16777216) break;
+      // if ( second_null_byte == buffer.end() - 1 )
+          // p.buffer.push_back( '\0' );
 
     } while ( (recv( socket, buffer.data(), BUFFER_SIZE, MSG_PEEK) > 0) && num_bytes > 0 );
 
@@ -219,7 +237,7 @@ namespace Comms
 
     if ( socket.revents & POLLIN )
     {
-      if ( socket.fd == _g.socket_unix )
+      if ( _g.app == App::SERVER && socket.fd == _g.socket_unix )
       {
         // Accept local connection
         Socket<Accept,Unix>{};

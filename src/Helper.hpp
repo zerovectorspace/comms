@@ -70,6 +70,11 @@ namespace Comms
     return out;
   }
 
+  void sleep_for( int s )
+  {
+    std::this_thread::sleep_for( std::chrono::milliseconds( s ) );
+  }
+
   std::stringstream time_now()
   {
     std::time_t t = std::time(nullptr);
@@ -79,6 +84,15 @@ namespace Comms
 
     return time_str;
   }
+
+  template <typename Scale>
+  auto time_since_epoch()
+  {
+    using namespace std::chrono;
+    return duration_cast<Scale>(system_clock::now().time_since_epoch()).count();
+  }
+
+
 } // namespace Comms
 
 #endif

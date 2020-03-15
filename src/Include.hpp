@@ -32,4 +32,7 @@
 
 #include "fct/fct.h"
 
+// Protocol
+#include "src/protocol/fbs/gen/message_generated.h"
+
 #endif

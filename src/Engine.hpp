@@ -25,8 +25,12 @@ namespace Comms
         for ( auto& [socket, peer] : _g.peer_map )
         {
           Exec<
-            Socket<Dispatch>
+            Socket<Dispatch>,
+            Protocol<Decode>,
+            Protocol<Rcv,Dispatch>
           >{}( peer );
+
+          peer.buffer_stat = Buffer_Status::EMPTY;
         }
 
         Socket<Garbage>{};
@@ -45,11 +49,14 @@ namespace Comms
   }};
 
   template <> struct Engine<Client,Init> { Engine() {
+    _g.app = App::CLIENT;
+
     Exec<
       Socket<Init>,
       Prog_Win<Init>,
       Font<Init>,
       Command<Init>,
+      Protocol<Init>,
       VWin<Init>,
       Render<Background>,
       Engine<Client,Loop>,
@@ -67,10 +74,10 @@ namespace Comms
       {
         Exec<
           Socket<Dispatch>,
-          Print<Peer,Buffers>
-         // Protocol<Decode>
+          Protocol<Decode>,
+          Protocol<Rcv,Dispatch>,
+          Socket<Snd,TCP>
           // Crypto<Decode>
-          // Command<Rcv,Dispatch>
           // Command<Snd,Dispatch>
         >{}( peer );
 
@@ -85,6 +92,7 @@ namespace Comms
     Exec<
       Socket<Init>,
       Socket<Listen,Unix>,
+      Protocol<Init>,
       Engine<Server,Loop>,
       Socket<Close>
     >{}();

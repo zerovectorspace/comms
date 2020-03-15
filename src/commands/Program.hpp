@@ -1,7 +1,7 @@
 #ifndef COMMS_COMMANDS_PROGRAM_HEADER
 #define COMMS_COMMANDS_PROGRAM_HEADER
 
-#include "src/components/Include.hpp"
+#include "src/protocol/Include.hpp"
 
 namespace Comms
 {

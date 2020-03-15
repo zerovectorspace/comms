@@ -41,6 +41,12 @@ namespace Comms
 
     //Buffer for sending and recieving
     String buffer{ "EMPTY"_s };
+
+    // The Protocol message
+    Proto::Message const* message = nullptr;
+
+    // The Protocol message size
+    ULong message_size = 0;
   };
 
   /*
@@ -121,6 +127,65 @@ namespace Comms
      */
     MODE mode = MODE::Text_Input;
   };
+
+  /*
+   * ErrorStatus
+   * Http Request Error Status
+   */
+  enum class ErrorStatus
+  {
+    Success,
+    NotFound,
+    UnauthAccess,
+    InvalidVerb,
+    InvalidInput
+  };
+
+  auto show( ErrorStatus e ) -> String
+  {
+    switch (e)
+    {
+      case ErrorStatus::Success:
+        return "ErrorStatus::Success"_s;
+        break;
+      case ErrorStatus::NotFound:
+        return "ErrorStatus::NotFound"_s;
+        break;
+      case ErrorStatus::UnauthAccess:
+        return "ErrorStatus::UnauthAccess"_s;
+        break;
+      case ErrorStatus::InvalidVerb:
+        return "ErrorStatus::InvalidVerb"_s;
+        break;
+      case ErrorStatus::InvalidInput:
+        return "ErrorStatus::InvalidInput"_s;
+        break;
+    }
+
+    return "ErrorStatus::Unknown"_s;
+  }
+
+  /*
+   * Route_Base
+   * Interface for Routes
+   */
+  struct Route_Base
+  {
+    /******************** Internal API ********************/
+      virtual auto get( Peer* p ) -> ErrorStatus = 0;
+
+      virtual auto put( Peer* p ) -> ErrorStatus = 0;
+
+      virtual auto pst( Peer* p ) -> ErrorStatus = 0;
+
+      virtual auto upd( Peer* p ) -> ErrorStatus = 0;
+
+      virtual auto del( Peer* p ) -> ErrorStatus = 0;
+
+      virtual ~Route_Base() {}
+  };
+
+
 } // namespace Comms
 
 #endif

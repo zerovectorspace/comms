@@ -6,18 +6,26 @@
 namespace Comms
 {
   using Command_Map      = std::unordered_map<StdStr, Cmd>;
+  using Proto_Map        = std::unordered_map<Proto::Proto, U_ptr<Route_Base> (*)(void)>;
   using Peer_Map         = std::unordered_map<Socket_Num, Peer>;
   using Char_Texture_Map = std::unordered_map<Char, Character>;
   using VWindow_Map      = std::unordered_map<StdStr, VWindow>;
 
+  enum App {
+    SERVER,
+    CLIENT
+  };
+
   struct Global
   {
+    App app = App::SERVER;
+
     /***
      * Command maps
      */
     Command_Map lcl_comms{};
     Command_Map win_comms{};
-    Command_Map net_comms{};
+    Proto_Map proto_comms{};
 
     /***
      * Peer_Map :: Handle to `Peer`s
