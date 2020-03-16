@@ -2,3 +2,4 @@ tags
 .vimsessions
 compile_commands.json
 build
+.clangd
