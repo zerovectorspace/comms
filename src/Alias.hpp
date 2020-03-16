@@ -1,5 +1,5 @@
-#ifndef COMMDS_ALIAS_HEADER
-#define COMMDS_ALIAS_HEADER
+#ifndef COMMS_ALIAS_HEADER
+#define COMMS_ALIAS_HEADER
 
 #include "src/Macros.hpp"
 
