@@ -77,10 +77,17 @@ namespace Comms
 
   template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
     Vec<String> lines = fct::lines( s );
+    
+    String last_line{};
+    if ( !_g.vwin->buf->empty() )
+    {
+      last_line = *_g.vwin->buf;
+      _g.vwin->buf->clear();
+    }
 
     for ( String l : lines )
       _g.vwin->bufs.push_back( l );
-    _g.vwin->bufs.push_back( String{} );
+    _g.vwin->bufs.push_back( last_line );
 
     _g.vwin->buf = &_g.vwin->bufs.back();
 
