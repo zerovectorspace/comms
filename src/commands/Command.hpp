@@ -66,7 +66,7 @@ namespace Comms
         if ( cmds.empty() )
           return;
 
-        auto vwin_name = fct::toStdStr( cmds.at( 0 ) );
+        auto vwin_name = fct::toStdStr( fct::unwords( cmds ) );
 
         VWin<New>{ vwin_name };
       }}},
@@ -107,7 +107,7 @@ namespace Comms
       { "async", Cmd{ true, []( Command_List cmds ){
         sleep_for(3000);
 
-        Print<Client>{ fct::show( fct::unlines( cmds ) ) };
+        Print<Client>{ fct::show( fct::unwords( cmds ) ) };
       }}},
 
       /**
