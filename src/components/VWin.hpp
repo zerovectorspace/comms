@@ -9,14 +9,14 @@ namespace Comms
 
   }};
 
-  template <> struct VWin<New> { VWin( StdStr const& k ) {
-    if ( _g.vwins.count( k ) )
+  template <> struct VWin<New> { VWin( StdStr const& name ) {
+    if ( _g.vwins.count( name ) )
     {
-      _g.vwin = &_g.vwins.at( k );
+      _g.vwin = &_g.vwins.at( name );
       return;
     }
 
-    auto [vwin, _] = _g.vwins.emplace( k, VWindow{} );
+    auto [vwin, _] = _g.vwins.emplace( name, VWindow{} );
     _g.vwin = &vwin->second;
     _g.vwin->mut = std::make_unique<std::mutex>();
 
