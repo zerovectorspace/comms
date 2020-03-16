@@ -46,7 +46,7 @@ namespace Comms
           }
         }
 
-        flatbuffers::FlatBufferBuilder message{1024};
+        FB message{1024};
         auto metadata = Protocol_Metadata( message );
         auto cmd = CreatePrimesRes( message, message.CreateVector( out ) );
 

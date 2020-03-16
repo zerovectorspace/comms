@@ -37,9 +37,10 @@ namespace Comms
 
   using Socket_Num = int;
 
-  using FB = flatbuffers::FlatBufferBuilder;
   template <typename T>
   using FO = flatbuffers::Offset<T>;
+
+  using FB = flatbuffers::FlatBufferBuilder;
 
 } // namespace Comms
 

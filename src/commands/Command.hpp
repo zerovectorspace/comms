@@ -97,7 +97,7 @@ namespace Comms
         ULong num = cmds.empty() ? 100 : fct::min(
             ULLONG_MAX, std::stoull( toStdStr( cmds.at( 0 ) ) ) );
 
-        flatbuffers::FlatBufferBuilder message{1024};
+        FB message{1024};
         auto metadata = Protocol_Metadata( message );
         auto cmd = Proto::CreatePrimesReq( message, num );
 
@@ -115,7 +115,7 @@ namespace Comms
       { "shutdown", Cmd{ true, []( Command_List cmds ){
         Print<Client>{ fct::show("Shutting down local server") };
 
-        flatbuffers::FlatBufferBuilder message{1024};
+        FB message{1024};
 
         auto metadata = Protocol_Metadata( message );
         auto cmd = Proto::CreateShutdownReq( message );
