@@ -78,12 +78,20 @@ namespace Comms
   template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
     Vec<String> lines = fct::lines( s );
     
+    /**
+     * If there is something being typed in
+     *   save it and place it at the end
+     * If the line is empty
+     *   discard it
+     */
     String last_line{};
-    if ( !_g.vwin->buf->empty() )
-    {
-      last_line = *_g.vwin->buf;
-      _g.vwin->buf->clear();
-    }
+    if ( ! _g.vwin->buf->empty() ) { last_line = *_g.vwin->buf; }
+
+    /**
+     * Remove last line in buffer
+     * Keeps line spacing uniform
+     */
+    _g.vwin->bufs.pop_back();
 
     for ( String l : lines )
       _g.vwin->bufs.push_back( l );
