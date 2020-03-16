@@ -49,8 +49,19 @@ namespace Comms
   // Command<Init> :: Define command maps
   template <> struct Command<Init> { Command() {
     _g.lcl_comms = Command_Map{
+      /**
+       * Show help
+       * List all commands available to GUI client
+       * ex: help
+       */
       { "help", Cmd{ false, []( Command_List cmds ){ Program<Commands>{}; } } },
 
+      /**
+       * Move to a different window
+       * ex: win <name>
+       *
+       * Creates a new window if it doesn't exist
+       */
       { "win", Cmd{ false, []( Command_List cmds ) {
         if ( cmds.empty() )
           return;
@@ -60,6 +71,10 @@ namespace Comms
         VWin<New>{ vwin_name };
       }}},
 
+      /**
+       * View information on various session components
+       * ex: view win
+       */
       { "view", Cmd{ false,[]( Command_List cmds ) {
         if ( cmds.empty() )
           return;
@@ -85,14 +100,21 @@ namespace Comms
         }
       }}},
 
+      /**
+       * TEST: Print user input after 2 seconds
+       * ex: async this is printed back
+       */
       { "async", Cmd{ true, []( Command_List cmds ){
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(2s);
 
-        for ( auto const& cmd : cmds ) 
-        Print<Client>{ fct::show( cmd ) };
+        Print<Client>{ fct::show( fct::unlines( cmds ) ) };
       }}},
 
+      /**
+       * TEST: Ask local server for primes
+       * ex: primes <num>
+       */
       { "primes", Cmd{ true, []( Command_List cmds ){
         ULong num = cmds.empty() ? 100 : fct::min(
             ULLONG_MAX, std::stoull( toStdStr( cmds.at( 0 ) ) ) );
@@ -112,6 +134,10 @@ namespace Comms
         Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
       }}},
 
+      /**
+       * Shutdown the local server
+       * ex: shutdown
+       */
       { "shutdown", Cmd{ true, []( Command_List cmds ){
         Print<Client>{ fct::show("Shutting down local server") };
 
@@ -131,6 +157,11 @@ namespace Comms
         Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
       }}},
 
+      /**
+       * TEST: Send request to local server
+       *       for nonexistent endpoint
+       * ex: bad
+       */
       { "bad", Cmd{ true, []( Command_List cmds ){
         FB message{1024};
 
@@ -148,6 +179,10 @@ namespace Comms
         Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
       }}},
 
+      /**
+       * Exit the local client
+       * ex: quit
+       */
       { "quit", Cmd{ true, []( Command_List cmds ){ _g.is_running = false; } } },
     };
   }};
