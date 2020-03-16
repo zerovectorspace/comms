@@ -40,7 +40,7 @@ namespace Comms
     }
     else
     {
-      Buffer<Lines>{ fct::toStr( cmd.insert( 0, "\n*** Command not found: " ) ) };
+      Print<Client>{ fct::toStr( cmd.insert( 0, "*** Command not found: " ) ) };
     }
 
     _g.vwin->mode = MODE::Text_Input;
