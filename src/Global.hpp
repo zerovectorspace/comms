@@ -25,7 +25,8 @@ namespace Comms
      */
     Command_Map lcl_comms{};
     Command_Map win_comms{};
-    Proto_Map proto_comms{};
+    Proto_Map proto_local{};
+    Proto_Map proto_remote{};
 
     /***
      * Peer_Map :: Handle to `Peer`s

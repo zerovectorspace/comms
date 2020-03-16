@@ -25,6 +25,7 @@ namespace Comms
   class Del{};
   class Dimensions{};
   class Dispatch{};
+  class Error{};
   class Garbage{};
   class GL{};
   class GLSL{};

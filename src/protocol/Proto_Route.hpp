@@ -49,39 +49,28 @@ namespace Comms
 
     private:
     /******************** Default API ********************/
-      auto error_msg( char const* val ) -> ErrorStatus
-      {
-        std::cout << "  Endpoint doesn't exist: " << val << "\n";
-        return ErrorStatus::NotFound;
-      }
-
       auto get() -> ErrorStatus
       {
-        error_msg( "get" );
         return ErrorStatus::NotFound;
       }
 
       auto put() -> ErrorStatus
       {
-        error_msg( "put" );
         return ErrorStatus::NotFound;
       }
 
       auto pst() -> ErrorStatus
       {
-        error_msg( "pst" );
         return ErrorStatus::NotFound;
       }
 
       auto upd() -> ErrorStatus
       {
-        error_msg( "upd" );
         return ErrorStatus::NotFound;
       }
 
       auto del() -> ErrorStatus
       {
-        error_msg( "del" );
         return ErrorStatus::NotFound;
       }
   };
