@@ -91,11 +91,10 @@ namespace Comms
               out.push_back( '\n' );
             }
 
-            String tmp = "--------------------------------------\n\n"_s;
+            String tmp = "--------------------------------------"_s;
             out.insert( out.end(), tmp.begin(), tmp.end() );
 
-            Buffer<Lines>{ out };
-            Buffer<New_Line>{};
+            Print<Client>{ std::move( out ) };
           }
         }
       }}},
