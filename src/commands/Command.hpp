@@ -105,8 +105,7 @@ namespace Comms
        * ex: async this is printed back
        */
       { "async", Cmd{ true, []( Command_List cmds ){
-        using namespace std::chrono_literals;
-        std::this_thread::sleep_for(2s);
+        sleep_for(3000);
 
         Print<Client>{ fct::show( fct::unlines( cmds ) ) };
       }}},
