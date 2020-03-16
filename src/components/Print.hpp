@@ -13,8 +13,7 @@ namespace Comms
   template <> struct Print<Client> { Print( String&& val ) {
     if ( _g.app != App::CLIENT ) { return; }
 
-    Buffer<Lines>{ val };
-    Buffer<New_Line>{};
+    Buffer<Lines>{ val, true };
   }};
 
   template <> struct Print<Peer,Buffers> { Print( Peer& p ) {

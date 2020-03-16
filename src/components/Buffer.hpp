@@ -39,14 +39,14 @@ namespace Comms
     _g.vwin->mode = MODE::Text_Input;
   }};
 
-  template <> struct Buffer<New_Line> : Buffer_Lock { Buffer() {
+  template <> struct Buffer<New_Line> : Buffer_Lock { Buffer( Bool redraw = true ) {
     _g.vwin->bufs.push_back( String{} );
     _g.vwin->buf = &_g.vwin->bufs.back();
 
     _g.vwin->curs.pos.x = _g.pad_x;
     _g.vwin->curs.pos.y = _g.pad_y;
 
-    _g.vwin->redraw = true;
+    _g.vwin->redraw = redraw;
   }};
 
   template <> struct Buffer<Backspace> : Buffer_Lock { Buffer() {
@@ -62,25 +62,31 @@ namespace Comms
     _g.vwin->redraw = true;
   }};
 
-  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch ) {
+  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch, Bool redraw = false ) {
     _g.vwin->buf->push_back( ch );
+    _g.vwin->redraw = redraw;
   }};
 
-  template <> struct Buffer<String> : Buffer_Lock { Buffer( String const& s ) {
+  template <> struct Buffer<String> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
     _g.vwin->buf->insert( _g.vwin->buf->begin(), s.begin(), s.end() );
 
     Buffer<Cursor,Pos>{};
+
+    _g.vwin->redraw = redraw;
   }};
 
-  template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s ) {
+  template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
     Vec<String> lines = fct::lines( s );
 
     for ( String l : lines )
       _g.vwin->bufs.push_back( l );
+    _g.vwin->bufs.push_back( String{} );
 
     _g.vwin->buf = &_g.vwin->bufs.back();
 
     Buffer<Cursor,Pos>{};
+
+    _g.vwin->redraw = redraw;
   }};
 } // namespace Comms
 
