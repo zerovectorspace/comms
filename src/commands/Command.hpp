@@ -72,6 +72,14 @@ namespace Comms
       }}},
 
       /**
+       * Clear the screen
+       * Delete everything in the VWindow buffer
+       */
+      { "clear", Cmd{ false, []( Command_List cmds ) {
+        Buffer<Clear,All>{};
+      }}},
+
+      /**
        * View information on various session components
        * ex: view win
        */

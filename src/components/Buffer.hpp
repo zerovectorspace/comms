@@ -50,6 +50,17 @@ namespace Comms
     _g.vwin->mode = MODE::Text_Input;
   }};
 
+  template <> struct Buffer<Clear,All> : Buffer_Lock { Buffer() {
+    _g.vwin->bufs.clear();
+    _g.vwin->bufs.push_back( String{} );
+    _g.vwin->buf = &_g.vwin->bufs.back();
+
+    _g.vwin->redraw = true;
+    _g.vwin->curs.pos.x = _g.pad_x;
+
+    _g.vwin->mode = MODE::Text_Input;
+  }};
+
   template <> struct Buffer<New_Line> : Buffer_Lock { Buffer( Bool redraw = true ) {
     _g.vwin->bufs.push_back( String{} );
     _g.vwin->buf = &_g.vwin->bufs.back();

@@ -9,6 +9,7 @@
 
 namespace Comms
 {
+  class All{};
   class Asc{};
   class Accept{};
   class Background{};
