@@ -84,9 +84,9 @@ namespace Comms
     _g.vwin->redraw = true;
   }};
 
-  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch, Bool redraw = true ) {
+  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch, Bool redraw = false ) {
     _g.vwin->buf->push_back( ch );
-    _g.vwin->redraw = redraw;
+    _g.vwin->redraw = _g.vwin->redraw ? true : redraw;
   }};
 
   template <> struct Buffer<String> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
