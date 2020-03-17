@@ -218,7 +218,10 @@ namespace Comms
        */
       // auto second_null_byte = std::find( buffer.begin(), buffer.end() - 1, '\0' );
 
-      p.buffer.insert( p.buffer.end(), buffer.begin(), buffer.begin() + num_bytes );
+      if ( num_bytes > 0 )
+      {
+        p.buffer.insert( p.buffer.end(), buffer.begin(), buffer.begin() + num_bytes );
+      }
 
       /*
        * We need this in case we fill up the buffer
