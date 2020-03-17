@@ -190,8 +190,6 @@ namespace Comms
 
       virtual ~Route_Base() {}
   };
-
-
 } // namespace Comms
 
 #endif
