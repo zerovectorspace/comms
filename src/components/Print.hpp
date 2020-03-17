@@ -10,11 +10,19 @@ namespace Comms
 
   }};
 
-  template <> struct Print<Client> { Print( String&& val ) {
-    if ( _g.app != App::CLIENT ) { return; }
+  template <> struct Print<Client> {
+    Print( String&& val ) {
+      if ( _g.app != App::CLIENT ) { return; }
 
-    Buffer<Lines>{ val, true };
-  }};
+      Buffer<Lines>{ val, true };
+    }
+
+    Print( VWindow* w, String&& val ) {
+      if ( _g.app != App::CLIENT ) { return; }
+
+      Buffer<Lines>{ w, val, true };
+    }
+  };
 
   template <> struct Print<Peer,Buffers> { Print( Peer& p ) {
     if ( p.buffer_stat == Buffer_Status::INPUT )

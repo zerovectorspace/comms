@@ -104,9 +104,10 @@ namespace Comms
        * ex: async this is printed back
        */
       { "async", Cmd{ true, []( Command_List cmds ){
+        VWindow* win = _g.vwin;
         sleep_for(3000);
 
-        Print<Client>{ fct::show( fct::unwords( cmds ) ) };
+        Print<Client>{ win, fct::show( fct::unwords( cmds ) ) };
       }}},
 
       /**

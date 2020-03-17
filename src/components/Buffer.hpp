@@ -7,14 +7,19 @@ namespace Comms
 {
   struct Buffer_Lock
   {
-    Buffer_Lock()
+    std::mutex* m = nullptr;
+    
+    Buffer_Lock() : Buffer_Lock( _g.vwin )
+    { }
+
+    Buffer_Lock( VWindow* w ) : m( w->mut.get() )
     {
-      _g.vwin->mut->lock();
+      m->lock();
     }
 
     virtual ~Buffer_Lock()
     {
-      _g.vwin->mut->unlock();
+      m->unlock();
     }
   };
 
@@ -23,14 +28,20 @@ namespace Comms
   }};
 
   // Get current cursor position
-  template <> struct Buffer<Cursor,Pos> { Buffer() {
-    _g.vwin->curs.pos.x = _g.pad_x;
-    for ( auto const& c : *_g.vwin->buf )
+  template <> struct Buffer<Cursor,Pos> {
+    Buffer() : Buffer( _g.vwin )
+    { }
+
+    Buffer( VWindow* win )
     {
-      Character ch = _g.chrs[ c ];
-      _g.vwin->curs.pos.x += (ch.adv >> 6);
+      win->curs.pos.x = _g.pad_x;
+      for ( auto const& c : *win->buf )
+      {
+        Character ch = _g.chrs[ c ];
+        win->curs.pos.x += (ch.adv >> 6);
+      }
     }
-  }};
+  };
 
   template <> struct Buffer<Clear> : Buffer_Lock { Buffer() {
     _g.vwin->buf->clear();
@@ -62,7 +73,7 @@ namespace Comms
     _g.vwin->redraw = true;
   }};
 
-  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch, Bool redraw = false ) {
+  template <> struct Buffer<Char> : Buffer_Lock { Buffer( Char ch, Bool redraw = true ) {
     _g.vwin->buf->push_back( ch );
     _g.vwin->redraw = redraw;
   }};
@@ -75,34 +86,44 @@ namespace Comms
     _g.vwin->redraw = redraw;
   }};
 
-  template <> struct Buffer<Lines> : Buffer_Lock { Buffer( String const& s, Bool redraw = false ) {
-    Vec<String> lines = fct::lines( s );
-    
-    /**
-     * If there is something being typed in
-     *   save it and place it at the end
-     * If the line is empty
-     *   discard it
-     */
-    String last_line{};
-    if ( ! _g.vwin->buf->empty() ) { last_line = *_g.vwin->buf; }
+  template <> struct Buffer<Lines> {
+    Buffer( VWindow* win, String const& s, Bool redraw = false ) {
+      Buffer_Lock{ win };
 
-    /**
-     * Remove last line in buffer
-     * Keeps line spacing uniform
-     */
-    _g.vwin->bufs.pop_back();
+      Vec<String> lines = fct::lines( s );
+      Vec<String>& bufs = win->bufs;
+      String* buf = &bufs.back();
+      
+      /**
+       * If there is something being typed in
+       *   save it and place it at the end
+       * If the line is empty
+       *   discard it
+       */
+      String last_line{};
+      if ( ! buf->empty() ) { last_line = *buf; }
 
-    for ( String l : lines )
-      _g.vwin->bufs.push_back( l );
-    _g.vwin->bufs.push_back( last_line );
+      /**
+       * Remove last line in buffer
+       * Keeps line spacing uniform
+       */
+      bufs.pop_back();
 
-    _g.vwin->buf = &_g.vwin->bufs.back();
+      for ( String l : lines )
+        bufs.push_back( l );
+      bufs.push_back( last_line );
 
-    Buffer<Cursor,Pos>{};
+      win->buf = &bufs.back();
 
-    _g.vwin->redraw = redraw;
-  }};
+      Buffer<Cursor,Pos>{ win };
+
+      _g.vwin->redraw = redraw;
+    }
+
+    Buffer( String const& s, Bool redraw = false )
+      : Buffer( _g.vwin, s, redraw )
+    { }
+  };
 } // namespace Comms
 
 #endif
