@@ -118,7 +118,10 @@ namespace Comms
              nullptr,
              Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
              Peer::Buffer_Status::EMPTY,
-             {} } );
+             {},
+             nullptr,
+             0,
+             _g.vwin } );
 
     /**
      * Must set U_ptr after initialization

@@ -26,6 +26,11 @@ namespace Comms
     struct pollfd* poll_fd = nullptr;
   };
 
+  /**
+   * Forward declare VWindow for Peer
+   */
+  struct VWindow;
+
   /*
    * Peer :: Handle to Connection for comms
    */
@@ -53,6 +58,14 @@ namespace Comms
 
     // The Protocol message size
     ULong message_size = 0;
+
+    /**
+     * The VWindow for the peer
+     *
+     * This allows us to recieve data
+     *   on the correct screen
+     */
+     VWindow* win = nullptr;
   };
 
   /*

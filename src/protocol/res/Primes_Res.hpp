@@ -14,7 +14,7 @@ namespace Comms
       auto msg = static_cast<const PrimesRes*>(peer->message->command());
       auto xs = Vec<ULong>{msg->primes()->begin(), msg->primes()->end()};
 
-      Print<Client>{ fct::show(xs) };
+      Print<Client>{ peer->win, fct::show(xs) };
 
       return ErrorStatus::Success;
     }
