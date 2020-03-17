@@ -9,7 +9,23 @@ namespace Comms
   class Proto_Route : public Route_Base
   {
     public:
+    /**
+     * Handle to local/remote peer for request/response
+     */
     Peer* peer = nullptr;
+
+    /**
+     * Used to set Peer::Buffer_Status
+     */
+    Bool has_response = false;
+
+    virtual ~Proto_Route()
+    {
+      if ( has_response )
+      {
+        peer->buffer_stat = Peer::Buffer_Status::OUTPUT;
+      }
+    }
 
     /******************** Public API ********************/
       auto get( Peer* p ) -> ErrorStatus
