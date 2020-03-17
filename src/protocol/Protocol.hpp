@@ -29,7 +29,8 @@ namespace Comms
   }};
 
   template <> struct Protocol<Decode> { Protocol( Peer& p ) {
-    if ( p.buffer_stat == Buffer_Status::EMPTY ) { return; }
+    if ( p.buffer_stat == Buffer_Status::EMPTY
+         || p.conn.is_garbage ) { return; }
 
     p.message = Proto::GetMessage( p.buffer.data() );
   }};
@@ -63,7 +64,8 @@ namespace Comms
   }};
 
   template <> struct Protocol<Rcv,Dispatch> { Protocol( Peer& p ) {
-    if ( p.buffer_stat == Buffer_Status::EMPTY ) { return; }
+    if ( p.buffer_stat == Buffer_Status::EMPTY
+         || p.conn.is_garbage ) { return; }
 
     using namespace Comms::Proto;
 
