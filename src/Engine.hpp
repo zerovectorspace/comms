@@ -29,7 +29,7 @@ namespace Comms
             Protocol<Rcv,Dispatch>
           >{}( peer );
 
-          peer.buffer_stat = Buffer_Status::EMPTY;
+          peer.buffer_stat = Peer::Buffer_Status::EMPTY;
         }
 
         Socket<Garbage>{};
@@ -80,7 +80,7 @@ namespace Comms
           // Command<Snd,Dispatch>
         >{}( peer );
 
-        peer.buffer_stat = Buffer_Status::EMPTY;
+        peer.buffer_stat = Peer::Buffer_Status::EMPTY;
       }
 
       Socket<Garbage>{};
@@ -96,7 +96,6 @@ namespace Comms
       Socket<Close>
     >{}();
   }};
-
 } // namespace Comms
 
 #endif

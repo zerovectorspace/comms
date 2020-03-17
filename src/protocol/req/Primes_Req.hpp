@@ -64,7 +64,7 @@ namespace Comms
 
         peer->buffer = String{ b, (b+s) };
         peer->message_size = message.GetSize();
-        peer->buffer_stat = Buffer_Status::OUTPUT;
+        peer->buffer_stat = Peer::Buffer_Status::OUTPUT;
       }
       catch(...)
       {

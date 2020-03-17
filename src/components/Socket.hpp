@@ -58,7 +58,7 @@ namespace Comms
            Peer{
              nullptr,
              Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
-             Buffer_Status::EMPTY,
+             Peer::Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -117,7 +117,7 @@ namespace Comms
            Peer{
              nullptr,
              Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
-             Buffer_Status::EMPTY,
+             Peer::Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -152,7 +152,7 @@ namespace Comms
            Peer{
              nullptr,
              Connection{ Connection::Type::LOCAL, {}, false, &p_fd },
-             Buffer_Status::EMPTY,
+             Peer::Buffer_Status::EMPTY,
              {} } );
 
     /**
@@ -180,7 +180,7 @@ namespace Comms
     }
 
     Socket( Peer& p ) {
-      if ( p.buffer_stat != Buffer_Status::OUTPUT ) { return; }
+      if ( p.buffer_stat != Peer::Buffer_Status::OUTPUT ) { return; }
 
       send( p.conn.poll_fd->fd, p.buffer.data(), p.buffer.size(), 0 );
     }
@@ -228,7 +228,7 @@ namespace Comms
 
     } while ( (recv( socket, buffer.data(), BUFFER_SIZE, MSG_PEEK) > 0) && num_bytes > 0 );
 
-    p.buffer_stat = Buffer_Status::INPUT;
+    p.buffer_stat = Peer::Buffer_Status::INPUT;
   }};
 
   template <> struct Socket<Poll> { Socket() {

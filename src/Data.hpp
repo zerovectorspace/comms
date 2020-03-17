@@ -26,16 +26,16 @@ namespace Comms
     struct pollfd* poll_fd = nullptr;
   };
 
-  enum class Buffer_Status
-  {
-    EMPTY, INPUT, OUTPUT
-  };
-
   /*
    * Peer :: Handle to Connection for comms
    */
   struct Peer
   {
+    enum class Buffer_Status
+    {
+      EMPTY, INPUT, OUTPUT
+    };
+
     // Used to protect mutable state
     U_ptr<std::mutex> mut{};
 
