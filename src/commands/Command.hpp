@@ -5,34 +5,67 @@
 
 namespace Comms
 {
-  #define Command_List [[maybe_unused]] std::vector<std::vector<char>>&&
-
   template <typename... Ts> struct Command { Command() {
 
   }};
 
-  // Command<Run> :: Execute command in relevant Command_Map
+  /**
+   * Execute command in relevant Command_Map
+   */
   template <> struct Command<Client,Dispatch> { Command() {
     if ( _g.vwin->mode != MODE::Command_Exec )
       return;
 
-    auto buf  = *(_g.vwin->buf);
-    auto ws = fct::tail( fct::words( buf ) );
+    /**
+     * The words on the command line
+     *   excluding the 'cmd>' prompt
+     */
+    auto ws = fct::tail( fct::words( *(_g.vwin->buf) ) );
 
+    /**
+     * Clear the line for the next input
+     * This must be done after we've grabbed the line
+     *   from the buffer
+     */
     Buffer<Clear>{};
 
+    /**
+     * No command was entered
+     */
     if ( ws.size() == 0 )
       return;
 
+    /**
+     * Command name
+     * The first word on the line
+     */
     auto cmd_name = ws.at( 0 );
+
+    /**
+     * Arguments to the command
+     * The rest of the words on the line
+     */
     auto args = fct::tail( ws );
 
     if ( auto pr = _g.lcl_comms.find( fct::toStdStr( cmd_name ) ) ; pr != _g.lcl_comms.end() )
     {
+      /**
+       * Cmd object
+       * See Data.hpp
+       */
       auto cmd = pr->second;
 
+      /**
+       * Create the U_Ptr<Command_Route> object
+       * Run the command in a thread or in serial
+       */
       if ( cmd.async )
       {
+        /**
+         * Run the thread with copies of the
+         *   command name, arguments, and Cmd object
+         *   i.e. These could be destroyed before the thread is run
+         */
         std::thread( [ cmd_name, args, cmd ]()
         {
           cmd.make()->run( std::move( cmd_name ), std::move( args ) );
@@ -45,12 +78,20 @@ namespace Comms
     }
     else
     {
+      /**
+       * The command entered doesn't exist
+       * Prompt the user on the GUI
+       */
       auto brand = "*** Command not found: "_s;
       cmd_name.insert( cmd_name.begin(), brand.begin(), brand.end() );
 
       Print<Client>{ std::move( cmd_name ) };
     }
 
+    /**
+     * Command has been entered
+     * Return to text input mode
+     */
     _g.vwin->mode = MODE::Text_Input;
   }};
 
@@ -63,7 +104,9 @@ namespace Comms
     return std::make_unique<EndPoint_T>();
   }
 
-  // Command<Init> :: Define command maps
+  /**
+   * Command<Init> :: Define command maps
+   */
   template <> struct Command<Init> { Command() {
     _g.lcl_comms = Command_Map{
       { "quit"     , Cmd{ false, command<Quit_Cmd> } },
@@ -77,10 +120,6 @@ namespace Comms
       { "bad"      , Cmd{ false, command<Bad_Cmd> } }
     };
   }};
-
-  #ifdef Command_List
-    #undef Command_List
-  #endif
 } // namespace Comms
 
 #endif
