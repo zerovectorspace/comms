@@ -20,9 +20,21 @@ namespace Comms
     };
 
     Type type = Type::REMOTE;
-    /* ip:port */
+
+    /**
+     * [ip:port]
+     */
     Vec<String> hostname{};
+
+    /**
+     * Connection is garbage
+     *   when we've received a POLLHUP
+     */
     Bool is_garbage = false;
+
+    /**
+     * The low level handle to the socket
+     */
     struct pollfd* poll_fd = nullptr;
   };
 
@@ -41,22 +53,34 @@ namespace Comms
       EMPTY, INPUT, OUTPUT
     };
 
-    // Used to protect mutable state
+    /**
+     * Used to protect mutable state
+     */
     U_ptr<std::mutex> mut{};
 
-    // Holds Connection Information for Peer
+    /**
+     * Holds Connection Information for Peer
+     */
     Connection conn{};
 
-    // Buffer state for recv and send
+    /**
+     * Buffer state for recv and send
+     */
     Buffer_Status buffer_stat = Buffer_Status::EMPTY;
 
-    //Buffer for sending and recieving
+    /**
+     * Buffer for sending and recieving
+     */
     String buffer{ "EMPTY"_s };
 
-    // The Protocol message
+    /**
+     * The Protocol message
+     */
     Proto::Message const* message = nullptr;
 
-    // The Protocol message size
+    /**
+     * The Protocol message size
+     */
     ULong message_size = 0;
 
     /**
@@ -68,8 +92,8 @@ namespace Comms
      VWindow* win = nullptr;
   };
 
-  /*
-   * User :: A meat space user
+  /**
+   * A meat space user
    */
   struct User
   {
@@ -77,7 +101,7 @@ namespace Comms
   };
 
   /*
-   * Character :: Holds texture of character
+   * Holds texture of character
    */
   struct Character {
     UInt     texture_id;
@@ -86,8 +110,8 @@ namespace Comms
     Long       adv;
   };
 
-  /*
-   * Cursor :: Position text is written
+  /**
+   * Position text is written
    */
   struct Cursor {
     UVec2 pos = { 5, 585 };
@@ -105,7 +129,7 @@ namespace Comms
   };
 
   /**
-   * Forward declar for Cmd
+   * Forward declare for Cmd
    */
   struct Command_Base;
 
@@ -119,41 +143,44 @@ namespace Comms
   };
 
 
-  /*
+  /**
    * VWindow :: Virtual Window
    * 
    * Covers the entire window, holds Panes
    */
   struct VWindow
   {
+    /**
+     * Redraw the whole window (i.e. all buffers)
+     *   when true
+     *
+     * Redraw happens at end of event loop in Engine
+     */
     bool redraw = false;
 
-    /***
-     * Cursor
-     *
+    /**
      * Cursor will be in the pane in the future
      */
     Cursor curs{};
 
-    /*
+    /**
      * Buffer mutex
      */
     U_ptr<std::mutex> mut = nullptr;
 
-    /***
+    /**
      * Buffer :: Holds all text
      */
     Vec<String> bufs = { String{} };
     String* buf = &bufs.back();
 
-    /***
+    /**
      * Input mode
      */
     MODE mode = MODE::Text_Input;
   };
 
-  /*
-   * Command_Base
+  /**
    * Interface for Commands
    */
   struct Command_Base
@@ -166,7 +193,6 @@ namespace Comms
 
 
   /*
-   * Route_Base
    * Interface for Routes
    */
   struct Route
@@ -225,9 +251,6 @@ namespace Comms
 
     return "Route::Error::Unknown"_s;
   }
-
-
-
 } // namespace Comms
 
 #endif
