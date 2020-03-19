@@ -35,7 +35,7 @@ namespace Comms
     p.message = Proto::GetMessage( p.buffer.data() );
   }};
 
-  template <> struct Protocol<Error> { Protocol( Peer& p, ErrorStatus err ) {
+  template <> struct Protocol<Error> { Protocol( Peer& p, Route::Error err ) {
       FB message{1024};
       auto metadata = Protocol_Metadata( message );
       String err_str = show( p.message->command_type() );
@@ -72,7 +72,7 @@ namespace Comms
     Proto_Map* pm = (p.conn.type == Connection::Type::LOCAL)
                     ? &_g.proto_local : &_g.proto_remote;
 
-    ErrorStatus err = ErrorStatus::UnauthAccess;
+    Route::Error err = Route::Error::UnauthAccess;
     if ( auto pr = pm->find( p.message->command_type() ); pr != pm->end() )
     {
       auto route = pr->second();
@@ -96,14 +96,14 @@ namespace Comms
       }
     }
 
-    if ( err != ErrorStatus::Success ) { Protocol<Error>{ p, err }; }
+    if ( err != Route::Error::Success ) { Protocol<Error>{ p, err }; }
   }};
 
   /**
    * Factory to create protocol req/res
    */
   template <typename EndPoint_T>
-  U_ptr<Route_Base> route()
+  U_ptr<Route> route()
   {
     return std::make_unique<EndPoint_T>();
   }

@@ -7,7 +7,7 @@ namespace Comms
 {
   struct Primes_Res : Proto_Route<Primes_Res>
   {
-    auto pst() -> ErrorStatus
+    auto pst() -> Route::Error
     {
       using namespace Comms::Proto;
 
@@ -16,7 +16,7 @@ namespace Comms
 
       Print<Client>{ peer->win, fct::show(xs) };
 
-      return ErrorStatus::Success;
+      return Route::Error::Success;
     }
   };
 } // namespace Comms

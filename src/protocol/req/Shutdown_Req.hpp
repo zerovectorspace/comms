@@ -7,7 +7,7 @@ namespace Comms
 {
   struct Shutdown_Req : Proto_Route<Shutdown_Req>
   {
-    auto put() -> ErrorStatus
+    auto put() -> Route::Error
     {
       fct::print( "Protocol Version: ", ' ' );
       fct::print(peer->message->metadata()->version()->major(), ' ');
@@ -18,7 +18,7 @@ namespace Comms
 
       _g.is_running = false;
 
-      return ErrorStatus::Success;
+      return Route::Error::Success;
     }
   };
 } // namespace Comms

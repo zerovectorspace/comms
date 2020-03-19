@@ -6,7 +6,7 @@
 namespace Comms
 {
   using Command_Map      = std::unordered_map<StdStr, Cmd>;
-  using Proto_Map        = std::unordered_map<Proto::Proto, U_ptr<Route_Base> (*)(void)>;
+  using Proto_Map        = std::unordered_map<Proto::Proto, U_ptr<Route> (*)(void)>;
   using Peer_Map         = std::unordered_map<Socket_Num, Peer>;
   using Char_Texture_Map = std::unordered_map<Char, Character>;
   using VWindow_Map      = std::unordered_map<StdStr, VWindow>;

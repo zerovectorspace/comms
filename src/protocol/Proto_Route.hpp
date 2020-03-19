@@ -6,7 +6,7 @@
 namespace Comms
 {
   template <typename Child>
-  class Proto_Route : public Route_Base
+  class Proto_Route : public Route
   {
     public:
     /**
@@ -28,35 +28,35 @@ namespace Comms
     }
 
     /******************** Public API ********************/
-      auto get( Peer* p ) -> ErrorStatus
+      auto get( Peer* p ) -> Route::Error
       {
         peer = p;
         auto ret = static_cast<Child*>(this)->get();
         return ret;
       }
 
-      auto put( Peer* p ) -> ErrorStatus
+      auto put( Peer* p ) -> Route::Error
       {
         peer = p;
         auto ret = static_cast<Child*>(this)->put();
         return ret;
       }
 
-      auto pst( Peer* p ) -> ErrorStatus
+      auto pst( Peer* p ) -> Route::Error
       {
         peer = p;
         auto ret = static_cast<Child*>(this)->pst();
         return ret;
       }
 
-      auto upd( Peer* p ) -> ErrorStatus
+      auto upd( Peer* p ) -> Route::Error
       {
         peer = p;
         auto ret = static_cast<Child*>(this)->upd();
         return ret;
       }
 
-      auto del( Peer* p ) -> ErrorStatus
+      auto del( Peer* p ) -> Route::Error
       {
         peer = p;
         auto ret = static_cast<Child*>(this)->del();
@@ -65,29 +65,29 @@ namespace Comms
 
     private:
     /******************** Default API ********************/
-      auto get() -> ErrorStatus
+      auto get() -> Route::Error
       {
-        return ErrorStatus::NotFound;
+        return Route::Error::NotFound;
       }
 
-      auto put() -> ErrorStatus
+      auto put() -> Route::Error
       {
-        return ErrorStatus::NotFound;
+        return Route::Error::NotFound;
       }
 
-      auto pst() -> ErrorStatus
+      auto pst() -> Route::Error
       {
-        return ErrorStatus::NotFound;
+        return Route::Error::NotFound;
       }
 
-      auto upd() -> ErrorStatus
+      auto upd() -> Route::Error
       {
-        return ErrorStatus::NotFound;
+        return Route::Error::NotFound;
       }
 
-      auto del() -> ErrorStatus
+      auto del() -> Route::Error
       {
-        return ErrorStatus::NotFound;
+        return Route::Error::NotFound;
       }
   };
 

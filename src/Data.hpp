@@ -153,43 +153,6 @@ namespace Comms
   };
 
   /*
-   * ErrorStatus
-   * Http Request Error Status
-   */
-  enum class ErrorStatus
-  {
-    Success,
-    NotFound,
-    UnauthAccess,
-    InvalidVerb,
-    InvalidInput
-  };
-
-  auto show( ErrorStatus e ) -> String
-  {
-    switch (e)
-    {
-      case ErrorStatus::Success:
-        return "ErrorStatus::Success"_s;
-        break;
-      case ErrorStatus::NotFound:
-        return "ErrorStatus::NotFound"_s;
-        break;
-      case ErrorStatus::UnauthAccess:
-        return "ErrorStatus::UnauthAccess"_s;
-        break;
-      case ErrorStatus::InvalidVerb:
-        return "ErrorStatus::InvalidVerb"_s;
-        break;
-      case ErrorStatus::InvalidInput:
-        return "ErrorStatus::InvalidInput"_s;
-        break;
-    }
-
-    return "ErrorStatus::Unknown"_s;
-  }
-
-  /*
    * Command_Base
    * Interface for Commands
    */
@@ -206,21 +169,65 @@ namespace Comms
    * Route_Base
    * Interface for Routes
    */
-  struct Route_Base
+  struct Route
   {
+    /*
+     * Route::Error
+     * Http Request Error Status
+     */
+    enum class Error
+    {
+      Success,
+      NotFound,
+      UnauthAccess,
+      InvalidVerb,
+      InvalidInput
+    };
+
     /******************** Internal API ********************/
-      virtual auto get( Peer* p ) -> ErrorStatus = 0;
+      virtual auto get( Peer* p ) -> Error = 0;
 
-      virtual auto put( Peer* p ) -> ErrorStatus = 0;
+      virtual auto put( Peer* p ) -> Error = 0;
 
-      virtual auto pst( Peer* p ) -> ErrorStatus = 0;
+      virtual auto pst( Peer* p ) -> Error = 0;
 
-      virtual auto upd( Peer* p ) -> ErrorStatus = 0;
+      virtual auto upd( Peer* p ) -> Error = 0;
 
-      virtual auto del( Peer* p ) -> ErrorStatus = 0;
+      virtual auto del( Peer* p ) -> Error = 0;
 
-      virtual ~Route_Base() {}
+      virtual ~Route() {}
   };
+
+  /**
+   * Convert Route::Error to String
+   *   for fct::print
+   */
+  auto show( Route::Error e ) -> String
+  {
+    switch (e)
+    {
+      case Route::Error::Success:
+        return "Route::Error::Success"_s;
+        break;
+      case Route::Error::NotFound:
+        return "Route::Error::NotFound"_s;
+        break;
+      case Route::Error::UnauthAccess:
+        return "Route::Error::UnauthAccess"_s;
+        break;
+      case Route::Error::InvalidVerb:
+        return "Route::Error::InvalidVerb"_s;
+        break;
+      case Route::Error::InvalidInput:
+        return "Route::Error::InvalidInput"_s;
+        break;
+    }
+
+    return "Route::Error::Unknown"_s;
+  }
+
+
+
 } // namespace Comms
 
 #endif

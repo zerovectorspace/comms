@@ -7,7 +7,7 @@ namespace Comms
 {
   struct Primes_Req : Proto_Route<Primes_Req>
   {
-    auto get() -> ErrorStatus
+    auto get() -> Route::Error
     {
       using namespace Comms::Proto;
 
@@ -71,10 +71,10 @@ namespace Comms
       catch(...)
       {
         fct::print( "ERROR: primes <n> st 0 <= n <= ULLONG_MAX"_s );
-        return ErrorStatus::InvalidInput;
+        return Route::Error::InvalidInput;
       }
 
-      return ErrorStatus::Success;
+      return Route::Error::Success;
     }
   };
 } // namespace Comms
