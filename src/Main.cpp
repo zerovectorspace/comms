@@ -85,7 +85,7 @@ void handle_args( int argc, char* argv[] )
   }
 
   /** No Engine was started */
-  help( ( argv[0] + 2 ) );
+  help( argv[0] );
 
   end_exec: ; // end execution early
 }
