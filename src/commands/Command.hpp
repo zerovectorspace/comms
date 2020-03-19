@@ -53,7 +53,7 @@ namespace Comms
        * Cmd object
        * See Data.hpp
        */
-      auto cmd = pr->second;
+      auto& cmd = pr->second;
 
       /**
        * Create the U_Ptr<Command_Route> object
@@ -66,14 +66,14 @@ namespace Comms
          *   command name, arguments, and Cmd object
          *   i.e. These could be destroyed before the thread is run
          */
-        std::thread( [ cmd_name, args, cmd ]()
+        std::thread( [ cmd_name, args, &cmd ]()
         {
-          cmd.make()->run( std::move( cmd_name ), std::move( args ) );
+          cmd.cmd->run( std::move( cmd_name ), std::move( args ) );
         } ).detach();
       }
       else
       {
-        cmd.make()->run( std::move( cmd_name ), std::move( args ) );
+        cmd.cmd->run( std::move( cmd_name ), std::move( args ) );
       }
     }
     else
@@ -95,31 +95,28 @@ namespace Comms
     _g.vwin->mode = MODE::Text_Input;
   }};
 
-  /**
-   * Factory to create the command
-   */
-  template <typename EndPoint_T>
-  U_ptr<Command_Base> command()
-  {
-    return std::make_unique<EndPoint_T>();
-  }
+  #define add_command( name, async, command ) \
+            _g.lcl_comms.emplace( name, \
+              Cmd{ async, U_ptr<Command_Base>(new command()) } );
 
   /**
    * Command<Init> :: Define command maps
    */
   template <> struct Command<Init> { Command() {
-    _g.lcl_comms = Command_Map{
-      { "quit"     , Cmd{ false, command<Quit_Cmd> } },
-      { "help"     , Cmd{ false, command<Help_Cmd> } },
-      { "win"      , Cmd{ false, command<Win_Cmd> } },
-      { "clear"    , Cmd{ false, command<Clear_Cmd> } },
-      { "view"     , Cmd{ false, command<View_Cmd> } },
-      { "async"    , Cmd{ true , command<Async_Cmd> } },
-      { "primes"   , Cmd{ false, command<Primes_Cmd> } },
-      { "shutdown" , Cmd{ false, command<Shutdown_Cmd> } },
-      { "bad"      , Cmd{ false, command<Bad_Cmd> } }
-    };
+    add_command( "quit"     , false , Quit_Cmd );
+    add_command( "help"     , false , Help_Cmd );
+    add_command( "win"      , false , Win_Cmd );
+    add_command( "clear"    , false , Clear_Cmd );
+    add_command( "view"     , false , View_Cmd );
+    add_command( "async"    , true  , Async_Cmd );
+    add_command( "primes"   , true  , Primes_Cmd );
+    add_command( "shutdown" , false , Shutdown_Cmd );
+    add_command( "bad"      , false , Bad_Cmd );
   }};
+
+  #ifdef add_command
+    #undef add_command
+  #endif
 } // namespace Comms
 
 #endif

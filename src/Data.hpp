@@ -115,7 +115,7 @@ namespace Comms
   struct Cmd
   {
     Bool async = false;
-    U_ptr<Command_Base> (*make)(void);
+    U_ptr<Command_Base> cmd;
   };
 
 
