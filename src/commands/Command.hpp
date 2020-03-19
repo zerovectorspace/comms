@@ -17,187 +17,70 @@ namespace Comms
       return;
 
     auto buf  = *(_g.vwin->buf);
-    auto cmds = fct::tail( fct::words( buf ) );
+    auto ws = fct::tail( fct::words( buf ) );
 
     Buffer<Clear>{};
 
-    if ( cmds.size() == 0 )
+    if ( ws.size() == 0 )
       return;
 
-    auto cmd = fct::toStdStr( cmds.at( 0 ) );
+    auto cmd_name = ws.at( 0 );
+    auto args = fct::tail( ws );
 
-    if ( _g.lcl_comms.count( cmd ) )
+    if ( auto pr = _g.lcl_comms.find( fct::toStdStr( cmd_name ) ) ; pr != _g.lcl_comms.end() )
     {
-      auto& c = _g.lcl_comms.at( cmd );
-      if ( c.async )
+      auto cmd = pr->second;
+
+      if ( cmd.async )
       {
-        std::thread( [&c,cmds](){ c.f( std::move( fct::tail( cmds ) ) ); } ).detach();
+        std::thread( [ cmd_name, args, cmd ]()
+        {
+          cmd.make()->run( std::move( cmd_name ), std::move( args ) );
+        } ).detach();
       }
       else
       {
-        c.f( std::move( fct::tail( cmds ) ) );
+        cmd.make()->run( std::move( cmd_name ), std::move( args ) );
       }
     }
     else
     {
-      Print<Client>{ fct::toStr( cmd.insert( 0, "*** Command not found: " ) ) };
+      auto brand = "*** Command not found: "_s;
+      cmd_name.insert( cmd_name.begin(), brand.begin(), brand.end() );
+
+      Print<Client>{ std::move( cmd_name ) };
     }
 
     _g.vwin->mode = MODE::Text_Input;
   }};
 
+  /**
+   * Factory to create the command
+   */
+  template <typename EndPoint_T>
+  U_ptr<Command_Base> command()
+  {
+    return std::make_unique<EndPoint_T>();
+  }
+
   // Command<Init> :: Define command maps
   template <> struct Command<Init> { Command() {
     _g.lcl_comms = Command_Map{
-      /**
-       * Show help
-       * List all commands available to GUI client
-       * ex: help
-       */
-      { "help", Cmd{ false, []( Command_List cmds ){ Program<Commands>{}; } } },
-
-      /**
-       * Move to a different window
-       * ex: win <name>
-       *
-       * Creates a new window if it doesn't exist
-       */
-      { "win", Cmd{ false, []( Command_List cmds ) {
-        if ( cmds.empty() )
-          return;
-
-        auto vwin_name = fct::toStdStr( fct::unwords( cmds ) );
-
-        VWin<New>{ vwin_name };
-      }}},
-
-      /**
-       * Clear the screen
-       * Delete everything in the VWindow buffer
-       */
-      { "clear", Cmd{ false, []( Command_List cmds ) {
-        Buffer<Clear,All>{};
-      }}},
-
-      /**
-       * View information on various session components
-       * ex: view win
-       */
-      { "view", Cmd{ false,[]( Command_List cmds ) {
-        if ( cmds.empty() )
-          return;
-
-        for ( auto const& cmd : cmds )
-        {
-          if ( cmd == "win"_s )
-          {
-            String out = "-------------- windows ---------------\n"_s;
-
-            for ( auto const& [name, vwin] : _g.vwins )
-            {
-              out.insert( out.end(), name.begin(), name.end() );
-              out.push_back( '\n' );
-            }
-
-            String tmp = "--------------------------------------"_s;
-            out.insert( out.end(), tmp.begin(), tmp.end() );
-
-            Print<Client>{ std::move( out ) };
-          }
-        }
-      }}},
-
-      /**
-       * TEST: Print user input after 2 seconds
-       * ex: async this is printed back
-       */
-      { "async", Cmd{ true, []( Command_List cmds ){
-        VWindow* win = _g.vwin;
-        sleep_for(3000);
-
-        Print<Client>{ win, fct::show( fct::unwords( cmds ) ) };
-      }}},
-
-      /**
-       * TEST: Ask local server for primes
-       * ex: primes <num>
-       */
-      { "primes", Cmd{ true, []( Command_List cmds ){
-        ULong num = cmds.empty() ? 100 : fct::min(
-            ULLONG_MAX, std::stoull( toStdStr( cmds.at( 0 ) ) ) );
-
-        FB message{1024};
-        auto metadata = Protocol_Metadata( message );
-        auto cmd = Proto::CreatePrimesReq( message, num );
-
-        message.Finish(
-            Proto::CreateMessage(
-              message,
-              metadata,
-              Proto::Rest_GET,
-              Proto::Proto_PrimesReq,
-              cmd.Union()));
-
-        Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
-      }}},
-
-      /**
-       * Shutdown the local server
-       * ex: shutdown
-       */
-      { "shutdown", Cmd{ true, []( Command_List cmds ){
-        Print<Client>{ fct::show("Shutting down local server") };
-
-        FB message{1024};
-
-        auto metadata = Protocol_Metadata( message );
-        auto cmd = Proto::CreateShutdownReq( message );
-
-        message.Finish(
-            Proto::CreateMessage(
-              message,
-              metadata,
-              Proto::Rest_PUT,
-              Proto::Proto_ShutdownReq,
-              cmd.Union()));
-
-        Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
-      }}},
-
-      /**
-       * TEST: Send request to local server
-       *       for nonexistent endpoint
-       * ex: bad
-       */
-      { "bad", Cmd{ true, []( Command_List cmds ){
-        FB message{1024};
-
-        auto metadata = Protocol_Metadata( message );
-        auto cmd = Proto::CreateShutdownReq( message );
-
-        message.Finish(
-            Proto::CreateMessage(
-              message,
-              metadata,
-              Proto::Rest_GET,
-              Proto::Proto_ShutdownReq,
-              cmd.Union()));
-
-        Socket<Snd,Unix>{ message.GetBufferPointer(), message.GetSize() };
-      }}},
-
-      /**
-       * Exit the local client
-       * ex: quit
-       */
-      { "quit", Cmd{ true, []( Command_List cmds ){ _g.is_running = false; } } },
+      { "quit", Cmd{ false, command<Quit_Cmd> } },
+      { "help", Cmd{ false, command<Help_Cmd> } },
+      { "win", Cmd{ false, command<Win_Cmd> } },
+      { "clear", Cmd{ false, command<Clear_Cmd> } },
+      { "view", Cmd{ false, command<View_Cmd> } },
+      { "async", Cmd{ true, command<Async_Cmd> } },
+      { "primes", Cmd{ false, command<Primes_Cmd> } },
+      { "shutdown", Cmd{ false, command<Shutdown_Cmd> } },
+      { "bad", Cmd{ false, command<Bad_Cmd> } }
     };
   }};
 
   #ifdef Command_List
     #undef Command_List
   #endif
-
 } // namespace Comms
 
 #endif

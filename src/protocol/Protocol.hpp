@@ -99,6 +99,9 @@ namespace Comms
     if ( err != ErrorStatus::Success ) { Protocol<Error>{ p, err }; }
   }};
 
+  /**
+   * Factory to create protocol req/res
+   */
   template <typename EndPoint_T>
   U_ptr<Route_Base> route()
   {

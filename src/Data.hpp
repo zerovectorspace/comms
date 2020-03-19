@@ -105,12 +105,17 @@ namespace Comms
   };
 
   /**
+   * Forward declar for Cmd
+   */
+  struct Command_Base;
+
+  /**
    * Command Wrapper
    */
   struct Cmd
   {
     Bool async = false;
-    void(*f)( Vec<String>&& );
+    U_ptr<Command_Base> (*make)(void);
   };
 
 
@@ -183,6 +188,19 @@ namespace Comms
 
     return "ErrorStatus::Unknown"_s;
   }
+
+  /*
+   * Command_Base
+   * Interface for Commands
+   */
+  struct Command_Base
+  {
+    /******************** Internal API ********************/
+      virtual auto run( String cmd, Vec<String> cmds ) -> void = 0;
+
+      virtual ~Command_Base() {}
+  };
+
 
   /*
    * Route_Base

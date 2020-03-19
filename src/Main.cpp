@@ -20,11 +20,22 @@
  *                             | Render
  *                             | Socket
  *                               ^- components/Include
- *                                  ^- | Primes Res/Req
+ *                                  ^- | Protocol_Route
+ *                                     | Primes Res/Req
  *                                     | Protocol
  *                                       ^- protocol/Include
- *                                          ^- | Program
+ *                                          ^- | Command_Route
+ *                                             | Program
  *                                             | Window
+ *                                             | Async_Cmd
+ *                                             | Bad_Cmd
+ *                                             | Clear_Cmd
+ *                                             | Help_Cmd
+ *                                             | Primes_Cmd
+ *                                             | Quit_Cmd
+ *                                             | Shutdown_Cmd
+ *                                             | View_Cmd
+ *                                             | Win_Cmd
  *                                             | Command
  *                                               ^- commands/Include
  *                                                  ^- Engine
