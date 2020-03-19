@@ -13,7 +13,6 @@ namespace Comms
   {
     auto run() -> void
     {
-      VWindow* win = _g.vwin;
       sleep_for(3000);
 
       fct::print( args );

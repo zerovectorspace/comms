@@ -21,12 +21,18 @@ namespace Comms
        */
       Vec<String> args;
 
+      /**
+       * The window the command was executed
+       */
+      VWindow* win;
 
     /******************** Public API ********************/
       auto run( String c, Arg_List al = Vec<String>{} ) -> void
       {
         name = std::move(c);
         args = std::move(al);
+        win  = _g.vwin;
+
         static_cast<Child*>(this)->run();
       }
 
