@@ -66,15 +66,15 @@ namespace Comms
   // Command<Init> :: Define command maps
   template <> struct Command<Init> { Command() {
     _g.lcl_comms = Command_Map{
-      { "quit", Cmd{ false, command<Quit_Cmd> } },
-      { "help", Cmd{ false, command<Help_Cmd> } },
-      { "win", Cmd{ false, command<Win_Cmd> } },
-      { "clear", Cmd{ false, command<Clear_Cmd> } },
-      { "view", Cmd{ false, command<View_Cmd> } },
-      { "async", Cmd{ true, command<Async_Cmd> } },
-      { "primes", Cmd{ false, command<Primes_Cmd> } },
-      { "shutdown", Cmd{ false, command<Shutdown_Cmd> } },
-      { "bad", Cmd{ false, command<Bad_Cmd> } }
+      { "quit"     , Cmd{ false, command<Quit_Cmd> } },
+      { "help"     , Cmd{ false, command<Help_Cmd> } },
+      { "win"      , Cmd{ false, command<Win_Cmd> } },
+      { "clear"    , Cmd{ false, command<Clear_Cmd> } },
+      { "view"     , Cmd{ false, command<View_Cmd> } },
+      { "async"    , Cmd{ true , command<Async_Cmd> } },
+      { "primes"   , Cmd{ false, command<Primes_Cmd> } },
+      { "shutdown" , Cmd{ false, command<Shutdown_Cmd> } },
+      { "bad"      , Cmd{ false, command<Bad_Cmd> } }
     };
   }};
 
