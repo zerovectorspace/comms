@@ -55,14 +55,24 @@ set(
     src/components/Socket.hpp
     src/components/VWin.hpp
 
+    src/commands/Async_Cmd.hpp
+    src/commands/Bad_Cmd.hpp
+    src/commands/Clear_Cmd.hpp
     src/commands/Command.hpp
+    src/commands/Command_Route.hpp
+    src/commands/Help_Cmd.hpp
     src/commands/Include.hpp
+    src/commands/Primes_Cmd.hpp
     src/commands/Program.hpp
+    src/commands/Quit_Cmd.hpp
+    src/commands/Shutdown_Cmd.hpp
+    src/commands/View_Cmd.hpp
+    src/commands/Win_Cmd.hpp
     src/commands/Window.hpp
 
     src/protocol/Include.hpp
-    src/protocol/Proto_Route.hpp
     src/protocol/Protocol.hpp
+    src/protocol/Proto_Route.hpp
     src/protocol/res/Error_Res.hpp
     src/protocol/res/Primes_Res.hpp
     src/protocol/req/Primes_Req.hpp
