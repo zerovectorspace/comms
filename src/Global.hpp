@@ -91,6 +91,11 @@ namespace Comms
     SDL_Renderer* ren = nullptr;
 
     /**
+     * OpenGL Context for the Local Client
+     */
+    SDL_GLContext context = nullptr;
+
+    /**
      * Handle to the OpenGL program
      */
     UInt gl_prog{};

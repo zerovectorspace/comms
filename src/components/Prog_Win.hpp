@@ -74,6 +74,8 @@ namespace Comms
   }};
 
   template <> struct Prog_Win<Kill> { Prog_Win() {
+    SDL_GL_DeleteContext( _g.context );
+    SDL_DestroyWindow( _g.win );
     SDL_Quit();
   }};
 
@@ -111,13 +113,23 @@ namespace Comms
     if ( ! _g.ren )
     {
       fct::print( "ERROR: SDL_CreateRenderer" );
-      SDL_DestroyWindow( _g.win );
-      SDL_Quit();
+      return;
+    }
+
+    _g.context = SDL_GL_CreateContext( _g.win );
+
+    if ( SDL_GL_MakeCurrent( _g.win, _g.context ) != 0 ) 
+    {
+      fct::print( "ERROR: SDL_GL_MakeCurrent" );
       return;
     }
 
     glewExperimental = GL_TRUE;
-    glewInit();
+    if ( glewInit() != GLEW_OK )
+    {
+      fct::print( "ERROR: glewInit" );
+      return;
+    }
 
     // Set OpenGL options
     glEnable( GL_BLEND );
